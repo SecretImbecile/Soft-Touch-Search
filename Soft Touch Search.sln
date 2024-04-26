@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouchSearch", "SoftTouc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouchSearch.Data", "SoftTouchSearch.Database\SoftTouchSearch.Data.csproj", "{9C4C9390-03E9-4A22-93D9-3010AA56EE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouchSearch.Data.Ingest", "SoftTouchSearch.Data.Ingest\SoftTouchSearch.Data.Ingest.csproj", "{6949E6F4-D67D-4474-8AE4-8EBD1FE0C66A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouchSearch.Data.Ingest", "SoftTouchSearch.Data.Ingest\SoftTouchSearch.Data.Ingest.csproj", "{6949E6F4-D67D-4474-8AE4-8EBD1FE0C66A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{503F7CD6-6565-4BC5-86B8-38D707E4B203}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
