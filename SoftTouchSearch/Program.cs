@@ -1,8 +1,11 @@
+using Microsoft.CodeAnalysis;
 using SoftTouchSearch.Data;
+using SoftTouchSearch.Data.Ingest;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDataServices();
 
@@ -24,5 +27,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// Custom routing
+app.MapIngestControllerRoute();
 
 app.Run();

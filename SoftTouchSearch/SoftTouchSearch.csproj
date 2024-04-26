@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoftTouchSearch.Data.Ingest\SoftTouchSearch.Data.Ingest.csproj" />
     <ProjectReference Include="..\SoftTouchSearch.Database\SoftTouchSearch.Data.csproj" />
   </ItemGroup>
 
