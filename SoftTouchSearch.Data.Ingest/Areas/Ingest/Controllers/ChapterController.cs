@@ -14,9 +14,6 @@ namespace SoftTouchSearch.Ingest.Controllers
     /// <summary>
     /// Ingest controller for <see cref="Chapter"/> records.
     /// </summary>
-    /// <remarks>
-    /// Initializes a new instance of the <see cref="ChapterController"/> class.
-    /// </remarks>
     /// <param name="context">Database Context.</param>
     [Area("Ingest")]
     public class ChapterController(StoryDbContext context) : Controller
