@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using SoftTouchSearch.Data.Models;
 
 namespace SoftTouchSearch.Data
@@ -7,23 +8,15 @@ namespace SoftTouchSearch.Data
     {
         // Properties
 
-        public string DbPath { get; }
-
         public DbSet<Chapter> Chapters { get; set; }
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<ExclusionRule> ExclusionRules { get; set; }
 
         // Constructors
 
-        public StoryDbContext()
+        public StoryDbContext(DbContextOptions<StoryDbContext> options) : base (options)
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "softtouchsearch.db");
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlite($"Data Source={DbPath}");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

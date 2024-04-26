@@ -3,7 +3,7 @@ using SoftTouchSearch.Data.Models;
 
 namespace SoftTouchSearch.Data.Services
 {
-    internal class ExclusionService : IExclusionService
+    public class ExclusionService : IExclusionService
     {
         // Constructors
 
