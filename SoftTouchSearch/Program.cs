@@ -1,13 +1,23 @@
-using Microsoft.CodeAnalysis;
 using SoftTouchSearch.Data;
 using SoftTouchSearch.Data.Ingest;
+using SoftTouchSearch.Index;
+using SoftTouchSearch.Index.Services;
+
+// Verify arguments
+if (args.Length != 2)
+{
+    throw new ArgumentException("Expected exactly 2 command-line arguments. (DB and index path)");
+}
+string dbPath = args[0];
+string indexPath = args[1];
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDataServices();
+builder.Services.AddDataServices(dbPath);
+builder.Services.AddIndexServices(indexPath);
 
 var app = builder.Build();
 
@@ -28,7 +38,9 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-// Custom routing
+#if DEBUG
+// Routing for the ingest controller
 app.MapIngestControllerRoute();
+#endif
 
 app.Run();

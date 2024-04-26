@@ -36,7 +36,7 @@ namespace SoftTouchSearch.Ingest.Controllers
             ExclusionRule.ExclusionType type = (ExclusionRule.ExclusionType)typeInt;
 
             ExclusionRule? existingRule = await this.context.ExclusionRules
-                .Where(rule => rule.Type == type)
+                .Where(rule => rule.Value == data.Value)
                 .SingleOrDefaultAsync();
             if (existingRule != null)
             {
