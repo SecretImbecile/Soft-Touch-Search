@@ -29,7 +29,7 @@ namespace SoftTouchSearch.Ingest.Controllers
         /// <param name="data">DTO containing the episode data.</param>
         /// <returns>A <see cref="StatusCodeResult"/> indicating whether the episode was added.</returns>
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(EpisodeDTO data)
+        public async Task<IActionResult> IndexAsync([FromBody] EpisodeDTO data)
         {
             Episode? existingEpisode = await this.context.Episodes
                 .Where(episode => episode.EpisodeNumber == data.EpisodeNumber)

@@ -29,7 +29,7 @@ namespace SoftTouchSearch.Ingest.Controllers
         /// <param name="data">DTO containing the exclusion data.</param>
         /// <returns>A <see cref="StatusCodeResult"/> indicating whether the chapter was added.</returns>
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(ExclusionDTO data)
+        public async Task<IActionResult> IndexAsync([FromBody] ExclusionDTO data)
         {
             // Convert the different enum definitions
             int typeInt = (int)data.Type;

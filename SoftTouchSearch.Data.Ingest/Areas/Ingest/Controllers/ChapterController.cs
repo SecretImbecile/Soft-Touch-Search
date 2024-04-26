@@ -29,7 +29,7 @@ namespace SoftTouchSearch.Ingest.Controllers
         /// <param name="data">DTO containing the chapter data.</param>
         /// <returns>A <see cref="StatusCodeResult"/> indicating whether the chapter was added.</returns>
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(ChapterDTO data)
+        public async Task<IActionResult> IndexAsync([FromBody] ChapterDTO data)
         {
             Chapter? existingChapter = await this.context.Chapters
                 .Where(chapter => chapter.Number == data.Number)
