@@ -8,6 +8,12 @@ namespace SoftTouchSearch.Data.Services
         /// Get a list of all episodes with exclusions filtered.
         /// </summary>
         /// <returns><see cref="IList{T}"/> of <see cref="Episode"/>.</returns>
+        IList<Episode> GetEpisodes();
+
+        /// <summary>
+        /// Get a list of all episodes asynchronously with exclusions filtered.
+        /// </summary>
+        /// <returns><see cref="IList{T}"/> of <see cref="Episode"/>.</returns>
         Task<IList<Episode>> GetEpisodesAsync();
     }
 }
