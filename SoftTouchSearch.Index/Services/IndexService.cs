@@ -7,6 +7,7 @@ namespace SoftTouchSearch.Index.Services
     using Lucene.Net.Analysis.Standard;
     using Lucene.Net.Documents;
     using Lucene.Net.Index;
+    using Lucene.Net.Search;
     using Lucene.Net.Store;
     using Lucene.Net.Util;
 
@@ -17,6 +18,11 @@ namespace SoftTouchSearch.Index.Services
     public class IndexService : IIndexService
     {
         // Fields
+
+        /// <summary>
+        /// Page size of search results.
+        /// </summary>
+        private const int SearchPageSize = 50;
 
         /// <summary>
         /// Gets or sets active index writer.
@@ -79,6 +85,27 @@ namespace SoftTouchSearch.Index.Services
             {
                 Console.WriteLine($"Skipping Document {document.GetField("Title")}");
             }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Document> Search(Query query, ScoreDoc? after = null)
+        {
+            using IndexReader reader = this.indexWriter.GetReader(applyAllDeletes: true);
+            IndexSearcher searcher = new(reader);
+
+            TopDocs hits;
+            if (after != null)
+            {
+                hits = searcher.SearchAfter(after, query, SearchPageSize);
+            }
+            else
+            {
+                hits = searcher.Search(query, SearchPageSize);
+            }
+
+            return hits.ScoreDocs
+                .Select(hit => searcher.Doc(hit.Doc))
+                .ToList();
         }
 
         /// <inheritdoc/>

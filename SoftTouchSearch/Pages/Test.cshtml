@@ -1,0 +1,34 @@
+﻿@page
+
+@using Lucene.Net.Documents
+@using SoftTouchSearch.Data.Models
+
+@model SoftTouchSearch.Pages.TestModel
+@{
+}
+
+<div class="mb-3">
+    <input asp-for="QueryText" readonly />
+</div>
+
+@if (Model.Results != null)
+{
+    if (Model.Results.Any())
+    {
+        foreach (Episode result in Model.ResultsContents)
+        {
+            <div class="mb-3">
+                <h2 class="h4">@result.Title</h2>
+                <blockquote>
+                    @Html.Raw(result.ContentHtml);
+                </blockquote>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-center mb-3">
+            <em>No results found.</em>
+        </p>
+    }
+}

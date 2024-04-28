@@ -64,18 +64,18 @@ namespace SoftTouchSearch.Services.Tasks
             Document document =
             [
                 new StoredField(
-                    "Id",
+                    "id",
                     episode.Id.ToString()),
-                new TextField(
-                    "Title",
+                new StringField(
+                    "title",
                     episode.Title,
                     Field.Store.YES),
                 new TextField(
-                    "Description",
+                    "description",
                     HtmlToPlainText(episode.DescriptionHtml),
                     Field.Store.YES),
                 new TextField(
-                    "Content",
+                    "content",
                     HtmlToPlainText(episode.ContentHtml),
                     Field.Store.YES),
             ];
@@ -83,7 +83,7 @@ namespace SoftTouchSearch.Services.Tasks
             if (episode.Chapter != null)
             {
                 StringField chapter = new(
-                "Chapter",
+                "chapter",
                 episode.Chapter.Title,
                 Field.Store.YES);
 
