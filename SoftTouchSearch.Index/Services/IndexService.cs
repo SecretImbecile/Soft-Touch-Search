@@ -4,12 +4,15 @@
 
 namespace SoftTouchSearch.Index.Services
 {
+    using Lucene.Net.Analysis;
     using Lucene.Net.Analysis.Standard;
     using Lucene.Net.Documents;
     using Lucene.Net.Index;
     using Lucene.Net.Search;
+    using Lucene.Net.Search.Highlight;
     using Lucene.Net.Store;
     using Lucene.Net.Util;
+    using Microsoft.AspNetCore.Html;
     using SoftTouchSearch.Index.Classes;
 
     /// <summary>
@@ -24,6 +27,11 @@ namespace SoftTouchSearch.Index.Services
         /// Page size of search results.
         /// </summary>
         private const int SearchPageSize = 20;
+
+        /// <summary>
+        /// Gets or sets active analyzer.
+        /// </summary>
+        private readonly Analyzer analyzer;
 
         /// <summary>
         /// Gets or sets active index writer.
@@ -105,7 +113,7 @@ namespace SoftTouchSearch.Index.Services
             }
 
             IEnumerable<SearchResult> results = hits.ScoreDocs
-                .Select(hit => ConvertHit(hit, searcher));
+                .Select(hit => ConvertHit(hit, searcher, reader, query));
             return new SearchResults(results)
             {
                 TotalHits = hits.TotalHits,
@@ -126,7 +134,7 @@ namespace SoftTouchSearch.Index.Services
         /// <param name="scoreDoc">Lucene document to convert.</param>
         /// <param name="searcher">Lucene search instance.</param>
         /// <returns><see cref="SearchResult"/> structure containing the search result.</returns>
-        private static SearchResult ConvertHit(ScoreDoc scoreDoc, IndexSearcher searcher)
+        private static SearchResult ConvertHit(ScoreDoc scoreDoc, IndexSearcher searcher, IndexReader reader, Query query)
         {
             Document document = searcher.Doc(scoreDoc.Doc);
             string id = document.Get("id");
@@ -136,8 +144,20 @@ namespace SoftTouchSearch.Index.Services
                 Document = document,
                 Id = Guid.Parse(id),
                 Score = scoreDoc,
-                Snippet = document.Get("content"),
+                Snippet = CreateSnippet(scoreDoc.Doc, document.Get("content"), reader, query),
             };
+        }
+
+        private static HtmlString CreateSnippet(int docId, string content, IndexReader reader, Query query)
+        {
+            SimpleHTMLFormatter formatter = new();
+            QueryScorer scorer = new(query);
+            Highlighter highlighter = new(formatter, scorer);
+            SimpleSpanFragmenter fragmenter = new(scorer, 160);
+
+            TokenStream stream = TokenSources.GetAnyTokenStream(reader, docId, "content", new StandardAnalyzer(LuceneVersion.LUCENE_48));
+            IEnumerable<string> fragments = highlighter.GetBestFragments(stream, content, 10).ToList();
+            return new HtmlString(string.Join("<br><br>", fragments));
         }
     }
 }
