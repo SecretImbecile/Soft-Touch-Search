@@ -58,8 +58,29 @@ namespace SoftTouchSearch.Data.Models
         // Accessors
 
         /// <summary>
-        /// Tapas episode URL
+        /// Tapas or external episode URL.
         /// </summary>
-        public string? Url => $"https://tapas.io/episode/{UrlId}";
+        public string Url
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this.UrlExternal))
+                {
+                    return UrlExternal;
+                }
+                else
+                {
+                    return $"https://tapas.io/episode/{UrlId}";
+                }
+
+            }
+        }
+
+        // Methods
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

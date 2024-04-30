@@ -67,8 +67,11 @@ namespace SoftTouchSearch.Services.Tasks
                     "id",
                     episode.Id.ToString()),
                 new StoredField(
-                    "Url",
-                    episode.Id.ToString()),
+                    "url",
+                    episode.Url),
+                new StoredField(
+                    "episodenumber",
+                    episode.EpisodeNumber),
                 new StringField(
                     "title",
                     episode.Title,
@@ -85,10 +88,9 @@ namespace SoftTouchSearch.Services.Tasks
 
             if (episode.Chapter != null)
             {
-                StringField chapter = new(
-                "chapter",
-                episode.Chapter.Title,
-                Field.Store.YES);
+                StoredField chapter = new(
+                    "chapter",
+                    episode.Chapter.ToString());
 
                 document.Add(chapter);
             }

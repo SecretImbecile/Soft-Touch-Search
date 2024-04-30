@@ -77,8 +77,6 @@ namespace SoftTouchSearch.Index.Services
         /// <inheritdoc/>
         public void AddToIndex(Document document)
         {
-            if (document.)
-
             try
             {
                 this.indexWriter.AddDocument(document);

@@ -35,11 +35,6 @@ namespace SoftTouchSearch.Pages
         /// </summary>
         public SearchResults Results { get; set; } = new SearchResults() { TotalHits = 0 };
 
-        /// <summary>
-        /// Gets or sets episode data for search results.
-        /// </summary>
-        public IEnumerable<Episode> ResultsContents { get; set; } = new List<Episode>();
-
         public IActionResult OnGet()
         {
             if (!this.indexService.IsIndexBuilt)
@@ -54,13 +49,6 @@ namespace SoftTouchSearch.Pages
             };
 
             this.Results = this.indexService.Search(query);
-            ICollection<Guid> episodeIds = this.Results
-                .Select(result => result.Id)
-                .ToList();
-
-            this.ResultsContents = this.context.Episodes
-                .Where(episode => episodeIds.Contains(episode.Id))
-                .ToList();
 
             return this.Page();
         }

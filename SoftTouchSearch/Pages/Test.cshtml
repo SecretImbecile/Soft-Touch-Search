@@ -17,13 +17,14 @@
     if (Model.Results.Any())
     {
         foreach (SearchResult result in Model.Results)
-        {
-            Episode episode = Model.ResultsContents
-                .Where(episode => episode.Id == result.Id)
-                .Single();
-            
+        {            
             <div class="mb-3">
-                <h2 class="h4">@episode.Title</h2>
+                <h2 class="h4">@result.Title</h2>
+                <ul>
+                    <li>@result.Chapter</li>
+                    <li>Episode @result.EpisodeNumber</li>
+                    <li><a href="@result.Url">Episode Link</a></li>
+                </ul>
                 <blockquote>
                     @Html.Raw(result.Snippet)
                 </blockquote>

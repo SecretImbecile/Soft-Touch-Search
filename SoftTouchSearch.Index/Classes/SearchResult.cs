@@ -12,6 +12,8 @@ namespace SoftTouchSearch.Index.Classes
     /// </summary>
     public class SearchResult
     {
+        // Properties
+
         /// <summary>
         /// Gets or sets the Lucene document for this result.
         /// </summary>
@@ -31,5 +33,27 @@ namespace SoftTouchSearch.Index.Classes
         /// Gets or sets the highlighted text snippet.
         /// </summary>
         public required string Snippet { get; set; }
+
+        // Accessors
+
+        /// <summary>
+        /// Gets chapter name of the search result.
+        /// </summary>
+        public string Chapter => this.Document.Get("chapter");
+
+        /// <summary>
+        /// Gets episode title of the search result.
+        /// </summary>
+        public int EpisodeNumber => int.Parse(this.Document.Get("episodenumber"));
+
+        /// <summary>
+        /// Gets episode title of the search result.
+        /// </summary>
+        public string Title => this.Document.Get("title");
+
+        /// <summary>
+        /// Gets episode URL.
+        /// </summary>
+        public string Url => this.Document.Get("url");
     }
 }
