@@ -66,6 +66,9 @@ namespace SoftTouchSearch.Services.Tasks
                 new StoredField(
                     "id",
                     episode.Id.ToString()),
+                new StoredField(
+                    "Url",
+                    episode.Id.ToString()),
                 new StringField(
                     "title",
                     episode.Title,
@@ -121,6 +124,12 @@ namespace SoftTouchSearch.Services.Tasks
             IIndexService indexService = scope.ServiceProvider.GetRequiredService<IIndexService>();
 
             IList<Episode> episodes = exclusionService.GetEpisodes();
+#if DEBUG
+            episodes = episodes
+                .Take(100)
+                .ToList();
+#endif
+
             foreach (Episode episode in episodes)
             {
                 Document document = ConvertEpisode(episode);

@@ -2,6 +2,7 @@
 
 @using Lucene.Net.Documents
 @using SoftTouchSearch.Data.Models
+@using SoftTouchSearch.Index.Classes
 
 @model SoftTouchSearch.Pages.TestModel
 @{
@@ -15,12 +16,16 @@
 {
     if (Model.Results.Any())
     {
-        foreach (Episode result in Model.ResultsContents)
+        foreach (SearchResult result in Model.Results)
         {
+            Episode episode = Model.ResultsContents
+                .Where(episode => episode.Id == result.Id)
+                .Single();
+            
             <div class="mb-3">
-                <h2 class="h4">@result.Title</h2>
+                <h2 class="h4">@episode.Title</h2>
                 <blockquote>
-                    @Html.Raw(result.ContentHtml);
+                    @Html.Raw(result.Snippet)
                 </blockquote>
             </div>
         }

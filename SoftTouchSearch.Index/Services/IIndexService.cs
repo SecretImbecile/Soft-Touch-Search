@@ -6,6 +6,7 @@ namespace SoftTouchSearch.Index.Services
 {
     using Lucene.Net.Documents;
     using Lucene.Net.Search;
+    using SoftTouchSearch.Index.Classes;
 
     /// <summary>
     /// Provides the search index for the Soft Touch Search.
@@ -28,8 +29,8 @@ namespace SoftTouchSearch.Index.Services
         /// </summary>
         /// <param name="query">Search query.</param>
         /// <param name="after">Last result, if fetching paged results.</param>
-        /// <returns>A <see cref="TopDocs"/> containing the search results.</returns>
-        IEnumerable<Document> Search(Query query, ScoreDoc? after = null);
+        /// <returns>A <see cref="SearchResults"/> containing the search results.</returns>
+        SearchResults Search(Query query, ScoreDoc? after = null);
 
         /// <summary>
         /// Mark the search index as completed.

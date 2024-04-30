@@ -10,6 +10,7 @@ namespace SoftTouchSearch.Index.Services
     using Lucene.Net.Search;
     using Lucene.Net.Store;
     using Lucene.Net.Util;
+    using SoftTouchSearch.Index.Classes;
 
     /// <summary>
     /// Provides the search index for the Soft Touch Search.
@@ -22,7 +23,7 @@ namespace SoftTouchSearch.Index.Services
         /// <summary>
         /// Page size of search results.
         /// </summary>
-        private const int SearchPageSize = 50;
+        private const int SearchPageSize = 20;
 
         /// <summary>
         /// Gets or sets active index writer.
@@ -76,6 +77,8 @@ namespace SoftTouchSearch.Index.Services
         /// <inheritdoc/>
         public void AddToIndex(Document document)
         {
+            if (document.)
+
             try
             {
                 this.indexWriter.AddDocument(document);
@@ -88,7 +91,7 @@ namespace SoftTouchSearch.Index.Services
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Document> Search(Query query, ScoreDoc? after = null)
+        public SearchResults Search(Query query, ScoreDoc? after = null)
         {
             using IndexReader reader = this.indexWriter.GetReader(applyAllDeletes: true);
             IndexSearcher searcher = new(reader);
@@ -103,9 +106,13 @@ namespace SoftTouchSearch.Index.Services
                 hits = searcher.Search(query, SearchPageSize);
             }
 
-            return hits.ScoreDocs
-                .Select(hit => searcher.Doc(hit.Doc))
-                .ToList();
+            IEnumerable<SearchResult> results = hits.ScoreDocs
+                .Select(hit => ConvertHit(hit, searcher));
+            return new SearchResults(results)
+            {
+                TotalHits = hits.TotalHits,
+                LastResult = hits.ScoreDocs.LastOrDefault(),
+            };
         }
 
         /// <inheritdoc/>
@@ -113,6 +120,26 @@ namespace SoftTouchSearch.Index.Services
         {
             this.indexWriter.Commit();
             this.indexBuilt = true;
+        }
+
+        /// <summary>
+        /// Convert a Lucene result into <see cref="SearchResult"/> format.
+        /// </summary>
+        /// <param name="scoreDoc">Lucene document to convert.</param>
+        /// <param name="searcher">Lucene search instance.</param>
+        /// <returns><see cref="SearchResult"/> structure containing the search result.</returns>
+        private static SearchResult ConvertHit(ScoreDoc scoreDoc, IndexSearcher searcher)
+        {
+            Document document = searcher.Doc(scoreDoc.Doc);
+            string id = document.Get("id");
+
+            return new SearchResult()
+            {
+                Document = document,
+                Id = Guid.Parse(id),
+                Score = scoreDoc,
+                Snippet = document.Get("content"),
+            };
         }
     }
 }
