@@ -40,6 +40,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseStatusCodePagesWithReExecute("/Error");
+
 app.UseRouting();
 
 app.UseAuthorization();

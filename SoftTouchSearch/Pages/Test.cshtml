@@ -5,7 +5,18 @@
 @using SoftTouchSearch.Index.Classes
 
 @model SoftTouchSearch.Pages.TestModel
-@{
+
+@section Header {
+    @{
+        if (Model.LatestEpisode != null)
+        {
+            await Html.RenderPartialAsync("_Header_Standard", Model.LatestEpisode!);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("_Header_Basic");
+        }
+    }
 }
 
 <div class="mb-3">

@@ -6,7 +6,32 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Header {
+    @{
+        if (Model.LatestEpisode != null)
+        {
+            await Html.RenderPartialAsync("_Header_Standard", Model.LatestEpisode!);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("_Header_Basic");            
+        }
+    }
+}
+
+@if (!Model.IndexBuilt)
+{
+    <div class="text-center">
+        <h2>503 Service Unavailable</h2>
+        <p>The search index is being rebuilt, this usually only takes a few minutes.</p>
+        <p>Try refreshing the page shortly.</p>
+    </div>
+}
+else
+{
+    <div class="mb-3">
+        <input type="text" asp-for="SearchText" id="searchBox" class="form-control form-control-lg" autocomplete="off" placeholder="Search for text..." />
+    </div>
+}
+
+

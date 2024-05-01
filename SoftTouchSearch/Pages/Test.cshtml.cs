@@ -10,6 +10,7 @@ namespace SoftTouchSearch.Pages
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SoftTouchSearch.Data;
     using SoftTouchSearch.Data.Models;
+    using SoftTouchSearch.Data.Services;
     using SoftTouchSearch.Index.Classes;
     using SoftTouchSearch.Index.Services;
 
@@ -18,11 +19,18 @@ namespace SoftTouchSearch.Pages
     /// </summary>
     /// <param name="indexService">index service.</param>
     /// <param name="context">database context.</param>
-    public class TestModel(IIndexService indexService, StoryDbContext context) : PageModel
+    public class TestModel(IExclusionService exclusionService, IIndexService indexService, StoryDbContext context) : PageModel
     {
+        private readonly IExclusionService exclusionService = exclusionService;
+
         private readonly IIndexService indexService = indexService;
 
         private readonly StoryDbContext context = context;
+
+        /// <summary>
+        /// Gets or sets the latest episode.
+        /// </summary>
+        public Episode? LatestEpisode { get; set; }
 
         /// <summary>
         /// Gets or sets search text.
@@ -49,6 +57,8 @@ namespace SoftTouchSearch.Pages
             };
 
             this.Results = this.indexService.Search(query);
+
+            this.LatestEpisode = this.exclusionService.GetLatestEpisode();
 
             return this.Page();
         }

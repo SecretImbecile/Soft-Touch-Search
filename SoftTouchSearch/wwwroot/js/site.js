@@ -1,4 +1,20 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿var searchBox = document.getElementById("searchBox");
+searchBox?.addEventListener('change', function (event) {
+    console.log(event);
+    searchFunction(event.target.value);
+});
 
-// Write your JavaScript code.
+/**
+ * Main search function. Appends the search text as a query string, which the server will then process.
+ * @param {string} text The text to search for.
+ */
+function searchFunction(text) {
+    let query = encodeURIComponent(text);
+
+    let currentUrl = window.location.href;
+    let urlParts = currentUrl.split('?');
+    currentUrl = urlParts[0];
+    currentUrl += `?q=${query}`;
+
+    window.location.href = currentUrl;
+}

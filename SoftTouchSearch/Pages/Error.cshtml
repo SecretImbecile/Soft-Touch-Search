@@ -4,8 +4,14 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+@section Header {
+    @{
+        await Html.RenderPartialAsync("_Header_Basic");
+    }
+}
+
+<h2 class="text-danger">Error.</h2>
+<p class="h3 text-danger">An error occurred while processing your request.</p>
 
 @if (Model.ShowRequestId)
 {
