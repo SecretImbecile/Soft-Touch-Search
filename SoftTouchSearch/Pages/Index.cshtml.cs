@@ -65,15 +65,77 @@ namespace SoftTouchSearch.Pages
 
             // Search results.
             this.SearchText = q;
-
-            this.SearchText = "Ghost Office"; // Temp
-            BooleanQuery query = new()
+            Query? query = BuildQuery(this.SearchText);
+            if (query != null)
             {
-                { new TermQuery(new Term("content", "ghost")), Occur.SHOULD },
-                { new TermQuery(new Term("content", "office")), Occur.SHOULD },
-            };
+                this.Results = this.indexService.Search(query, loadMore);
+            }
+        }
 
-            this.Results = this.indexService.Search(query, loadMore);
+        private static Query? BuildQuery(string queryString)
+        {
+            List<string> tokens = queryString
+                .ToLower()
+                .Split(null)
+                .Where(token => !string.IsNullOrWhiteSpace(token))
+                .ToList();
+            if (tokens.Count != 0)
+            {
+                if (tokens.Count == 1)
+                {
+                    return BuildQuerySingle(tokens[0]);
+                }
+                else
+                {
+                    BooleanQuery query = [];
+                    foreach (string token in tokens)
+                    {
+                        query.Add(BuildQueryPart(token));
+                    }
+
+                    return query;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Build a <see cref="Query"/> from a single string token.
+        /// </summary>
+        /// <param name="token">Search term to query with.</param>
+        /// <returns>A <see cref="TermQuery"/> containing the single token.</returns>
+        private static TermQuery BuildQuerySingle(string token)
+        {
+            token = token.Trim();
+            return new TermQuery(new Term("content", token));
+        }
+
+        /// <summary>
+        /// Build part of a <see cref="BooleanQuery"/> containing multiple string tokens.
+        /// </summary>
+        /// <remarks>
+        /// Tokens can be prefixed with '+' or '-' to affect their boolean occur rule.
+        /// </remarks>
+        /// <param name="token">The indiviudal token to be added to the query.</param>
+        /// <returns>The <see cref="BooleanClause"/> to be added to a <see cref="BooleanQuery"/>.</returns>
+        private static BooleanClause BuildQueryPart(string token)
+        {
+            Occur occur = Occur.SHOULD;
+            if (token.StartsWith('+'))
+            {
+                token = token.TrimStart('+');
+                occur = Occur.MUST;
+            }
+            else if (token.StartsWith('-'))
+            {
+                token = token.TrimStart('-');
+                occur = Occur.MUST_NOT;
+            }
+
+            return new BooleanClause(new TermQuery(new Term("content", token)), occur);
         }
     }
 }

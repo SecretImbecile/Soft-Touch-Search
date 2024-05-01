@@ -63,10 +63,10 @@ namespace SoftTouchSearch.Index.Services
             this.indexDirectory = FSDirectory.Open(indexFilePath);
 
             // Create an analyzer to process the text
-            var analyzer = new StandardAnalyzer(AppLuceneVersion);
+            this.analyzer = new StandardAnalyzer(AppLuceneVersion);
 
             // Create an index writer
-            var indexConfig = new IndexWriterConfig(AppLuceneVersion, analyzer);
+            var indexConfig = new IndexWriterConfig(AppLuceneVersion, this.analyzer);
             this.indexWriter = new IndexWriter(this.indexDirectory, indexConfig);
 
             if (this.indexWriter.NumDocs > 0)
@@ -154,16 +154,16 @@ namespace SoftTouchSearch.Index.Services
             SimpleHTMLFormatter formatter = new("<mark>", "</mark>");
             QueryScorer scorer = new(query);
             Highlighter highlighter = new(formatter, scorer);
-            SimpleSpanFragmenter fragmenter = new(scorer, 10);
 
             TokenStream stream = TokenSources.GetAnyTokenStream(reader, docId, "content", new StandardAnalyzer(LuceneVersion.LUCENE_48));
-            IEnumerable<string> fragments = highlighter.GetBestFragments(stream, content, 10).ToList();
+            IEnumerable<string> fragments = [.. highlighter.GetBestFragments(stream, content, 10)];
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             foreach (string fragment in fragments)
             {
                 stringBuilder.AppendLine($"<span>{fragment}</span>");
             }
+
             return new HtmlString(stringBuilder.ToString());
         }
     }
