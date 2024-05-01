@@ -4,6 +4,12 @@ searchBox?.addEventListener('change', function (event) {
     searchFunction(event.target.value);
 });
 
+var scrollTo = document.getElementById("scrollTo");
+document.addEventListener('DOMContentLoaded', function () {
+    console.log(scrollTo);
+    scrollTo?.scrollIntoView();
+});
+
 /**
  * Main search function. Appends the search text as a query string, which the server will then process.
  * @param {string} text The text to search for.

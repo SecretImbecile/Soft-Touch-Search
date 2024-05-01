@@ -130,11 +130,6 @@ namespace SoftTouchSearch.Services.Tasks
             IIndexService indexService = scope.ServiceProvider.GetRequiredService<IIndexService>();
 
             IList<Episode> episodes = exclusionService.GetEpisodes();
-#if DEBUG
-            episodes = episodes
-                .Take(100)
-                .ToList();
-#endif
 
             foreach (Episode episode in episodes)
             {

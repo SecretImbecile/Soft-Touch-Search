@@ -29,8 +29,25 @@ namespace SoftTouchSearch.Data.Services
                 .ToListAsync();
 
             // TODO: remove excluded episodes
+            List<Episode> filteredEpisodes = [];
+            foreach(Episode episode in episodes)
+            {
+                bool includeEpisode = true;
+                foreach(ExclusionRule rule in rules)
+                {
+                    if (includeEpisode == true && rule.CheckEpisodeExcluded(episode))
+                    {
+                        includeEpisode = false;
+                    }
+                }
 
-            return [.. episodes.OrderBy(episode => episode.EpisodeNumber)];
+                if (includeEpisode == true)
+                {
+                    filteredEpisodes.Add(episode);
+                }
+            }
+
+            return [.. filteredEpisodes.OrderBy(episode => episode.EpisodeNumber)];
         }
 
         /// <inheritdoc/>
