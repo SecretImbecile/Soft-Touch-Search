@@ -1,10 +1,6 @@
 html {
-    font-size: 14pt;    
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -13,8 +9,65 @@ body {
     font-optical-sizing: auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
     font-family: "Courgette", cursive;
     font-weight: 400;
     font-style: normal;
+    letter-spacing: -0.025em;
 }
+
+a {
+    text-decoration: none;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 60px;
+}
+
+.search-result {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+    .search-result .details {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 0.5rem;
+    }
+
+        .search-result .details > *:not(:last-child)::after {
+            content: ',';
+        }
+
+    .search-result .title a {
+        text-decoration: none;
+    }
+
+    .search-result .snippets {
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 0.25rem;
+    }
+
+        .search-result .snippets > *::before {
+            content: '\201C';
+            font-size: 1.5em;
+            line-height: 1em;
+        }
+
+        .search-result .snippets > *::after {
+            content: '\201D';
+            font-size: 1.5em;
+            line-height: 1em;
+        }
+
+    .search-result .score {
+        display: none;
+        margin: 0;
+        margin-top: 0.5rem;
+        font-family: monospace;
+        font-weight: bold;
+    }

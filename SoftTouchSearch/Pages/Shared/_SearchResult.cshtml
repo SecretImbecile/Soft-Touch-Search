@@ -1,0 +1,18 @@
+﻿@using SoftTouchSearch.Index.Classes
+
+@model SearchResult
+
+<div class="search-result mb-5 p-3 bg-light-subtle border border-light-subtle rounded">
+    <p class="details m-0">
+        <span>Chapter @Model.ChapterNumber</span><span>Episode @Model.EpisodeNumber</span>
+    </p>
+    <h3 class="h4 title">
+        <a href="@Model.Url">@Model.Title</a>
+    </h3>
+    <div class="snippets">
+        @Html.Raw(Model.Snippet)
+    </div>
+    <p class="score">
+        @Model.Score.Score
+    </p>
+</div>

@@ -28,9 +28,9 @@ namespace SoftTouchSearch.Index.Services
         /// Perform a search with the provided query.
         /// </summary>
         /// <param name="query">Search query.</param>
-        /// <param name="after">Last result, if fetching paged results.</param>
+        /// <param name="loadMore">If true, load results beyond the standard page size.</param>
         /// <returns>A <see cref="SearchResults"/> containing the search results.</returns>
-        SearchResults Search(Query query, ScoreDoc? after = null);
+        SearchResults Search(Query query, bool loadMore = false);
 
         /// <summary>
         /// Mark the search index as completed.

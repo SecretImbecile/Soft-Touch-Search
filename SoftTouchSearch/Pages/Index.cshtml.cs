@@ -4,10 +4,13 @@
 
 namespace SoftTouchSearch.Pages
 {
+    using Lucene.Net.Index;
+    using Lucene.Net.Search;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SoftTouchSearch.Data.Models;
     using SoftTouchSearch.Data.Services;
+    using SoftTouchSearch.Index.Classes;
     using SoftTouchSearch.Index.Services;
 
     /// <summary>
@@ -29,7 +32,12 @@ namespace SoftTouchSearch.Pages
         public Episode? LatestEpisode { get; set; }
 
         /// <summary>
-        /// The entered search text
+        /// Gets or sets the search results.
+        /// </summary>
+        public SearchResults Results { get; set; } = new SearchResults() { TotalHits = 0 };
+
+        /// <summary>
+        /// Gets or sets the entered search text.
         /// </summary>
         public string? SearchText { get; set; }
 
@@ -37,7 +45,8 @@ namespace SoftTouchSearch.Pages
         /// Page handler.
         /// </summary>
         /// <param name="q">Text input to search.</param>
-        public void OnGet(string? q)
+        /// <param name="loadMore">If true, show more than one page of results.</param>
+        public void OnGet(string? q, bool loadMore = false)
         {
             // Display 503 message until the index has been built.
             this.IndexBuilt = this.indexService.IsIndexBuilt;
@@ -56,6 +65,15 @@ namespace SoftTouchSearch.Pages
 
             // Search results.
             this.SearchText = q;
+
+            this.SearchText = "Ghost Office"; // Temp
+            BooleanQuery query = new()
+            {
+                { new TermQuery(new Term("content", "ghost")), Occur.SHOULD },
+                { new TermQuery(new Term("content", "office")), Occur.SHOULD },
+            };
+
+            this.Results = this.indexService.Search(query, loadMore);
         }
     }
 }

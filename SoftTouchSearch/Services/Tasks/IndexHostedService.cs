@@ -91,8 +91,12 @@ namespace SoftTouchSearch.Services.Tasks
                 StoredField chapter = new(
                     "chapter",
                     episode.Chapter.ToString());
+                StoredField chapternumber = new(
+                    "chapternumber",
+                    episode.Chapter.Number);
 
                 document.Add(chapter);
+                document.Add(chapternumber);
             }
 
             return document;

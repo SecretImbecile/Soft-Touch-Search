@@ -45,6 +45,11 @@ namespace SoftTouchSearch.Index.Classes
         /// <summary>
         /// Gets episode title of the search result.
         /// </summary>
+        public int ChapterNumber => int.Parse(this.Document.Get("chapternumber"));
+
+        /// <summary>
+        /// Gets episode title of the search result.
+        /// </summary>
         public int EpisodeNumber => int.Parse(this.Document.Get("episodenumber"));
 
         /// <summary>

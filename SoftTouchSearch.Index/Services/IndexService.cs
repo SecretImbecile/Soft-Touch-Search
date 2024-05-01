@@ -4,6 +4,7 @@
 
 namespace SoftTouchSearch.Index.Services
 {
+    using System.Text;
     using Lucene.Net.Analysis;
     using Lucene.Net.Analysis.Standard;
     using Lucene.Net.Documents;
@@ -26,7 +27,7 @@ namespace SoftTouchSearch.Index.Services
         /// <summary>
         /// Page size of search results.
         /// </summary>
-        private const int SearchPageSize = 20;
+        public const int SearchPageSize = 10;
 
         /// <summary>
         /// Gets or sets active analyzer.
@@ -97,15 +98,15 @@ namespace SoftTouchSearch.Index.Services
         }
 
         /// <inheritdoc/>
-        public SearchResults Search(Query query, ScoreDoc? after = null)
+        public SearchResults Search(Query query, bool loadMore = false)
         {
             using IndexReader reader = this.indexWriter.GetReader(applyAllDeletes: true);
             IndexSearcher searcher = new(reader);
 
             TopDocs hits;
-            if (after != null)
+            if (loadMore)
             {
-                hits = searcher.SearchAfter(after, query, SearchPageSize);
+                hits = searcher.Search(query, 1000);
             }
             else
             {
@@ -116,7 +117,7 @@ namespace SoftTouchSearch.Index.Services
                 .Select(hit => ConvertHit(hit, searcher, reader, query));
             return new SearchResults(results)
             {
-                TotalHits = hits.TotalHits,
+                TotalHits = Math.Min(hits.TotalHits, 1000),
                 LastResult = hits.ScoreDocs.LastOrDefault(),
             };
         }
@@ -150,14 +151,20 @@ namespace SoftTouchSearch.Index.Services
 
         private static HtmlString CreateSnippet(int docId, string content, IndexReader reader, Query query)
         {
-            SimpleHTMLFormatter formatter = new();
+            SimpleHTMLFormatter formatter = new("<mark>", "</mark>");
             QueryScorer scorer = new(query);
             Highlighter highlighter = new(formatter, scorer);
-            SimpleSpanFragmenter fragmenter = new(scorer, 160);
+            SimpleSpanFragmenter fragmenter = new(scorer, 10);
 
             TokenStream stream = TokenSources.GetAnyTokenStream(reader, docId, "content", new StandardAnalyzer(LuceneVersion.LUCENE_48));
             IEnumerable<string> fragments = highlighter.GetBestFragments(stream, content, 10).ToList();
-            return new HtmlString(string.Join("<br><br>", fragments));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (string fragment in fragments)
+            {
+                stringBuilder.AppendLine($"<span>{fragment}</span>");
+            }
+            return new HtmlString(stringBuilder.ToString());
         }
     }
 }
