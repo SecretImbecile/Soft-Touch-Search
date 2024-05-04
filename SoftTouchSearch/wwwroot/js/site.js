@@ -1,9 +1,22 @@
-﻿var searchBox = document.getElementById("searchBox");
+﻿/*
+ * Apply Bootstrap dark mode
+ */
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.dataset.bsTheme = "dark";
+}
+
+/*
+ * Perform the search function when typing in the text box
+ */
+var searchBox = document.getElementById("searchBox");
 searchBox?.addEventListener('change', function (event) {
     console.log(event);
     searchFunction(event.target.value);
 });
 
+/*
+ * Scroll to the next result when loading additional results
+ */
 var scrollTo = document.getElementById("scrollTo");
 document.addEventListener('DOMContentLoaded', function () {
     console.log(scrollTo);

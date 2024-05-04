@@ -1,0 +1,59 @@
+﻿@page
+
+@model SoftTouchSearch.Pages.AboutModel
+
+@{
+    ViewData["Title"] = "About - Soft Touch Search";
+}
+
+@section Header {
+    @{
+        await Html.RenderPartialAsync("_Header_Basic");
+    }
+}
+
+<article>    
+    <section class="mb-5">
+        <h2>About Soft Touch</h2>
+        <p>
+            Soft Touch is a web novel written by River Onei. From Soft Touch's description:
+        </p>
+        <blockquote class="blockquote border-start ps-3">
+            Jamie, a softy who likes to grumble, is reeling from a stunning event in his small town.
+            On top of everything else, his high school enemy Aiden Callahan is moving back home.
+            The two haven't seen each other in years, but Jamie can tell that Aiden is keeping his own secrets - and that something about him is different.
+        </blockquote>
+        <p>
+            <a href="https://tapas.io/series/soft-touch/info" target="_blank" rel="noreferrer">Soft Touch on Tapas</a>
+        </p>
+        <p>
+            <a href="https://www.riveronei.com/" target="_blank">River's Website</a>
+        </p>
+        <p>
+            Join our sleuthing on the <a href="https://discord.gg/A9cRYRf7cd" target="_blank" rel="noreferrer">Soft Touch Discord Server</a>
+        </p>
+    </section>
+    <section class="mb-5">
+        <h2>About this tool</h2>
+        <p>
+            Soft Touch Search is a tool for searching the full text of Soft Touch.
+            At the time of writing this, the novel has reached two million published words, and as fans are keen to reread and document the story, I created this tool to help them with that.
+        </p>
+        <p>
+            This tool does <strong>not</strong> provide any means of downloading the text, in part or full, of Soft Touch.
+            It only presents short snippets of text based on the phrases you search for, with links to the officially published episodes.
+        </p>
+        <p>
+            Soft Touch Search was built using <a href="https://dotnet.microsoft.com/en-us/apps/aspnet" target="_blank" rel="noreferrer">ASP.NET Core</a>,
+            its search is powered by <a href="https://lucenenet.apache.org/index.html" target="_blank">Lucene.NET</a>.
+            You can <a href="https://github.com/SecretImbecile/Soft-Touch-Search" target="_blank" rel="noreferrer">view the source code</a> for this website on GitHub.
+        </p>
+    </section>
+    <section>
+        <h2>Contact Me</h2>
+        <p>
+            If you run into any issues feel free to <a href="mailto:softtouchsearch@jackkelly.uk">email me</a>, or ask for @@Jack on the Discord Server above.
+        </p>
+    </section>
+</article>
+

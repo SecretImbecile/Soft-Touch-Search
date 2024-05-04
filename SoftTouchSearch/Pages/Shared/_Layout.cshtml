@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SoftTouchSearch</title>
+    <title>@(ViewData["Title"] ?? "Soft Touch Search")</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Courgette&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
 
     <footer class="footer text-secondary">
         <div class="container text-center">
-            <span><a asp-page="/About">About this tool</a></span>
+            <span><a asp-page="/About">About</a></span>
             -
             <span>Soft Touch is written by <a href="https://www.riveronei.com/">River Onei</a></span>
         </div>
