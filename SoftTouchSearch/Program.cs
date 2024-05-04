@@ -2,10 +2,12 @@
 // Copyright (c) Jack Kelly. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.HttpOverrides;
 using SoftTouchSearch.Data;
 using SoftTouchSearch.Data.Ingest;
 using SoftTouchSearch.Index;
 using SoftTouchSearch.Services.Tasks;
+using System.Net;
 
 // Verify arguments
 if (args.Length != 2)
@@ -35,9 +37,16 @@ if (!app.Environment.IsDevelopment())
 
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+
+    app.UseHttpsRedirection();
+
+    // Enable the proxy server
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    });
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseStatusCodePagesWithReExecute("/Error");
