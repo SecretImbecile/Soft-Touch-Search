@@ -11,7 +11,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/SecretImbecile/Soft-Touch-Search</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     <PackageIcon>logo-128.png</PackageIcon>
   </PropertyGroup>
