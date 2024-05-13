@@ -34,7 +34,7 @@ else
 {
     @* Search bar *@
     <div class="mb-5">
-        <input type="text" asp-for="SearchText" id="searchBox" class="form-control form-control-lg" autocomplete="off" placeholder="Search for text..." />
+        <input type="text" asp-for="SearchText" id="searchBox" class="form-control form-control-lg" placeholder="Search for text..." />
         @if(Model.Results.Any())
         {
             <div class="form-text">Found @Model.Results.TotalHits matches</div>
