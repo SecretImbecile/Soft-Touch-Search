@@ -20,9 +20,18 @@ namespace SoftTouchSearch.Index.Services
     /// Provides the search index for the Soft Touch Search.
     /// </summary>
     /// <param name="indexFilePath">Path to store the Lucene.NET Index file in.</param>
-    public class IndexService : IIndexService
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="IndexService"/> class.
+    /// </remarks>
+    /// <param name="indexFilePath">File path of the Lucene.NET Index file.</param>
+    public class IndexService(string indexFilePath) : IIndexService
     {
         // Fields
+
+        /// <summary>
+        /// Lucene compatability version.
+        /// </summary>
+        public const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
 
         /// <summary>
         /// Page size of search results.
@@ -30,51 +39,14 @@ namespace SoftTouchSearch.Index.Services
         public const int SearchPageSize = 10;
 
         /// <summary>
-        /// Gets or sets active analyzer.
-        /// </summary>
-        private readonly Analyzer analyzer;
-
-        /// <summary>
         /// Gets or sets active index writer.
         /// </summary>
-        private readonly Directory indexDirectory;
-
-        /// <summary>
-        /// Gets or sets active index writer.
-        /// </summary>
-        private readonly IndexWriter indexWriter;
+        private readonly Directory indexDirectory = FSDirectory.Open(indexFilePath);
 
         /// <summary>
         /// Whether the index has completed building.
         /// </summary>
         private bool indexBuilt = false;
-
-        // Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IndexService"/> class.
-        /// </summary>
-        /// <param name="indexFilePath">File path of the Lucene.NET Index file.</param>
-        public IndexService(string indexFilePath)
-        {
-            // Ensures index backward compatibility
-            const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
-
-            this.indexDirectory = FSDirectory.Open(indexFilePath);
-
-            // Create an analyzer to process the text
-            this.analyzer = new StandardAnalyzer(AppLuceneVersion);
-
-            // Create an index writer
-            var indexConfig = new IndexWriterConfig(AppLuceneVersion, this.analyzer);
-            this.indexWriter = new IndexWriter(this.indexDirectory, indexConfig);
-
-            if (this.indexWriter.NumDocs > 0)
-            {
-                this.indexWriter.DeleteAll();
-                this.indexWriter.Commit();
-            }
-        }
 
         // Properties
 
@@ -84,23 +56,32 @@ namespace SoftTouchSearch.Index.Services
         // Methods
 
         /// <inheritdoc/>
-        public void AddToIndex(Document document)
+        public void BuildIndex(IEnumerable<Document> documents)
         {
-            try
+            Analyzer analyzer = new StandardAnalyzer(AppLuceneVersion);
+            IndexWriterConfig indexConfig = new(AppLuceneVersion, analyzer);
+            using IndexWriter indexWriter = new(this.indexDirectory, indexConfig);
+
+            if (indexWriter.NumDocs > 0)
             {
-                this.indexWriter.AddDocument(document);
-                this.indexWriter.Flush(false, false);
+                // Remove any existing index contents
+                indexWriter.DeleteAll();
+                indexWriter.Commit();
             }
-            catch (ArgumentException)
+
+            foreach (Document document in documents)
             {
-                Console.WriteLine($"Skipping Document {document.GetField("Title")}");
+                indexWriter.AddDocument(document);
             }
+
+            indexWriter.Flush(false, false);
+            this.indexBuilt = true;
         }
 
         /// <inheritdoc/>
         public SearchResults Search(Query query, bool loadMore = false)
         {
-            using IndexReader reader = this.indexWriter.GetReader(applyAllDeletes: true);
+            using IndexReader reader = DirectoryReader.Open(this.indexDirectory);
             IndexSearcher searcher = new(reader);
 
             TopDocs hits;
@@ -120,13 +101,6 @@ namespace SoftTouchSearch.Index.Services
                 TotalHits = Math.Min(hits.TotalHits, 1000),
                 LastResult = hits.ScoreDocs.LastOrDefault(),
             };
-        }
-
-        /// <inheritdoc/>
-        public void SetIndexBuilt()
-        {
-            this.indexWriter.Commit();
-            this.indexBuilt = true;
         }
 
         /// <summary>
@@ -149,6 +123,14 @@ namespace SoftTouchSearch.Index.Services
             };
         }
 
+        /// <summary>
+        /// Create the results snippets for a specified query and document.
+        /// </summary>
+        /// <param name="docId">ID of the document to summarize.</param>
+        /// <param name="content">Content of the document to summarize.</param>
+        /// <param name="reader"><see cref="IndexReader"/> reference.</param>
+        /// <param name="query">Query which created the result.</param>
+        /// <returns>HTML formatted snippets (one or more span elements).</returns>
         private static HtmlString CreateSnippet(int docId, string content, IndexReader reader, Query query)
         {
             SimpleHTMLFormatter formatter = new("<mark>", "</mark>");
