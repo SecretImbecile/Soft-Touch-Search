@@ -1,0 +1,8 @@
+﻿@* head tags for Open Graph *@
+<meta property="og:title" content="Soft Touch Search" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/img/logo-fullscreen.jpg" />
+@if (ViewData["Canonical"] != null)
+{
+    <meta property="og:url" content="@ViewData["Canonical"]" />
+}

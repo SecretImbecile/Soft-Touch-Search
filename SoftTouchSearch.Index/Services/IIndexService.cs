@@ -19,10 +19,10 @@ namespace SoftTouchSearch.Index.Services
         bool IsIndexBuilt { get; }
 
         /// <summary>
-        /// Add a document to the search index.
+        /// Rebuild the search index with the provided documents.
         /// </summary>
-        /// <param name="document">Lucene.NET document to add.</param>
-        void AddToIndex(Document document);
+        /// <param name="documents">Lucene.NET documents to add.</param>
+        void BuildIndex(IEnumerable<Document> documents);
 
         /// <summary>
         /// Perform a search with the provided query.
@@ -31,10 +31,5 @@ namespace SoftTouchSearch.Index.Services
         /// <param name="loadMore">If true, load results beyond the standard page size.</param>
         /// <returns>A <see cref="SearchResults"/> containing the search results.</returns>
         SearchResults Search(Query query, bool loadMore = false);
-
-        /// <summary>
-        /// Mark the search index as completed.
-        /// </summary>
-        void SetIndexBuilt();
     }
 }

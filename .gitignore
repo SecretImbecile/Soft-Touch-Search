@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /.editorconfig
 
 /SoftTouchSearch/wwwroot/lib
+/SoftTouchSearch/.config/dotnet-tools.json

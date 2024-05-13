@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "About - Soft Touch Search";
+    ViewData["Canonical"] = "https://softtouchsearch.jackkelly.uk/About";
 }
 
 @section Header {
@@ -12,13 +13,17 @@
     }
 }
 
+<nav class="mb-3">
+    <a asp-page="/Index" title="Back to main page">&larr; Back</a>
+</nav>
+
 <article>    
     <section class="mb-5">
         <h2>About Soft Touch</h2>
         <p>
             Soft Touch is a web novel written by River Onei. From Soft Touch's description:
         </p>
-        <blockquote class="blockquote border-start ps-3">
+        <blockquote class="blockquote border-start ps-3 fst-italic">
             Jamie, a softy who likes to grumble, is reeling from a stunning event in his small town.
             On top of everything else, his high school enemy Aiden Callahan is moving back home.
             The two haven't seen each other in years, but Jamie can tell that Aiden is keeping his own secrets - and that something about him is different.

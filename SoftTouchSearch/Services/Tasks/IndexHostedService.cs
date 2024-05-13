@@ -130,14 +130,11 @@ namespace SoftTouchSearch.Services.Tasks
             IIndexService indexService = scope.ServiceProvider.GetRequiredService<IIndexService>();
 
             IList<Episode> episodes = exclusionService.GetEpisodes();
+            IList<Document> documents = episodes
+                .Select(episode => ConvertEpisode(episode))
+                .ToList();
 
-            foreach (Episode episode in episodes)
-            {
-                Document document = ConvertEpisode(episode);
-                indexService.AddToIndex(document);
-            }
-
-            indexService.SetIndexBuilt();
+            indexService.BuildIndex(documents);
         }
     }
 }
