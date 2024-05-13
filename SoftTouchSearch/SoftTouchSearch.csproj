@@ -12,6 +12,8 @@
     <RepositoryUrl>https://github.com/SecretImbecile/Soft-Touch-Search</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <VersionPrefix>1.0.0</VersionPrefix>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+    <PackageIcon>logo-128.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,6 +44,22 @@
     <ProjectReference Include="..\SoftTouchSearch.Data.Ingest\SoftTouchSearch.Data.Ingest.csproj" />
     <ProjectReference Include="..\SoftTouchSearch.Database\SoftTouchSearch.Data.csproj" />
     <ProjectReference Include="..\SoftTouchSearch.Index\SoftTouchSearch.Index.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\site.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\logo-128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+    <Content Update="wwwroot\img\logo-fullscreen.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\site.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
