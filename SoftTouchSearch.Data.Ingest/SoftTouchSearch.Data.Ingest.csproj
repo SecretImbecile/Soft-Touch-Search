@@ -28,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoftTouchSearch.Database\SoftTouchSearch.Data.csproj" />
+    <ProjectReference Include="..\SoftTouchSearch.Data\SoftTouchSearch.Data.csproj" />
   </ItemGroup>
-
-
 
 </Project>
