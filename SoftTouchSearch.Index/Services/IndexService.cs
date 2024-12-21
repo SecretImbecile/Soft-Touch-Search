@@ -43,40 +43,7 @@ namespace SoftTouchSearch.Index.Services
         /// </summary>
         private readonly Directory indexDirectory = FSDirectory.Open(indexFilePath);
 
-        /// <summary>
-        /// Whether the index has completed building.
-        /// </summary>
-        private bool indexBuilt = false;
-
-        // Properties
-
-        /// <inheritdoc/>
-        public bool IsIndexBuilt => this.indexBuilt;
-
         // Methods
-
-        /// <inheritdoc/>
-        public void BuildIndex(IEnumerable<Document> documents)
-        {
-            Analyzer analyzer = new StandardAnalyzer(AppLuceneVersion);
-            IndexWriterConfig indexConfig = new(AppLuceneVersion, analyzer);
-            using IndexWriter indexWriter = new(this.indexDirectory, indexConfig);
-
-            if (indexWriter.NumDocs > 0)
-            {
-                // Remove any existing index contents
-                indexWriter.DeleteAll();
-                indexWriter.Commit();
-            }
-
-            foreach (Document document in documents)
-            {
-                indexWriter.AddDocument(document);
-            }
-
-            indexWriter.Flush(false, false);
-            this.indexBuilt = true;
-        }
 
         /// <inheritdoc/>
         public SearchResults Search(Query query, bool loadMore = false)

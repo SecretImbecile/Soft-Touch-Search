@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using SoftTouchSearch.Data;
 using SoftTouchSearch.Data.Ingest;
 using SoftTouchSearch.Index;
-using SoftTouchSearch.Services.Tasks;
-using System.Net;
 
 // Verify arguments
 if (args.Length != 2)
@@ -25,8 +23,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDataServices(dbPath);
 builder.Services.AddIndexServices(indexPath);
-
-builder.Services.AddHostedService<IndexHostedService>();
 
 var app = builder.Build();
 
