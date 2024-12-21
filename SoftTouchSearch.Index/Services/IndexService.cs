@@ -23,7 +23,6 @@ namespace SoftTouchSearch.Index.Services
     /// <remarks>
     /// Initializes a new instance of the <see cref="IndexService"/> class.
     /// </remarks>
-    /// <param name="indexFilePath">File path of the Lucene.NET Index file.</param>
     public class IndexService(string indexFilePath) : IIndexService
     {
         // Fields
@@ -75,6 +74,8 @@ namespace SoftTouchSearch.Index.Services
         /// </summary>
         /// <param name="scoreDoc">Lucene document to convert.</param>
         /// <param name="searcher">Lucene search instance.</param>
+        /// <param name="reader">Lucene index reader instance.</param>
+        /// <param name="query">Query which produced this result.</param>
         /// <returns><see cref="SearchResult"/> structure containing the search result.</returns>
         private static SearchResult ConvertHit(ScoreDoc scoreDoc, IndexSearcher searcher, IndexReader reader, Query query)
         {

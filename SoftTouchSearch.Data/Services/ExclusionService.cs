@@ -1,39 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using SoftTouchSearch.Data.Models;
+﻿// <copyright file="ExclusionService.cs" company="Jack Kelly">
+// Copyright (c) Jack Kelly. All rights reserved.
+// </copyright>
 
 namespace SoftTouchSearch.Data.Services
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
+    using SoftTouchSearch.Data.Models;
+
+    /// <summary>
+    /// Service providing exclusion rules to episodes.
+    /// </summary>
     public class ExclusionService(StoryDbContext context, IMemoryCache memoryCache) : IExclusionService
     {
-        // Constructors
+        private readonly StoryDbContext context = context;
+        private readonly IMemoryCache memoryCache = memoryCache;
 
-        private readonly StoryDbContext _context = context;
-        private readonly IMemoryCache _memoryCache = memoryCache;
-
-        // Interfaces
+        // Methods
 
         /// <inheritdoc/>
         public IList<Episode> GetEpisodes()
         {
-            return GetEpisodesAsync().Result;
+            return this.GetEpisodesAsync().Result;
         }
 
         /// <inheritdoc/>
         public async Task<IList<Episode>> GetEpisodesAsync()
         {
-            ICollection<Episode> episodes = await _context.Episodes
+            ICollection<Episode> episodes = await this.context.Episodes
                 .Include(episode => episode.Chapter)
                 .ToListAsync();
-            ICollection<ExclusionRule> rules = await _context.ExclusionRules
+            ICollection<ExclusionRule> rules = await this.context.ExclusionRules
                 .ToListAsync();
 
-            // TODO: remove excluded episodes
+            // Build a list of episodes which are not excluded
             List<Episode> filteredEpisodes = [];
-            foreach(Episode episode in episodes)
+            foreach (Episode episode in episodes)
             {
                 bool includeEpisode = true;
-                foreach(ExclusionRule rule in rules)
+                foreach (ExclusionRule rule in rules)
                 {
                     if (includeEpisode == true && rule.CheckEpisodeExcluded(episode))
                     {
@@ -53,20 +58,20 @@ namespace SoftTouchSearch.Data.Services
         /// <inheritdoc/>
         public Episode? GetLatestEpisode()
         {
-            return GetLatestEpisodeAsync().Result;
+            return this.GetLatestEpisodeAsync().Result;
         }
 
         /// <inheritdoc/>
         public async Task<Episode?> GetLatestEpisodeAsync()
         {
-            string cacheKey = $"{nameof(IExclusionService)}|{nameof(GetLatestEpisode)}";
-            if (_memoryCache.TryGetValue(cacheKey, out Episode? episode))
+            string cacheKey = $"{nameof(IExclusionService)}|{nameof(this.GetLatestEpisode)}";
+            if (this.memoryCache.TryGetValue(cacheKey, out Episode? episode))
             {
                 return episode;
             }
             else
             {
-                episode = await _context.Episodes
+                episode = await this.context.Episodes
                     .OrderByDescending(episode => episode.PublishDate)
                     .FirstOrDefaultAsync();
 
@@ -77,7 +82,7 @@ namespace SoftTouchSearch.Data.Services
                         .SetSlidingExpiration(TimeSpan.FromHours(1))
                         .SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
-                    _memoryCache.Set(cacheKey, episode);
+                    this.memoryCache.Set(cacheKey, episode);
                 }
 
                 return episode;

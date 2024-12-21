@@ -4,6 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>1.1.1</VersionPrefix>
     <Title>Soft Touch Search</Title>
     <Description>Search the text of the web novel Soft Touch.</Description>
     <Copyright>Jack Kelly</Copyright>
@@ -11,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/SecretImbecile/Soft-Touch-Search</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <VersionPrefix>1.1.1</VersionPrefix>
+    
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     <PackageIcon>logo-128.png</PackageIcon>
   </PropertyGroup>

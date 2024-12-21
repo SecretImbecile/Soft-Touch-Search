@@ -1,22 +1,41 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SoftTouchSearch.Data.Models;
+﻿// <copyright file="StoryDbContext.cs" company="Jack Kelly">
+// Copyright (c) Jack Kelly. All rights reserved.
+// </copyright>
 
 namespace SoftTouchSearch.Data
 {
-    public class StoryDbContext : DbContext
+    using Microsoft.EntityFrameworkCore;
+    using SoftTouchSearch.Data.Models;
+
+    /// <summary>
+    /// The database context for SoftTouchSearch.
+    /// </summary>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="StoryDbContext"/> class.
+    /// </remarks>
+    /// <param name="options">Configuration options for the database context.</param>
+    public class StoryDbContext(DbContextOptions<StoryDbContext> options) : DbContext(options)
     {
         // Properties
 
+        /// <summary>
+        /// Gets or sets the <see cref="Chapter"/> table.
+        /// </summary>
         public DbSet<Chapter> Chapters { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Episode"/> table.
+        /// </summary>
         public DbSet<Episode> Episodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="ExclusionRules"/> table.
+        /// </summary>
         public DbSet<ExclusionRule> ExclusionRules { get; set; }
 
-        // Constructors
+        // Methods
 
-        public StoryDbContext(DbContextOptions<StoryDbContext> options) : base (options)
-        {
-        }
-
+        /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Chapter>()
