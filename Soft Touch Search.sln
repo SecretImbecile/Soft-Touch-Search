@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouchSearch.Index", "SoftTouchSearch.Index\SoftTouchSearch.Index.csproj", "{3DC85B6E-526E-44A7-9FE1-2705727FBF7C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{EA7180D1-E5B4-43AE-8278-129CA9C2BDB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouchSearchIndexBuilder", "SoftTouchSearchIndexBuilder\SoftTouchSearchIndexBuilder.csproj", "{241854E2-8F53-4390-AFE6-F08C557EBD98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,18 @@ Global
 		{3DC85B6E-526E-44A7-9FE1-2705727FBF7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DC85B6E-526E-44A7-9FE1-2705727FBF7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DC85B6E-526E-44A7-9FE1-2705727FBF7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{241854E2-8F53-4390-AFE6-F08C557EBD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{241854E2-8F53-4390-AFE6-F08C557EBD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{241854E2-8F53-4390-AFE6-F08C557EBD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{241854E2-8F53-4390-AFE6-F08C557EBD98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C4C9390-03E9-4A22-93D9-3010AA56EE5C} = {EA7180D1-E5B4-43AE-8278-129CA9C2BDB4}
+		{6949E6F4-D67D-4474-8AE4-8EBD1FE0C66A} = {EA7180D1-E5B4-43AE-8278-129CA9C2BDB4}
+		{3DC85B6E-526E-44A7-9FE1-2705727FBF7C} = {EA7180D1-E5B4-43AE-8278-129CA9C2BDB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E511273-6B5A-4842-A2DD-83B4D51F85CE}
