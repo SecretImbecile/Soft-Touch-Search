@@ -6,6 +6,7 @@ namespace SoftTouchSearch.Index
 {
     using Microsoft.Extensions.DependencyInjection;
     using SoftTouchSearch.Index.Services;
+    using SoftTouchSearch.Index.Services.Implementations;
 
     /// <summary>
     /// Provides service registration for SoftTouchSearch.Index.

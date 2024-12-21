@@ -2,7 +2,7 @@
 // Copyright (c) Jack Kelly. All rights reserved.
 // </copyright>
 
-namespace SoftTouchSearch.Index.Services
+namespace SoftTouchSearch.Index.Services.Implementations
 {
     using System.Text;
     using Lucene.Net.Analysis;
@@ -15,6 +15,8 @@ namespace SoftTouchSearch.Index.Services
     using Lucene.Net.Util;
     using Microsoft.AspNetCore.Html;
     using SoftTouchSearch.Index.Classes;
+    using SoftTouchSearch.Index.Services;
+    using Constants = SoftTouchSearch.Index.Constants;
 
     /// <summary>
     /// Provides the search index for the Soft Touch Search.
@@ -26,16 +28,6 @@ namespace SoftTouchSearch.Index.Services
     public class IndexService(string indexFilePath) : IIndexService
     {
         // Fields
-
-        /// <summary>
-        /// Lucene compatability version.
-        /// </summary>
-        public const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
-
-        /// <summary>
-        /// Page size of search results.
-        /// </summary>
-        public const int SearchPageSize = 10;
 
         /// <summary>
         /// Gets or sets active index writer.
@@ -57,7 +49,7 @@ namespace SoftTouchSearch.Index.Services
             }
             else
             {
-                hits = searcher.Search(query, SearchPageSize);
+                hits = searcher.Search(query, Constants.SearchPageSize);
             }
 
             IEnumerable<SearchResult> results = hits.ScoreDocs

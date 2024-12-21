@@ -7,6 +7,7 @@ namespace SoftTouchSearch.Data
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using SoftTouchSearch.Data.Services;
+    using SoftTouchSearch.Data.Services.Implementations;
 
     /// <summary>
     /// Provides service registration for SoftTouchSearch.Data.

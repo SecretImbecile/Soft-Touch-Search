@@ -1,6 +1,7 @@
 ﻿@page
 @using SoftTouchSearch.Index.Classes
 @using SoftTouchSearch.Index.Services
+@using IndexConstants = SoftTouchSearch.Index.Constants
 
 @model IndexModel
 
@@ -37,7 +38,7 @@
     int resultIndex = 0;
     foreach (SearchResult result in Model.Results)
     {
-        if (resultIndex == IndexService.SearchPageSize)
+        if (resultIndex == IndexConstants.SearchPageSize)
         {
             <div id="scrollTo"></div>
         }

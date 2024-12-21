@@ -10,10 +10,11 @@ namespace SoftTouchSearchIndexBuilder
     using Lucene.Net.Documents;
     using Lucene.Net.Index;
     using Lucene.Net.Store;
+    using Microsoft.EntityFrameworkCore;
     using SoftTouchSearch.Data;
     using SoftTouchSearch.Data.Models;
-    using SoftTouchSearch.Data.Services;
-    using SoftTouchSearch.Index.Services;
+    using SoftTouchSearch.Data.Services.Implementations;
+    using SoftTouchSearch.Index;
 
     /// <summary>
     /// Helper Methods for SoftTouchSearchIndexBuilder.
@@ -42,8 +43,7 @@ namespace SoftTouchSearchIndexBuilder
         /// <returns>An IEnumerable of <see cref="Document"/> objects.</returns>
         public IEnumerable<Document> ConvertEpisodes()
         {
-            ExclusionService exclusionService = new(this.context, null!);
-            IList<Episode> episodes = exclusionService.GetEpisodes();
+            IList<Episode> episodes = this.GetEpisodes();
 
             IList<Document> documents = episodes
                 .Select(episode => ConvertEpisode(episode))
@@ -58,8 +58,8 @@ namespace SoftTouchSearchIndexBuilder
         /// <param name="documents">Lucene documents to build index using.</param>
         public void BuildIndex(IEnumerable<Document> documents)
         {
-            Analyzer analyzer = new StandardAnalyzer(IndexService.AppLuceneVersion);
-            IndexWriterConfig indexConfig = new(IndexService.AppLuceneVersion, analyzer);
+            Analyzer analyzer = new StandardAnalyzer(Constants.AppLuceneVersion);
+            IndexWriterConfig indexConfig = new(Constants.AppLuceneVersion, analyzer);
             using IndexWriter indexWriter = new(this.indexDirectory, indexConfig);
 
             if (indexWriter.NumDocs > 0)
@@ -145,6 +145,45 @@ namespace SoftTouchSearchIndexBuilder
             {
                 return html;
             }
+        }
+
+        /// <summary>
+        /// Get a list of all episodes with exclusions filtered.
+        /// </summary>
+        /// <remarks>
+        /// Copied from <see cref="ExclusionService.GetEpisodesAsync"/> but ran synchronously.
+        /// </remarks>
+        /// <returns>A list of <see cref="Episode"/> records.</returns>
+        private List<Episode> GetEpisodes()
+        {
+            ICollection<Episode> episodes = this.context.Episodes
+                .Include(episode => episode.Chapter)
+                .ToList();
+            ICollection<ExclusionRule> rules = this.context.ExclusionRules
+                .ToList();
+
+            // Build a list of episodes which are not excluded
+            List<Episode> filteredEpisodes = [];
+            foreach (Episode episode in episodes)
+            {
+                bool includeEpisode = true;
+                foreach (ExclusionRule rule in rules)
+                {
+                    if (includeEpisode == true && rule.CheckEpisodeExcluded(episode))
+                    {
+                        includeEpisode = false;
+                    }
+                }
+
+                if (includeEpisode == true)
+                {
+                    filteredEpisodes.Add(episode);
+                }
+            }
+
+            return filteredEpisodes
+                .OrderBy(episode => episode.EpisodeNumber)
+                .ToList();
         }
     }
 }

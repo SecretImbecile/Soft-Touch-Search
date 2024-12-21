@@ -2,7 +2,7 @@
 // Copyright (c) Jack Kelly. All rights reserved.
 // </copyright>
 
-namespace SoftTouchSearch.Data.Services
+namespace SoftTouchSearch.Data.Services.Implementations
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
@@ -11,7 +11,7 @@ namespace SoftTouchSearch.Data.Services
     /// <summary>
     /// Service providing exclusion rules to episodes.
     /// </summary>
-    public class ExclusionService(StoryDbContext context, IMemoryCache memoryCache) : IExclusionService
+    internal class ExclusionService(StoryDbContext context, IMemoryCache memoryCache) : IExclusionService
     {
         private readonly StoryDbContext context = context;
         private readonly IMemoryCache memoryCache = memoryCache;
