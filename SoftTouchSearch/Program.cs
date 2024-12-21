@@ -8,13 +8,14 @@ using SoftTouchSearch.Data.Ingest;
 using SoftTouchSearch.Index;
 
 // Verify arguments
-if (args.Length != 2)
+if (args.Length != 1)
 {
-    throw new ArgumentException("Expected exactly 2 command-line arguments. (DB and index path)");
+    throw new ArgumentException("Expected exactly 1 command-line argument. (Data folder path)");
 }
 
-string dbPath = args[0];
-string indexPath = args[1];
+string dataPath = args[0];
+string dbPath = Path.Combine(dataPath, "softtouchsearch.db");
+string indexPath = Path.Combine(dataPath, "softtouchsearch_index");
 
 var builder = WebApplication.CreateBuilder(args);
 
