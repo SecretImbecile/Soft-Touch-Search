@@ -56,6 +56,9 @@ namespace SoftTouchSearch.Pages
             {
                 this.Results = this.indexService.Search(query, loadMore);
             }
+
+            // Schedule a GC collection.
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, false);
         }
 
         private static Query? BuildQuery(string queryString)
