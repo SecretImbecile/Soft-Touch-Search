@@ -2,7 +2,7 @@
 // Copyright (c) Jack Kelly. All rights reserved.
 // </copyright>
 
-namespace SoftTouchSearch.Index.Services
+namespace SoftTouchSearch.Index.Services.Implementations
 {
     using System.Text;
     using Lucene.Net.Analysis;
@@ -15,6 +15,8 @@ namespace SoftTouchSearch.Index.Services
     using Lucene.Net.Util;
     using Microsoft.AspNetCore.Html;
     using SoftTouchSearch.Index.Classes;
+    using SoftTouchSearch.Index.Services;
+    using Constants = SoftTouchSearch.Index.Constants;
 
     /// <summary>
     /// Provides the search index for the Soft Touch Search.
@@ -23,60 +25,16 @@ namespace SoftTouchSearch.Index.Services
     /// <remarks>
     /// Initializes a new instance of the <see cref="IndexService"/> class.
     /// </remarks>
-    /// <param name="indexFilePath">File path of the Lucene.NET Index file.</param>
     public class IndexService(string indexFilePath) : IIndexService
     {
         // Fields
-
-        /// <summary>
-        /// Lucene compatability version.
-        /// </summary>
-        public const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
-
-        /// <summary>
-        /// Page size of search results.
-        /// </summary>
-        public const int SearchPageSize = 10;
 
         /// <summary>
         /// Gets or sets active index writer.
         /// </summary>
         private readonly Directory indexDirectory = FSDirectory.Open(indexFilePath);
 
-        /// <summary>
-        /// Whether the index has completed building.
-        /// </summary>
-        private bool indexBuilt = false;
-
-        // Properties
-
-        /// <inheritdoc/>
-        public bool IsIndexBuilt => this.indexBuilt;
-
         // Methods
-
-        /// <inheritdoc/>
-        public void BuildIndex(IEnumerable<Document> documents)
-        {
-            Analyzer analyzer = new StandardAnalyzer(AppLuceneVersion);
-            IndexWriterConfig indexConfig = new(AppLuceneVersion, analyzer);
-            using IndexWriter indexWriter = new(this.indexDirectory, indexConfig);
-
-            if (indexWriter.NumDocs > 0)
-            {
-                // Remove any existing index contents
-                indexWriter.DeleteAll();
-                indexWriter.Commit();
-            }
-
-            foreach (Document document in documents)
-            {
-                indexWriter.AddDocument(document);
-            }
-
-            indexWriter.Flush(false, false);
-            this.indexBuilt = true;
-        }
 
         /// <inheritdoc/>
         public SearchResults Search(Query query, bool loadMore = false)
@@ -91,7 +49,7 @@ namespace SoftTouchSearch.Index.Services
             }
             else
             {
-                hits = searcher.Search(query, SearchPageSize);
+                hits = searcher.Search(query, Constants.SearchPageSize);
             }
 
             IEnumerable<SearchResult> results = hits.ScoreDocs
@@ -108,6 +66,8 @@ namespace SoftTouchSearch.Index.Services
         /// </summary>
         /// <param name="scoreDoc">Lucene document to convert.</param>
         /// <param name="searcher">Lucene search instance.</param>
+        /// <param name="reader">Lucene index reader instance.</param>
+        /// <param name="query">Query which produced this result.</param>
         /// <returns><see cref="SearchResult"/> structure containing the search result.</returns>
         private static SearchResult ConvertHit(ScoreDoc scoreDoc, IndexSearcher searcher, IndexReader reader, Query query)
         {

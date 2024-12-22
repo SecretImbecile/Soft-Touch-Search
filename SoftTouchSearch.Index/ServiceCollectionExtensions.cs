@@ -6,18 +6,18 @@ namespace SoftTouchSearch.Index
 {
     using Microsoft.Extensions.DependencyInjection;
     using SoftTouchSearch.Index.Services;
+    using SoftTouchSearch.Index.Services.Implementations;
 
     /// <summary>
-    /// Provides extension methods to register the indexing service.
+    /// Provides service registration for SoftTouchSearch.Index.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Register the indexing service.
+        /// Registers the required services for SoftTouchSearch.Index.
         /// </summary>
         /// <param name="services">Service collection to add to.</param>
         /// <param name="indexFilePath">File path to use for the index file.</param>
-
         public static void AddIndexServices(this IServiceCollection services, string indexFilePath)
         {
             services.AddSingleton<IIndexService>(provider => new IndexService(indexFilePath));

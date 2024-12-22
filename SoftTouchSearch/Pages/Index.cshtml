@@ -1,6 +1,7 @@
 ﻿@page
 @using SoftTouchSearch.Index.Classes
 @using SoftTouchSearch.Index.Services
+@using IndexConstants = SoftTouchSearch.Index.Constants
 
 @model IndexModel
 
@@ -22,55 +23,43 @@
     }
 }
 
-@if (!Model.IndexBuilt)
-{
-    <div class="text-center">
-        <h2>503 Service Unavailable</h2>
-        <p>The search index is being rebuilt, this usually only takes a few minutes.</p>
-        <p>Try refreshing the page shortly.</p>
-    </div>
-}
-else
-{
-    @* Search bar *@
-    <div class="mb-5">
-        <input type="text" asp-for="SearchText" id="searchBox" class="form-control form-control-lg" placeholder="Search for text..." />
-        @if(Model.Results.Any())
-        {
-            <div class="form-text">Found @Model.Results.TotalHits matches</div>
-        }
-    </div>
-
-    @* Results *@
-    if (Model.Results.Any())
+@* Search bar *@
+<div class="mb-5">
+    <input type="text" asp-for="SearchText" id="searchBox" class="form-control form-control-lg" placeholder="Search for text..." />
+    @if (Model.Results.Any())
     {
-        int resultIndex = 0;
-        foreach (SearchResult result in Model.Results)
-        {
-            if (resultIndex == IndexService.SearchPageSize)
-            {
-                <div id="scrollTo"></div>
-            }
-            resultIndex++;
-
-
-            await Html.RenderPartialAsync("_SearchResult", result);
-        }
+        <div class="form-text">Found @Model.Results.TotalHits matches</div>
     }
-    else if (!string.IsNullOrWhiteSpace(Model.SearchText))
-    {
-        <p class="text-center mb-3">
-            <em>No results found.</em>
-        </p>
-    }
+</div>
 
-    @* Pagination *@
-    @if (Model.Results.TotalHits > Model.Results.Count)
+@* Results *@
+@if (Model.Results.Any())
+{
+    int resultIndex = 0;
+    foreach (SearchResult result in Model.Results)
     {
-        <div class="text-center my-5">
-            <a asp-page="/Index" asp-route-q="@Model.SearchText" asp-route-loadMore="true" class="btn btn-primary btn-lg">Load More</a>
-        </div>        
+        if (resultIndex == IndexConstants.SearchPageSize)
+        {
+            <div id="scrollTo"></div>
+        }
+        resultIndex++;
+
+
+        await Html.RenderPartialAsync("_SearchResult", result);
     }
 }
+else if (!string.IsNullOrWhiteSpace(Model.SearchText))
+{
+    <p class="text-center mb-3">
+        <em>No results found.</em>
+    </p>
+}
 
+@* Pagination *@
+@if (Model.Results.TotalHits > Model.Results.Count)
+{
+    <div class="text-center my-5">
+        <a asp-page="/Index" asp-route-q="@Model.SearchText" asp-route-loadMore="true" class="btn btn-primary btn-lg">Load More</a>
+    </div>
+}
 

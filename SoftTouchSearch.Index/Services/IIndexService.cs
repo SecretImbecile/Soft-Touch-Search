@@ -4,7 +4,6 @@
 
 namespace SoftTouchSearch.Index.Services
 {
-    using Lucene.Net.Documents;
     using Lucene.Net.Search;
     using SoftTouchSearch.Index.Classes;
 
@@ -13,17 +12,6 @@ namespace SoftTouchSearch.Index.Services
     /// </summary>
     public interface IIndexService
     {
-        /// <summary>
-        /// Gets a value indicating whether the index has completed building.
-        /// </summary>
-        bool IsIndexBuilt { get; }
-
-        /// <summary>
-        /// Rebuild the search index with the provided documents.
-        /// </summary>
-        /// <param name="documents">Lucene.NET documents to add.</param>
-        void BuildIndex(IEnumerable<Document> documents);
-
         /// <summary>
         /// Perform a search with the provided query.
         /// </summary>

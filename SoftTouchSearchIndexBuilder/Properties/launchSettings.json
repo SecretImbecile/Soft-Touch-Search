@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SoftTouchSearchIndexBuilder": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch.db\" \"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch\\export\""
+    }
+  }
+}

@@ -1,7 +1,14 @@
-﻿using SoftTouchSearch.Data.Models;
+﻿// <copyright file="IExclusionService.cs" company="Jack Kelly">
+// Copyright (c) Jack Kelly. All rights reserved.
+// </copyright>
 
 namespace SoftTouchSearch.Data.Services
 {
+    using SoftTouchSearch.Data.Models;
+
+    /// <summary>
+    /// Interface for services providing exclusion rules to episodes.
+    /// </summary>
     public interface IExclusionService
     {
         /// <summary>

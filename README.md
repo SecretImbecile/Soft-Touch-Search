@@ -23,3 +23,18 @@ The application does not provide to end-users any means of downloading the
 text, in part or full, of Soft Touch. It only presents short snippets of text
 based on the phrases you search for, with links to the officially published
 episodes where that text can be found in full.
+
+## Command Line Arguments
+
+The `SoftTouchSearch` must be ran with a command line specifying a 'data' folder, e.g.
+
+```bash
+$ dotnet ./SoftTouchSearch.dll "/Path/To/dataFolder"
+```
+
+The data folder should contain:
+
+1. An SQLite database file named `softtouchsearch.db`
+2. A prebuilt Lucene.NET index in a folder named `softtouchsearch_index`
+
+The `SoftTouchSearchIndexBuilder` project can be used to generate this index and folder structure.

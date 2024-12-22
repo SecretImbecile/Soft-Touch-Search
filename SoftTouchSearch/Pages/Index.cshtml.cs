@@ -6,7 +6,6 @@ namespace SoftTouchSearch.Pages
 {
     using Lucene.Net.Index;
     using Lucene.Net.Search;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SoftTouchSearch.Data.Models;
     using SoftTouchSearch.Data.Services;
@@ -20,11 +19,6 @@ namespace SoftTouchSearch.Pages
     {
         private readonly IIndexService indexService = indexService;
         private readonly IExclusionService exclusionService = exclusionService;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether whether the index has finished building.
-        /// </summary>
-        public bool IndexBuilt { get; set; }
 
         /// <summary>
         /// Gets or sets the latest episode to be indexed.
@@ -48,14 +42,6 @@ namespace SoftTouchSearch.Pages
         /// <param name="loadMore">If true, show more than one page of results.</param>
         public void OnGet(string? q, bool loadMore = false)
         {
-            // Display 503 message until the index has been built.
-            this.IndexBuilt = this.indexService.IsIndexBuilt;
-            if (!this.IndexBuilt)
-            {
-                this.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
-                return;
-            }
-
             // Display for initial page load.
             this.LatestEpisode = this.exclusionService.GetLatestEpisode();
             if (string.IsNullOrWhiteSpace(q))
@@ -70,6 +56,9 @@ namespace SoftTouchSearch.Pages
             {
                 this.Results = this.indexService.Search(query, loadMore);
             }
+
+            // Schedule a GC collection.
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, false);
         }
 
         private static Query? BuildQuery(string queryString)
