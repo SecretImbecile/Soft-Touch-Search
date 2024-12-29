@@ -43,6 +43,12 @@ namespace SoftTouchSearch.Pages
         public async Task OnGetAsync()
         {
             this.Listing = await this.GetEpisodeListingAsync();
+
+            // Manual correction for the first episode name
+            if (this.Listing.Count > 0)
+            {
+                this.Listing.Chapters[0].Episodes[0].Title = "Chapter One: Soft Touch";
+            }
         }
 
         /// <summary>
@@ -65,6 +71,9 @@ namespace SoftTouchSearch.Pages
                 .Include(chapter => chapter.Episodes)
                 .OrderBy(chapter => chapter.Number)
                 .ToListAsync();
+
+                IEnumerable<ExclusionRule> exclusionRules = await this.context.ExclusionRules
+                    .ToListAsync();
 
                 listing = [];
                 foreach (Chapter chapter in chapters)

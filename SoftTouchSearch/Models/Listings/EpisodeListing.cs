@@ -25,14 +25,16 @@ namespace SoftTouchSearch.Models.Listings
         /// Initializes a new instance of the <see cref="EpisodeListing"/> class.
         /// </summary>
         /// <param name="episode">Complete episode record.</param>
+        /// <param name="firstInChapter">Whether the episode is the first in its chapter.</param>
         [SetsRequiredMembers]
-        public EpisodeListing(Episode episode)
+        public EpisodeListing(Episode episode, bool firstInChapter)
         {
             this.EpisodeNumber = episode.EpisodeNumber;
             this.Title = episode.Title;
             this.PublishDate = episode.PublishDate;
             this.UrlTapas = $"https://tapas.io/episode/{episode.UrlId}";
             this.UrlBlog = episode.UrlExternal;
+            this.IsFirstInChapter = firstInChapter;
         }
 
         // Properties
@@ -61,6 +63,11 @@ namespace SoftTouchSearch.Models.Listings
         /// Gets or sets the URL to the River's site.
         /// </summary>
         public string? UrlBlog { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the episode is the first in its chapter.
+        /// </summary>
+        public required bool IsFirstInChapter { get; set; }
 
         // Methods
 

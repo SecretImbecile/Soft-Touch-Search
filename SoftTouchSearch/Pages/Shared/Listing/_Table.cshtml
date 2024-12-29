@@ -3,7 +3,7 @@
 @model StoryListing
 
 <div class="table-responsive">
-    <table class="table table-borderless">
+    <table class="table table-sm table-borderless">
         <thead>
             <tr>
                 <th scope="col">Episode</th>
@@ -18,7 +18,7 @@
                 @{
                     foreach (EpisodeListing episode in chapter)
                     {
-                        await Html.RenderPartialAsync("Listing/_Row_Episode", episode);
+                        await Html.RenderPartialAsync("Listing/_Table_Row", episode);
                     }
                 }
             </tbody>

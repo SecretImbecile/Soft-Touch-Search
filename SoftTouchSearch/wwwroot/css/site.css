@@ -1,3 +1,5 @@
+/* Global */
+
 html {
     position: relative;
     min-height: 100%;
@@ -26,6 +28,8 @@ a {
     width: 100%;
     line-height: 60px;
 }
+
+/* Search */
 
 .search-result {
     display: flex;
@@ -71,3 +75,33 @@ a {
         font-family: monospace;
         font-weight: bold;
     }
+
+/* Episode Listing */
+
+.btn-tapas {
+    --bs-btn-color: #000000;
+    --bs-btn-bg: #f6b606;
+    --bs-btn-border-color: #cc9705;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #ffc219;
+    --bs-btn-hover-border-color: #cc9705;
+    --bs-btn-active-color: #000000;
+    --bs-btn-active-bg: #e6aa06;
+    --bs-btn-active-border-color: #cc9705;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.btn-river {
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: #488057;
+    --bs-btn-border-color: #3a6645;
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-bg: #4f8c5f;
+    --bs-btn-hover-border-color: #3a6645;
+    --bs-btn-active-color: #ffffff;
+    --bs-btn-active-bg: #41734e;
+    --bs-btn-active-border-color: #3a6645;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}

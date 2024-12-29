@@ -31,12 +31,24 @@ namespace SoftTouchSearch.Models.Listings
         [SetsRequiredMembers]
         public ChapterListing(Chapter chapter, IEnumerable<Episode> episodes)
         {
+            episodes = episodes
+                .OrderBy(episode => episode.EpisodeNumber);
+
             this.Number = chapter.Number;
             this.Title = chapter.Title;
+            this.Episodes = [];
 
-            this.Episodes = episodes
-                .Select(episode => new EpisodeListing(episode))
-                .ToList();
+            foreach (Episode episode in episodes)
+            {
+                if (this.Episodes.Count > 0)
+                {
+                    this.Episodes.Add(new(episode, false));
+                }
+                else
+                {
+                    this.Episodes.Add(new(episode, true));
+                }
+            }
         }
 
         // Properties
