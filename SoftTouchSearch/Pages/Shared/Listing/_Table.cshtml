@@ -18,7 +18,14 @@
                 @{
                     foreach (EpisodeListing episode in chapter)
                     {
-                        await Html.RenderPartialAsync("Listing/_Table_Row", episode);
+                        if (episode.IsFirstInChapter)
+                        {
+                            await Html.RenderPartialAsync("Listing/_Table_RowChapter", episode);
+                        }
+                        else
+                        {
+                            await Html.RenderPartialAsync("Listing/_Table_Row", episode);
+                        }
                     }
                 }
             </tbody>

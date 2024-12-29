@@ -109,3 +109,9 @@ a {
 .excluded {
     display: none;
 }
+
+@media (min-width: 992px) {
+    ul.chapter-listing {
+        columns: 2;
+    }
+}

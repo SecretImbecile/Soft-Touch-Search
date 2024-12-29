@@ -43,12 +43,6 @@ namespace SoftTouchSearch.Pages
         public async Task OnGetAsync()
         {
             this.Listing = await this.GetEpisodeListingAsync();
-
-            // Manual correction for the first episode name
-            if (this.Listing.Count > 0)
-            {
-                this.Listing.Chapters[0].Episodes[0].Title = "Chapter One: Soft Touch";
-            }
         }
 
         /// <summary>

@@ -1,0 +1,15 @@
+﻿@using SoftTouchSearch.Models.Listings
+
+@model StoryListing
+
+<ul class="chapter-listing">
+    @foreach (ChapterListing chapter in Model)
+    {
+        string anchor = $"#chapter-{chapter.Number}";
+        string title = chapter.ToString();
+
+        <li>
+            <a href="@anchor">@title</a>
+        </li>
+    }
+</ul>

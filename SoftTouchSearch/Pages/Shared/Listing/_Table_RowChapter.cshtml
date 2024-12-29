@@ -1,38 +1,38 @@
-﻿@* Episode listing for every row except the first of each chapter *@
+﻿@* Episode listing for the first row of each chapter *@
 
 @using SoftTouchSearch.Models.Listings
 
 @model EpisodeListing
 
 @{
-    string? excludedClass = Model.IsExcluded ? "excluded" : null;
-    string? excludedTextClass = Model.IsExcluded ? "text-secondary" : null;
+    string? anchorId = Model.IsFirstInChapter && Model.ChapterNumber != null ? $"chapter-{Model.ChapterNumber}" : null;
 }
 
-<tr class="@excludedClass">
-    <td class="@excludedTextClass">
+<tr>
+    <th class="pt-4">
         @Model.EpisodeNumber
-    </td>
-    
-    <td class="@excludedTextClass">
-        @Model.Title
-    </td>
+    </th>
+
+    <th scope="rowgroup" class="pt-4">
+        <a id="@anchorId">@Model.Title</a>
+    </th>
 
     @if (Model.UrlBlog != null)
     {
-        <td>
+        <td class="pt-4">
             <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">Read on Tapas</a>
         </td>
-        <td>
+        <td class="pt-4">
             <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">Read on River's Site</a>
         </td>
     }
     else
     {
-        <td>
+        <td class="pt-4">
             <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">Read on Tapas</a>
         </td>
-        <td aria-hidden="true">
+        <td class="pt-4" aria-hidden="true">
         </td>
     }
+    
 </tr>

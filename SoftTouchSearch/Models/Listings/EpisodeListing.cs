@@ -37,6 +37,11 @@ namespace SoftTouchSearch.Models.Listings
             this.UrlBlog = episode.UrlExternal;
             this.IsFirstInChapter = firstInChapter;
             this.IsExcluded = excluded;
+
+            if (episode.Chapter != null)
+            {
+                this.ChapterNumber = episode.Chapter.Number;
+            }
         }
 
         // Properties
@@ -45,6 +50,11 @@ namespace SoftTouchSearch.Models.Listings
         /// Gets or sets the episode number in Tapas.
         /// </summary>
         public required int EpisodeNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the chapter number the episode belongs to.
+        /// </summary>
+        public int? ChapterNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the title of episode.

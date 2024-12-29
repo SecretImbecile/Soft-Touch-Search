@@ -18,7 +18,6 @@
     <a asp-page="/Index" title="Back to main page">&larr; Back</a>
 </nav>
 
-<h2>Episode Listing</h2>
 <p>
     Below is a full listing of episodes from Soft Touch.
     @if (Model.LatestEpisode != null)
@@ -28,6 +27,16 @@
         </span>
     }
 </p>
+
+<h2 id="chapters">Chapters</h2>
+
+<nav aria-labelledby="chapters">
+    @{
+        await Html.RenderPartialAsync("Listing/_Chapters", Model.Listing);
+    }
+</nav>
+
+<h2 id="episodes">Episodes</h2>
 
 <div class="mb-3 form-check">
     <input type="checkbox" id="listExcluded" class="form-check-input">
