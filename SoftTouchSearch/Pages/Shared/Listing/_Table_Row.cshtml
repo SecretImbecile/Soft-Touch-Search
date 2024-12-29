@@ -3,22 +3,24 @@
 @model EpisodeListing
 
 @{
-    string? chapterClass = Model.IsFirstInChapter ? "pt-4" : null;    
+    string? chapterClass = Model.IsFirstInChapter ? "pt-4" : null;
+    string? excludedClass = Model.IsExcluded ? "excluded" : null;
+    string? excludedTextClass = Model.IsExcluded ? "text-secondary" : null;
 }
 
-<tr>
-    <td class="@chapterClass">
+<tr class="@excludedClass">
+    <td class="@chapterClass @excludedTextClass">
         @Model.EpisodeNumber
     </td>
     @if (Model.IsFirstInChapter)
     {
-        <th scope="rowgroup" class="@chapterClass">
+        <th scope="rowgroup" class="@chapterClass @excludedTextClass">
             @Model.Title
         </th>
     }
     else
     {
-        <td class="@chapterClass">
+        <td class="@chapterClass @excludedTextClass">
             @Model.Title
         </td>
     }
@@ -28,7 +30,7 @@
             <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">Read on Tapas</a>
         </td>
         <td class="@chapterClass">
-            <a href="@Model.UrlTapas" target="_blank" rel="noopener" class="btn btn-sm btn-river">Read on River's Site</a>
+            <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">Read on River's Site</a>
         </td>
     }
     else

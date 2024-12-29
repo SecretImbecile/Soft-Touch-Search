@@ -78,7 +78,7 @@ namespace SoftTouchSearch.Pages
                 listing = [];
                 foreach (Chapter chapter in chapters)
                 {
-                    ChapterListing chapterListing = new(chapter, chapter.Episodes);
+                    ChapterListing chapterListing = new(chapter, chapter.Episodes, exclusionRules);
                     listing.Add(chapterListing);
                 }
 

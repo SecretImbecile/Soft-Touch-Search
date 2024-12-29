@@ -1,26 +1,41 @@
 ﻿/*
- * Apply Bootstrap dark mode
+ * Apply Bootstrap dark mode.
  */
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.documentElement.dataset.bsTheme = "dark";
 }
 
 /*
- * Perform the search function when typing in the text box
+ * Perform the search function when typing in the text box.
  */
 var searchBox = document.getElementById("searchBox");
 searchBox?.addEventListener('change', function (event) {
-    console.log(event);
     searchFunction(event.target.value);
 });
 
 /*
- * Scroll to the next result when loading additional results
+ * Scroll to the next result when loading additional results.
  */
 var scrollTo = document.getElementById("scrollTo");
 document.addEventListener('DOMContentLoaded', function () {
-    console.log(scrollTo);
     scrollTo?.scrollIntoView();
+});
+
+/*
+ * Episode Listing checkbox to show/hide non-story content.
+ */
+var listExcluded = document.getElementById("listExcluded");
+listExcluded?.addEventListener('change', function (event) {
+    var excludedElements = document.getElementsByClassName("excluded");
+    if (listExcluded.checked) {
+        for (let i = 0; i < excludedElements.length; i++) {
+            excludedElements[i].classList.add("d-table-row");
+        }
+    } else {
+        for (let i = 0; i < excludedElements.length; i++) {
+            excludedElements[i].classList.remove("d-table-row");
+        }
+    }
 });
 
 /**

@@ -28,25 +28,28 @@ namespace SoftTouchSearch.Models.Listings
         /// </summary>
         /// <param name="chapter">Complete chapter record.</param>
         /// <param name="episodes">Complete episode records for this chapter.</param>
+        /// <param name="exclusionRules">Exclusion rules to apply to the episodes.</param>
         [SetsRequiredMembers]
-        public ChapterListing(Chapter chapter, IEnumerable<Episode> episodes)
+        public ChapterListing(Chapter chapter, IEnumerable<Episode> episodes, IEnumerable<ExclusionRule> exclusionRules)
         {
             episodes = episodes
                 .OrderBy(episode => episode.EpisodeNumber);
 
             this.Number = chapter.Number;
             this.Title = chapter.Title;
-            this.Episodes = [];
 
+            this.Episodes = [];
             foreach (Episode episode in episodes)
             {
+                bool excluded = DetermineExcluded(episode, exclusionRules);
+
                 if (this.Episodes.Count > 0)
                 {
-                    this.Episodes.Add(new(episode, false));
+                    this.Episodes.Add(new(episode, false, excluded));
                 }
                 else
                 {
-                    this.Episodes.Add(new(episode, true));
+                    this.Episodes.Add(new(episode, true, excluded));
                 }
             }
         }
@@ -89,6 +92,25 @@ namespace SoftTouchSearch.Models.Listings
         public override string ToString()
         {
             return $"Chapter {this.Number.ToWords().Humanize(LetterCasing.Title)}: {this.Title}";
+        }
+
+        /// <summary>
+        /// Determine whether the episode is non-story content.
+        /// </summary>
+        /// <param name="episode">Full episode record.</param>
+        /// <param name="exclusionRules">Exclusion rules to check against.</param>
+        /// <returns>A bool indicating whether the episode is non-story content.</returns>
+        private static bool DetermineExcluded(Episode episode, IEnumerable<ExclusionRule> exclusionRules)
+        {
+            foreach (ExclusionRule rule in exclusionRules)
+            {
+                if (rule.CheckEpisodeExcluded(episode))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

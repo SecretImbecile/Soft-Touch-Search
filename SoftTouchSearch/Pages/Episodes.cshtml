@@ -29,6 +29,11 @@
     }
 </p>
 
+<div class="mb-3 form-check">
+    <input type="checkbox" id="listExcluded" class="form-check-input">
+    <label for="listExcluded" class="form-check-label">Show non-story content</label>
+</div>
+
 @{
     await Html.RenderPartialAsync("Listing/_Table", Model.Listing);
 }

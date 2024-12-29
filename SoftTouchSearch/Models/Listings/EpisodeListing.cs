@@ -26,8 +26,9 @@ namespace SoftTouchSearch.Models.Listings
         /// </summary>
         /// <param name="episode">Complete episode record.</param>
         /// <param name="firstInChapter">Whether the episode is the first in its chapter.</param>
+        /// <param name="excluded">Whether the episode is non-story content.</param>
         [SetsRequiredMembers]
-        public EpisodeListing(Episode episode, bool firstInChapter)
+        public EpisodeListing(Episode episode, bool firstInChapter, bool excluded)
         {
             this.EpisodeNumber = episode.EpisodeNumber;
             this.Title = episode.Title;
@@ -35,6 +36,7 @@ namespace SoftTouchSearch.Models.Listings
             this.UrlTapas = $"https://tapas.io/episode/{episode.UrlId}";
             this.UrlBlog = episode.UrlExternal;
             this.IsFirstInChapter = firstInChapter;
+            this.IsExcluded = excluded;
         }
 
         // Properties
@@ -68,6 +70,11 @@ namespace SoftTouchSearch.Models.Listings
         /// Gets or sets a value indicating whether the episode is the first in its chapter.
         /// </summary>
         public required bool IsFirstInChapter { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the episode is non-story content.
+        /// </summary>
+        public required bool IsExcluded { get; set; }
 
         // Methods
 
