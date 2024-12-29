@@ -25,15 +25,19 @@
         </main>
     </div>
 
-    <footer class="footer text-secondary">
+    <div class="footer-spacer my-5"></div>
+
+    <footer class="footer my-5 text-secondary">
         <div class="container text-center">
-            <span>v1.2</span>
-            -
-            <span><a asp-page="/About">About</a></span>
-            -
-            <span><a asp-page="/Episodes">Episode Listing</a></span>
-            -
-            <span>Soft Touch is written by <a href="https://www.riveronei.com/">River Onei</a></span>
+            <nav class="d-inline-flex flex-column flex-sm-row flex-nowrap gap-sm-3 gap-md-5">
+                <span>v1.2</span>
+                <a asp-page="/About">About</a>
+                <a asp-page="/Episodes">Episode Listing</a>
+                <span>
+                    Soft Touch is written by
+                    <a href="https://www.riveronei.com/" target="_blank" rel="noopener">River Onei</a>
+                </span>
+            </nav>            
         </div>
     </footer>
 
