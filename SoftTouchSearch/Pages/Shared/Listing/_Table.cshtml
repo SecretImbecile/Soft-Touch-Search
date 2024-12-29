@@ -1,0 +1,27 @@
+﻿@using SoftTouchSearch.Models.Listings
+
+@model StoryListing
+
+<div class="table-responsive">
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th scope="col">Episode</th>
+                <th scope="col">Title</th>
+                <th scope="col" colspan="2">Links</th>
+            </tr>
+        </thead>
+        @foreach (ChapterListing chapter in Model)
+        {
+            @* Each chapter forms its own rowgroup *@
+            <tbody>
+                @{
+                    foreach (EpisodeListing episode in chapter)
+                    {
+                        await Html.RenderPartialAsync("Listing/_Row_Episode", episode);
+                    }
+                }
+            </tbody>
+        }
+    </table>
+</div>

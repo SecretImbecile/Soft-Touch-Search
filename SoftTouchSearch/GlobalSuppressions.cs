@@ -4,6 +4,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Razor page naming", Scope = "type", Target = "~T:SoftTouchSearch.Pages.AboutModel")]
-[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Razor page naming", Scope = "type", Target = "~T:SoftTouchSearch.Pages.ErrorModel")]
-[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Razor page naming", Scope = "type", Target = "~T:SoftTouchSearch.Pages.IndexModel")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Razor page naming", Scope = "namespaceanddescendants", Target = "~N:SoftTouchSearch.Pages")]
