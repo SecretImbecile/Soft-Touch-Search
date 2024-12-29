@@ -39,7 +39,7 @@ namespace SoftTouchSearch.Data.Models
 
         /// <inheritdoc/>
         /// <remarks>
-        /// e.g. 'Chapter Twenty-Seven: Hold Fast.
+        /// e.g. 'Chapter Twenty-Seven: Hold Fast'.
         /// </remarks>
         public override string ToString()
         {

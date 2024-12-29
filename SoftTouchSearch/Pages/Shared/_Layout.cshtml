@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@(ViewData["Title"] ?? "Soft Touch Search")</title>
-    <partial name="Partials/_Head_Description" />
-    <partial name="Partials/_Head_Favicon" />
-    <partial name="Partials/_Head_GoogleFonts" />
-    <partial name="Partials/_Head_OpenGraph" />
+    <partial name="Head/_Description" />
+    <partial name="Head/_Favicon" />
+    <partial name="Head/_GoogleFonts" />
+    <partial name="Head/_OpenGraph" />
     @if (ViewData["Canonical"] != null)
     {
         <link rel="canonical" href="@ViewData["Canonical"]" />
@@ -30,6 +30,8 @@
             <span>v1.2</span>
             -
             <span><a asp-page="/About">About</a></span>
+            -
+            <span><a asp-page="/Episodes">Episode Listing</a></span>
             -
             <span>Soft Touch is written by <a href="https://www.riveronei.com/">River Onei</a></span>
         </div>

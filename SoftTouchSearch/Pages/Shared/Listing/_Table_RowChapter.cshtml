@@ -1,0 +1,40 @@
+﻿@* Episode listing for the first row of each chapter *@
+
+@using SoftTouchSearch.Models.Listings
+
+@model EpisodeListing
+
+@{
+    string? anchorId = Model.IsFirstInChapter && Model.ChapterNumber != null ? $"chapter-{Model.ChapterNumber}" : null;
+}
+
+<tr>
+    <td class="pt-4">
+        @Model.EpisodeNumber
+    </td>
+
+    <th scope="rowgroup" class="pt-4 title">
+        <a id="@anchorId">@Model.Title</a>
+    </th>
+
+    <td class="pt-4 d-none d-md-table-cell text-secondary">
+        <time datetime="@Model.PublishDate.ToString("yyyy-MM-dd")" class="text-nowrap">
+            @Model.PublishDate.ToString("MMM d, yyyy")
+        </time>
+    </td>
+
+    <td class="pt-4">
+        <span class="d-inline-flex flex-row flex-nowrap gap-1">
+            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
+                <span class="d-none d-lg-inline">Read on</span> Tapas
+            </a>
+
+            @if (Model.UrlBlog != null)
+            {
+                <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                    <span class="d-none d-lg-inline">Read on</span> River's Site
+                </a>
+            }
+        </span>
+    </td>
+</tr>

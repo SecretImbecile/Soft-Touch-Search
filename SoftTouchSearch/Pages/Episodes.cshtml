@@ -1,0 +1,46 @@
+﻿@page
+@using SoftTouchSearch.Models.Listings
+
+@model SoftTouchSearch.Pages.EpisodesModel
+
+@{
+    ViewData["Title"] = "Episode Listing - Soft Touch Search";
+    ViewData["Canonical"] = "https://softtouchsearch.jackkelly.uk/Episodes";
+}
+
+@section Header {
+    @{
+        await Html.RenderPartialAsync("Header/_Basic");
+    }
+}
+
+<nav class="mb-3">
+    <a asp-page="/Index" title="Back to main page">&larr; Back</a>
+</nav>
+
+<p>
+    Below is a full listing of episodes from Soft Touch.
+    @if (Model.LatestEpisode != null)
+    {
+        <span>
+            The latest episode indexed is Episode&nbsp;@Model.LatestEpisode.EpisodeNumber.
+        </span>
+    }
+</p>
+
+<h2 id="chapters">Chapters</h2>
+
+@{
+    await Html.RenderPartialAsync("Listing/_Chapters", Model.Listing);
+}
+
+<h2 id="episodes">Episodes</h2>
+
+<div class="mb-3 form-check">
+    <input type="checkbox" id="listExcluded" class="form-check-input">
+    <label for="listExcluded" class="form-check-label">Show non-story content</label>
+</div>
+
+@{
+    await Html.RenderPartialAsync("Listing/_Table", Model.Listing);
+}
