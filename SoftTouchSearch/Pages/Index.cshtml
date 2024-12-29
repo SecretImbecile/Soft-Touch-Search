@@ -14,11 +14,11 @@
     @{
         if (Model.LatestEpisode != null)
         {
-            await Html.RenderPartialAsync("_Header_Standard", Model.LatestEpisode!);
+            await Html.RenderPartialAsync("Header/_Standard", Model.LatestEpisode!);
         }
         else
         {
-            await Html.RenderPartialAsync("_Header_Basic");
+            await Html.RenderPartialAsync("Header/_Basic");
         }
     }
 }
@@ -45,7 +45,7 @@
         resultIndex++;
 
 
-        await Html.RenderPartialAsync("_SearchResult", result);
+        await Html.RenderPartialAsync("Search/_Result", result);
     }
 }
 else if (!string.IsNullOrWhiteSpace(Model.SearchText))
