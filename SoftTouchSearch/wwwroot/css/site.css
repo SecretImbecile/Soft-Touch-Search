@@ -106,8 +106,45 @@ a {
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
-.excluded {
-    display: none;
+.episode-table {
+    width: 100%;
+    white-space: nowrap !important;
+}
+
+    .episode-table th:nth-child(2),
+    .episode-table td:nth-child(2) {
+        width: 100%;
+    }
+
+    .episode-table th:not(:nth-child(2)),
+    .episode-table td:not(:nth-child(2)) {
+        width: auto;
+    }
+
+    .episode-table .excluded {
+        display: none;
+    }
+
+    .episode-table .title {
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 575px) {
+    .episode-table .title {
+        width: auto !important;
+        max-width: 75vw;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 991px) {
+    .episode-table .title {
+        width: auto !important;
+        max-width: 40ch;
+        text-overflow: ellipsis;
+    }
 }
 
 @media (min-width: 992px) {

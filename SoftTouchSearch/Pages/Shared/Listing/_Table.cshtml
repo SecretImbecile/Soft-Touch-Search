@@ -2,13 +2,14 @@
 
 @model StoryListing
 
-<div class="table-responsive">
-    <table class="table table-sm table-borderless">
+<div class="table-responsive-md">
+    <table class="table table-borderless episode-table" aria-labelledby="episodes">
         <thead>
             <tr>
-                <th scope="col">Episode</th>
-                <th scope="col">Title</th>
-                <th scope="col" colspan="2">Links</th>
+                <th scope="col" aria-label="Tapas Episode Number" aria-sort="ascending">No.</th>
+                <th scope="col">Episode Title</th>
+                <th scope="col" class="d-none d-md-table-cell" aria-label="Date Published">Date</th>
+                <th scope="col" aria-label="Links to episode">Links</th>
             </tr>
         </thead>
         @foreach (ChapterListing chapter in Model)

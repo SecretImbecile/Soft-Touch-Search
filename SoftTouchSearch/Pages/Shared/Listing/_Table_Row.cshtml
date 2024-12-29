@@ -13,26 +13,29 @@
     <td class="@excludedTextClass">
         @Model.EpisodeNumber
     </td>
-    
-    <td class="@excludedTextClass">
+
+    <td class="title @excludedTextClass">
         @Model.Title
     </td>
 
-    @if (Model.UrlBlog != null)
-    {
-        <td>
-            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">Read on Tapas</a>
-        </td>
-        <td>
-            <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">Read on River's Site</a>
-        </td>
-    }
-    else
-    {
-        <td>
-            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">Read on Tapas</a>
-        </td>
-        <td aria-hidden="true">
-        </td>
-    }
+    <td class="d-none d-md-table-cell text-secondary">
+        <time datetime="@Model.PublishDate.ToString("yyyy-MM-dd")" class="text-nowrap">
+            @Model.PublishDate.ToString("MMM d, yyyy")
+        </time>
+    </td>
+
+    <td>
+        <span class="d-inline-flex flex-row flex-nowrap gap-1">
+            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
+                <span class="d-none d-lg-inline">Read on</span> Tapas
+            </a>
+
+            @if (Model.UrlBlog != null)
+            {
+                <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                    <span class="d-none d-lg-inline">Read on</span> River's Site
+                </a>
+            }
+        </span>
+    </td>
 </tr>

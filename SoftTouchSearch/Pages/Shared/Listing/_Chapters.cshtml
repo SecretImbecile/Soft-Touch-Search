@@ -2,14 +2,16 @@
 
 @model StoryListing
 
-<ul class="chapter-listing">
-    @foreach (ChapterListing chapter in Model)
-    {
-        string anchor = $"#chapter-{chapter.Number}";
-        string title = chapter.ToString();
+<nav aria-labelledby="chapters">
+    <ul class="chapter-listing">
+        @foreach (ChapterListing chapter in Model)
+        {
+            string anchor = $"#chapter-{chapter.Number}";
+            string title = chapter.ToString();
 
-        <li>
-            <a href="@anchor">@title</a>
-        </li>
-    }
-</ul>
+            <li>
+                <a href="@anchor">@title</a>
+            </li>
+        }
+    </ul>
+</nav>

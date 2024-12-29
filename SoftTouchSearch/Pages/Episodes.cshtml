@@ -30,11 +30,9 @@
 
 <h2 id="chapters">Chapters</h2>
 
-<nav aria-labelledby="chapters">
-    @{
-        await Html.RenderPartialAsync("Listing/_Chapters", Model.Listing);
-    }
-</nav>
+@{
+    await Html.RenderPartialAsync("Listing/_Chapters", Model.Listing);
+}
 
 <h2 id="episodes">Episodes</h2>
 
