@@ -13,7 +13,6 @@ namespace SoftTouchSearch.Index.Services.Implementations
     using Lucene.Net.Search.Highlight;
     using Lucene.Net.Store;
     using Lucene.Net.Util;
-    using Microsoft.AspNetCore.Html;
     using SoftTouchSearch.Index.Classes;
     using SoftTouchSearch.Index.Services;
     using Constants = SoftTouchSearch.Index.Constants;
@@ -91,7 +90,7 @@ namespace SoftTouchSearch.Index.Services.Implementations
         /// <param name="reader"><see cref="IndexReader"/> reference.</param>
         /// <param name="query">Query which created the result.</param>
         /// <returns>HTML formatted snippets (one or more span elements).</returns>
-        private static HtmlString CreateSnippet(int docId, string content, IndexReader reader, Query query)
+        private static string CreateSnippet(int docId, string content, IndexReader reader, Query query)
         {
             SimpleHTMLFormatter formatter = new("<mark>", "</mark>");
             QueryScorer scorer = new(query);
@@ -106,7 +105,7 @@ namespace SoftTouchSearch.Index.Services.Implementations
                 stringBuilder.AppendLine($"<span>{fragment}</span>");
             }
 
-            return new HtmlString(stringBuilder.ToString());
+            return stringBuilder.ToString();
         }
     }
 }

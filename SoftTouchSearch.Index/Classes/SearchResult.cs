@@ -6,7 +6,6 @@ namespace SoftTouchSearch.Index.Classes
 {
     using Lucene.Net.Documents;
     using Lucene.Net.Search;
-    using Microsoft.AspNetCore.Html;
 
     /// <summary>
     /// A single index search result.
@@ -33,7 +32,7 @@ namespace SoftTouchSearch.Index.Classes
         /// <summary>
         /// Gets or sets the highlighted text snippet.
         /// </summary>
-        public required HtmlString Snippet { get; set; }
+        public required string Snippet { get; set; }
 
         // Accessors
 
