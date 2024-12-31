@@ -2,7 +2,7 @@
   "profiles": {
     "SoftTouchSearchIndexBuilder": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch.db\" \"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch\\export\""
+      "commandLineArgs": "\"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch\\softtouchsearch_import.db\" \"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch\\export\""
     }
   }
 }
