@@ -9,13 +9,15 @@ namespace SoftTouchSearch.Pages
     using Microsoft.Extensions.Caching.Memory;
     using SoftTouchSearch.Data;
     using SoftTouchSearch.Data.Models;
+    using SoftTouchSearch.Data.Services;
     using SoftTouchSearch.Models.Listings;
 
     /// <summary>
     /// The 'Episode Listing' page model.
     /// </summary>
-    public class EpisodesModel(IMemoryCache memoryCache, StoryDbContext context) : PageModel
+    public class EpisodesModel(IExclusionService exclusionService, IMemoryCache memoryCache, StoryDbContext context) : PageModel
     {
+        private readonly IExclusionService exclusionService = exclusionService;
         private readonly IMemoryCache memoryCache = memoryCache;
         private readonly StoryDbContext context = context;
 
@@ -27,12 +29,9 @@ namespace SoftTouchSearch.Pages
         public StoryListing Listing { get; set; } = null!;
 
         /// <summary>
-        /// Gets the latest episode in the database.
+        /// Gets or sets the latest episode in the database.
         /// </summary>
-        public EpisodeListing? LatestEpisode => this.Listing
-            .LastOrDefault()?
-            .Episodes
-            .LastOrDefault();
+        public Episode? LatestEpisode { get; set; }
 
         // Methods
 
@@ -43,6 +42,7 @@ namespace SoftTouchSearch.Pages
         public async Task OnGetAsync()
         {
             this.Listing = await this.GetEpisodeListingAsync();
+            this.LatestEpisode = await this.exclusionService.GetLatestEpisodeAsync();
         }
 
         /// <summary>

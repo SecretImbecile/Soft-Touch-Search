@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionPrefix>1.2.1</VersionPrefix>
     <Title>Soft Touch Search</Title>
     <Description>Search the text of the web novel Soft Touch.</Description>
     <Copyright>Jack Kelly</Copyright>
@@ -49,7 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoftTouchSearch.Data.Ingest\SoftTouchSearch.Data.Ingest.csproj" />
     <ProjectReference Include="..\SoftTouchSearch.Data\SoftTouchSearch.Data.csproj" />
     <ProjectReference Include="..\SoftTouchSearch.Index\SoftTouchSearch.Index.csproj" />
   </ItemGroup>

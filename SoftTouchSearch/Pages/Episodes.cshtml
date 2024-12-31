@@ -10,23 +10,20 @@
 
 @section Header {
     @{
-        await Html.RenderPartialAsync("Header/_Basic");
+        if (Model.LatestEpisode != null)
+        {
+            await Html.RenderPartialAsync("Header/_Standard", Model.LatestEpisode!);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("Header/_Basic");
+        }
     }
 }
 
 <nav class="mb-3">
     <a asp-page="/Index" title="Back to main page">&larr; Back</a>
 </nav>
-
-<p>
-    Below is a full listing of episodes from Soft Touch.
-    @if (Model.LatestEpisode != null)
-    {
-        <span>
-            The latest episode indexed is Episode&nbsp;@Model.LatestEpisode.EpisodeNumber.
-        </span>
-    }
-</p>
 
 <h2 id="chapters">Chapters</h2>
 

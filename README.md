@@ -6,11 +6,16 @@ users to search the full text of the web novel
 [Soft Touch](https://tapas.io/series/Soft-Touch/info).
 
 At the time of writing this, the novel has exceeded two million published
-words, and has an enthusiastic fan following. THis tool was written to allow
+words, and has an enthusiastic fan following. This tool was written to allow
 them to re-find favourite passeages and document the story.
 
 Additional documentation is viewable in the `README.md` of each project folder
-within this repo.
+within this repo:
+
+- [SoftTouchSearchIndexBuilder](SoftTouchSearchIndexBuilder)
+- [SoftTouchSearch.Data](SoftTouchSearch.Data)
+- [SoftTouchSearch.Data.Ingest](SoftTouchSearch.Data.Ingest)
+- [SoftTouchSearch.Index](SoftTouchSearch.Index)
 
 ## Data Usage
 

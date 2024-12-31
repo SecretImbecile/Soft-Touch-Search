@@ -4,7 +4,6 @@
 
 using Microsoft.AspNetCore.HttpOverrides;
 using SoftTouchSearch.Data;
-using SoftTouchSearch.Data.Ingest;
 using SoftTouchSearch.Index;
 
 // Verify arguments
@@ -53,10 +52,5 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
-#if DEBUG
-// Routing for the ingest controller
-app.MapIngestControllerRoute();
-#endif
 
 app.Run();
