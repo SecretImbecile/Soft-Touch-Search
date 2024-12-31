@@ -14,7 +14,6 @@ within this repo:
 
 - [SoftTouchSearchIndexBuilder](SoftTouchSearchIndexBuilder)
 - [SoftTouchSearch.Data](SoftTouchSearch.Data)
-- [SoftTouchSearch.Data.Ingest](SoftTouchSearch.Data.Ingest)
 - [SoftTouchSearch.Index](SoftTouchSearch.Index)
 
 ## Data Usage
