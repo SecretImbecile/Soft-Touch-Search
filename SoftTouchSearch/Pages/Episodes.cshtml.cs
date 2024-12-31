@@ -29,7 +29,7 @@ namespace SoftTouchSearch.Pages
         public StoryListing Listing { get; set; } = null!;
 
         /// <summary>
-        /// Gets the latest episode in the database.
+        /// Gets or sets the latest episode in the database.
         /// </summary>
         public Episode? LatestEpisode { get; set; }
 
