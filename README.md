@@ -31,13 +31,23 @@ episodes where that text can be found in full.
 
 ## Configuration
 
-The `SoftTouchSearch` application requires the following .NET configuration properties:
+The `SoftTouchSearch` application requires the following .NET configuration
+properties:
 
-```json
+```jsonc
+// On Windows environments:
 {
   "SoftTouchSearchSettings": {
-    "PathToDatabase": "/Path/To/SofTouchSearch/export/softtouchsearch.db",
-    "PathToIndex": "/Path/To/SofTouchSearch/export/softtouchsearch_index"
+    "PathToDatabase": "C:\\Path\\To\\SoftTouchSearch\\export\\softtouchsearch.db",
+    "PathToIndex": "C:\\Path\\To\\SoftTouchSearch\\export\\softtouchsearch_index"
+  }
+}
+
+// On Linux/Mac environments:
+{
+  "SoftTouchSearchSettings": {
+    "PathToDatabase": "/Path/To/SoftTouchSearch/export/softtouchsearch.db",
+    "PathToIndex": "/Path/To/SoftTouchSearch/export/softtouchsearch_index"
   }
 }
 ```
@@ -45,7 +55,9 @@ The `SoftTouchSearch` application requires the following .NET configuration prop
 These properties specify paths to:
 1. An SQLite database file, by default named `softtouchsearch.db`
 2. A prebuilt Lucene.NET index folder, by default named `softtouchsearch_index`
-The `SoftTouchSearchIndexBuilder` project can be used to generate this index and folder structure.
+
+The `SoftTouchSearchIndexBuilder` project can be used to generate this index
+and folder structure.
 
 You can define these properties in several locations, as described in
 [Configuration in .NET](https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration#concepts-and-abstractions).
