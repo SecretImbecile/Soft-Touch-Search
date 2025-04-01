@@ -9,6 +9,7 @@ namespace SoftTouchSearch.Pages
     using Microsoft.Extensions.Caching.Memory;
     using SoftTouchSearch.Data;
     using SoftTouchSearch.Data.Models;
+    using SoftTouchSearch.Data.Models.Dto;
     using SoftTouchSearch.Data.Services;
     using SoftTouchSearch.Models.Listings;
 
@@ -31,7 +32,7 @@ namespace SoftTouchSearch.Pages
         /// <summary>
         /// Gets or sets the latest episode in the database.
         /// </summary>
-        public Episode? LatestEpisode { get; set; }
+        public LatestEpisodeDto? LatestEpisode { get; set; }
 
         // Methods
 

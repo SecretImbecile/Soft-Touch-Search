@@ -7,6 +7,7 @@ namespace SoftTouchSearch.Data.Services.Implementations
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using SoftTouchSearch.Data.Models;
+    using SoftTouchSearch.Data.Models.Dto;
 
     /// <summary>
     /// Service providing exclusion rules to episodes.
@@ -19,12 +20,14 @@ namespace SoftTouchSearch.Data.Services.Implementations
         // Methods
 
         /// <inheritdoc/>
+        [Obsolete("Not in use")]
         public IList<Episode> GetEpisodes()
         {
             return this.GetEpisodesAsync().Result;
         }
 
         /// <inheritdoc/>
+        [Obsolete("Not in use")]
         public async Task<IList<Episode>> GetEpisodesAsync()
         {
             ICollection<Episode> episodes = await this.context.Episodes
@@ -56,36 +59,46 @@ namespace SoftTouchSearch.Data.Services.Implementations
         }
 
         /// <inheritdoc/>
-        public Episode? GetLatestEpisode()
+        public LatestEpisodeDto? GetLatestEpisode()
         {
             return this.GetLatestEpisodeAsync().Result;
         }
 
         /// <inheritdoc/>
-        public async Task<Episode?> GetLatestEpisodeAsync()
+        public async Task<LatestEpisodeDto?> GetLatestEpisodeAsync()
         {
             string cacheKey = $"{nameof(IExclusionService)}|{nameof(this.GetLatestEpisode)}";
-            if (this.memoryCache.TryGetValue(cacheKey, out Episode? episode))
+            if (this.memoryCache.TryGetValue(cacheKey, out LatestEpisodeDto? latestEpisode) && latestEpisode != null)
             {
-                return episode;
+                return latestEpisode;
             }
             else
             {
-                episode = await this.context.Episodes
+                var latestEpisodeData = await this.context.Episodes
                     .OrderByDescending(episode => episode.PublishDate)
+                    .Select(episode => new { episode.EpisodeNumber, episode.UrlId, episode.UrlExternal })
                     .FirstOrDefaultAsync();
 
-                if (episode != null)
+                if (latestEpisodeData != null)
                 {
+                    latestEpisode = new LatestEpisodeDto(
+                        latestEpisodeData.EpisodeNumber,
+                        latestEpisodeData.UrlId,
+                        latestEpisodeData.UrlExternal);
+
                     MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
                         .SetPriority(CacheItemPriority.High)
                         .SetSlidingExpiration(TimeSpan.FromHours(1))
                         .SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
-                    this.memoryCache.Set(cacheKey, episode);
-                }
+                    this.memoryCache.Set(cacheKey, latestEpisode);
 
-                return episode;
+                    return latestEpisode;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

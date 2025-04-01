@@ -5,7 +5,7 @@
 namespace SoftTouchSearch.Models.Configuration
 {
     /// <summary>
-    /// Options pattern configuration for Soft Touch Search
+    /// Options pattern configuration for Soft Touch Search.
     /// </summary>
     public sealed class SoftTouchSearchSettings
     {

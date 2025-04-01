@@ -14,7 +14,7 @@
     @{
         if (Model.LatestEpisode != null)
         {
-            await Html.RenderPartialAsync("Header/_Standard", Model.LatestEpisode!);
+            await Html.RenderPartialAsync("Header/_Standard", Model.LatestEpisode);
         }
         else
         {
