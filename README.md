@@ -1,7 +1,7 @@
 # Soft Touch Search
 
 Soft Touch search is a web application written in
-[ASP.NET](https://dotnet.microsoft.com/en-us/apps/aspnet) 8 and utilising
+[ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) 8 and utilising
 [Lucene.NET](https://lucenenet.apache.org/index.html), which allows users to
 search the full text of the web novel
 [Soft Touch](https://tapas.io/series/Soft-Touch/info).
