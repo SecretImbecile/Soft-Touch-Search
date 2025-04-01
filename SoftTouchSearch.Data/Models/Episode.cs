@@ -18,6 +18,11 @@ namespace SoftTouchSearch.Data.Models
         public required Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the identifier of the <see cref="Models.Chapter"/> this episode belongs to.
+        /// </summary>
+        public required Guid ChapterId { get; set; }
+
+        /// <summary>
         /// Gets or sets the episode number in Tapas.
         /// </summary>
         public required int EpisodeNumber { get; set; }

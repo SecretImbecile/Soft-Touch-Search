@@ -39,9 +39,9 @@ namespace SoftTouchSearch.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Chapter>()
-                .HasMany(e => e.Episodes)
-                .WithOne(e => e.Chapter)
-                .HasForeignKey("ChapterId")
+                .HasMany(chapter => chapter.Episodes)
+                .WithOne(episode => episode.Chapter)
+                .HasForeignKey(episode => episode.ChapterId)
                 .IsRequired(false);
         }
     }
