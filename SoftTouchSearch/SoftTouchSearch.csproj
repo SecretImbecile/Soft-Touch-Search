@@ -19,6 +19,7 @@
     
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     <PackageIcon>logo-128.png</PackageIcon>
+    <UserSecretsId>910eea7f-22c3-4fe7-8d8c-cd22f409746e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
