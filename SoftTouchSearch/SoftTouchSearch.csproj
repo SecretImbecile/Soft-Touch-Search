@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.2.1</VersionPrefix>
+    <VersionPrefix>1.2.2</VersionPrefix>
     <Title>Soft Touch Search</Title>
     <Description>Search the text of the web novel Soft Touch.</Description>
     <Copyright>Jack Kelly</Copyright>
