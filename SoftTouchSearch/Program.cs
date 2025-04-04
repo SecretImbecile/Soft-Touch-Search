@@ -5,24 +5,21 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using SoftTouchSearch.Data;
 using SoftTouchSearch.Index;
-
-// Verify arguments
-if (args.Length != 1)
-{
-    throw new ArgumentException("Expected exactly 1 command-line argument. (Data folder path)");
-}
-
-string dataPath = args[0];
-string dbPath = Path.Combine(dataPath, "softtouchsearch.db");
-string indexPath = Path.Combine(dataPath, "softtouchsearch_index");
+using SoftTouchSearch.Models.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load application configuration
+SoftTouchSearchSettings appSettings = new();
+builder.Configuration
+    .GetRequiredSection(nameof(SoftTouchSearchSettings))
+    .Bind(appSettings);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDataServices(dbPath);
-builder.Services.AddIndexServices(indexPath);
+builder.Services.AddDataServices(appSettings.PathToDatabase);
+builder.Services.AddIndexServices(appSettings.PathToIndex);
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
-﻿@using SoftTouchSearch.Data.Models
+﻿@using SoftTouchSearch.Data.Models.Dto
 
-@model Episode
+@model LatestEpisodeDto
 
 <header class="px-4 pt-5 mb-5 text-center">
     <h1 class="display-5 fw-bold text-primary-emphasis">Soft Touch Search</h1>
@@ -8,7 +8,7 @@
         <p class="lead text-secondary fw-normal mb-4">
             Search the text of the web novel Soft Touch.
             <br>
-            The latest episode indexed is <a href="https://tapas.io/episode/@Model.UrlId">Ep.&nbsp;@Model.EpisodeNumber</a>.
+            The latest episode indexed is <a href="@Model.Url">Ep.&nbsp;@Model.EpisodeNumber</a>.
         </p>
     </div>
 </header>

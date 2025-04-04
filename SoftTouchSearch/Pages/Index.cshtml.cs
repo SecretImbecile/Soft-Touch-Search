@@ -8,6 +8,7 @@ namespace SoftTouchSearch.Pages
     using Lucene.Net.Search;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SoftTouchSearch.Data.Models;
+    using SoftTouchSearch.Data.Models.Dto;
     using SoftTouchSearch.Data.Services;
     using SoftTouchSearch.Index.Classes;
     using SoftTouchSearch.Index.Services;
@@ -23,7 +24,7 @@ namespace SoftTouchSearch.Pages
         /// <summary>
         /// Gets or sets the latest episode to be indexed.
         /// </summary>
-        public Episode? LatestEpisode { get; set; }
+        public LatestEpisodeDto? LatestEpisode { get; set; }
 
         /// <summary>
         /// Gets or sets the search results.
@@ -40,10 +41,11 @@ namespace SoftTouchSearch.Pages
         /// </summary>
         /// <param name="q">Text input to search.</param>
         /// <param name="loadMore">If true, show more than one page of results.</param>
-        public void OnGet(string? q, bool loadMore = false)
+        /// <returns>A <see cref="Task"/> that represents the page action.</returns>
+        public async Task OnGetAsync(string? q, bool loadMore = false)
         {
             // Display for initial page load.
-            this.LatestEpisode = this.exclusionService.GetLatestEpisode();
+            this.LatestEpisode = await this.exclusionService.GetLatestEpisodeAsync();
             if (string.IsNullOrWhiteSpace(q))
             {
                 return;

@@ -20,7 +20,6 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "\"C:\\Users\\Jack\\AppData\\Local\\softtouchsearch\\export\"",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
