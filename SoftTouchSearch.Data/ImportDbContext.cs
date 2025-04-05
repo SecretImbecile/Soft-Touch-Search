@@ -11,8 +11,8 @@ namespace SoftTouchSearch.Data
     /// <summary>
     /// The production database context for SoftTouchSearch.
     /// </summary>
-    /// <param name="dbPath">Full file path to the SQLite database file.</param>
-    public class ImportDbContext(string dbPath) : DbContext, IDbContext<ChapterImport, EpisodeImport>
+    /// <param name="options">Configuration options for the database context.</param>
+    public class ImportDbContext(DbContextOptions<ImportDbContext> options) : DbContext(options), IDbContext<ChapterImport, EpisodeImport>
     {
         // Properties
 
@@ -28,12 +28,6 @@ namespace SoftTouchSearch.Data
         public DbSet<ExclusionRule> ExclusionRules { get; set; }
 
         // Methods
-
-        /// <inheritdoc/>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite(dbPath);
-        }
 
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -18,7 +18,7 @@ builder.Configuration
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDataServices(appSettings.PathToDatabase);
+builder.Services.AddSearchDatabase(appSettings.PathToDatabase);
 builder.Services.AddIndexServices(appSettings.PathToIndex);
 
 var app = builder.Build();

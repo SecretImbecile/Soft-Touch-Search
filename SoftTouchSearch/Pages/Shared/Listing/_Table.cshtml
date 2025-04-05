@@ -1,4 +1,5 @@
-﻿@using SoftTouchSearch.Models.Listings
+﻿@using SoftTouchSearch.Data.Models
+@using SoftTouchSearch.Models.Listings
 
 @model StoryListing
 
@@ -12,21 +13,23 @@
                 <th scope="col" aria-label="Links to episode">Links</th>
             </tr>
         </thead>
-        @foreach (ChapterListing chapter in Model)
+        @foreach (Chapter chapter in Model)
         {
             @* Each chapter forms its own rowgroup *@
             <tbody>
                 @{
-                    foreach (EpisodeListing episode in chapter)
+                    foreach (Episode episode in chapter.Episodes)
                     {
-                        if (episode.IsFirstInChapter)
-                        {
-                            await Html.RenderPartialAsync("Listing/_Table_RowChapter", episode);
-                        }
-                        else
-                        {
-                            await Html.RenderPartialAsync("Listing/_Table_Row", episode);
-                        }
+                        await Html.RenderPartialAsync("Listing/_Table_Row", episode);
+
+                        //if (episode.IsFirstInChapter)
+                        //{
+                        //    await Html.RenderPartialAsync("Listing/_Table_RowChapter", episode);
+                        //}
+                        //else
+                        //{
+                        //    await Html.RenderPartialAsync("Listing/_Table_Row", episode);
+                        //}
                     }
                 }
             </tbody>

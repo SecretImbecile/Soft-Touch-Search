@@ -1,11 +1,11 @@
 ﻿@* Episode listing for the first row of each chapter *@
 
-@using SoftTouchSearch.Models.Listings
+@using SoftTouchSearch.Data.Models
 
-@model EpisodeListing
+@model Episode
 
 @{
-    string? anchorId = Model.IsFirstInChapter && Model.ChapterNumber != null ? $"chapter-{Model.ChapterNumber}" : null;
+    string? anchorId = null; //Model.IsFirstInChapter && Model.ChapterNumber != null ? $"chapter-{Model.ChapterNumber}" : null;
 }
 
 <tr>
@@ -29,9 +29,9 @@
                 <span class="d-none d-lg-inline">Read on</span> Tapas
             </a>
 
-            @if (Model.UrlBlog != null)
+            @if (Model.UrlExternal != null)
             {
-                <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river">
                     <span class="d-none d-lg-inline">Read on</span> River's Site
                 </a>
             }

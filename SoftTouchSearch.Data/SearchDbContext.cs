@@ -11,8 +11,8 @@ namespace SoftTouchSearch.Data
     /// <summary>
     /// The production database context for SoftTouchSearch.
     /// </summary>
-    /// <param name="dbPath">Full file path to the SQLite database file.</param>
-    public class SearchDbContext(string dbPath) : DbContext, IDbContext<Chapter, Episode>
+    /// <param name="options">Configuration options for the database context.</param>
+    public class SearchDbContext(DbContextOptions<SearchDbContext> options) : DbContext(options), IDbContext<Chapter, Episode>
     {
         // Properties
 
@@ -23,12 +23,6 @@ namespace SoftTouchSearch.Data
         public DbSet<Episode> Episodes { get; set; }
 
         // Methods
-
-        /// <inheritdoc/>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite(dbPath);
-        }
 
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)

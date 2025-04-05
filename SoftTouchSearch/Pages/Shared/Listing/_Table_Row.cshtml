@@ -1,12 +1,12 @@
 ﻿@* Episode listing for every row except the first of each chapter *@
 
-@using SoftTouchSearch.Models.Listings
+@using SoftTouchSearch.Data.Models
 
-@model EpisodeListing
+@model Episode
 
 @{
-    string? excludedClass = Model.IsExcluded ? "excluded" : null;
-    string? excludedTextClass = Model.IsExcluded ? "text-secondary" : null;
+    string? excludedClass = Model.IsNonStory ? "excluded" : null;
+    string? excludedTextClass = Model.IsNonStory ? "text-secondary" : null;
 }
 
 <tr class="@excludedClass">
@@ -30,9 +30,9 @@
                 <span class="d-none d-lg-inline">Read on</span> Tapas
             </a>
 
-            @if (Model.UrlBlog != null)
+            @if (Model.UrlExternal != null)
             {
-                <a href="@Model.UrlBlog" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river">
                     <span class="d-none d-lg-inline">Read on</span> River's Site
                 </a>
             }

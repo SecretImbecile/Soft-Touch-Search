@@ -9,18 +9,15 @@ namespace SoftTouchSearch.Pages
     using Microsoft.Extensions.Caching.Memory;
     using SoftTouchSearch.Data;
     using SoftTouchSearch.Data.Models;
-    using SoftTouchSearch.Data.Models.Dto;
-    using SoftTouchSearch.Data.Services;
     using SoftTouchSearch.Models.Listings;
 
     /// <summary>
     /// The 'Episode Listing' page model.
     /// </summary>
-    public class EpisodesModel(IExclusionService exclusionService, IMemoryCache memoryCache, StoryDbContext context) : PageModel
+    public class EpisodesModel(IMemoryCache memoryCache, SearchDbContext context) : PageModel
     {
-        private readonly IExclusionService exclusionService = exclusionService;
         private readonly IMemoryCache memoryCache = memoryCache;
-        private readonly StoryDbContext context = context;
+        private readonly SearchDbContext context = context;
 
         // Properties
 
@@ -32,7 +29,7 @@ namespace SoftTouchSearch.Pages
         /// <summary>
         /// Gets or sets the latest episode in the database.
         /// </summary>
-        public LatestEpisodeDto? LatestEpisode { get; set; }
+        public Episode? LatestEpisode { get; set; }
 
         // Methods
 
@@ -43,7 +40,11 @@ namespace SoftTouchSearch.Pages
         public async Task OnGetAsync()
         {
             this.Listing = await this.GetEpisodeListingAsync();
-            this.LatestEpisode = await this.exclusionService.GetLatestEpisodeAsync();
+
+            this.LatestEpisode = await this.context.Episodes
+                .Where(episode => !episode.IsNonStory)
+                .OrderByDescending(episode => episode.EpisodeNumber)
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -63,18 +64,14 @@ namespace SoftTouchSearch.Pages
             else
             {
                 IEnumerable<Chapter> chapters = await this.context.Chapters
-                .Include(chapter => chapter.Episodes)
-                .OrderBy(chapter => chapter.Number)
-                .ToListAsync();
-
-                IEnumerable<ExclusionRule> exclusionRules = await this.context.ExclusionRules
+                    .Include(chapter => chapter.Episodes)
+                    .OrderBy(chapter => chapter.Number)
                     .ToListAsync();
 
                 listing = [];
                 foreach (Chapter chapter in chapters)
                 {
-                    ChapterListing chapterListing = new(chapter, chapter.Episodes, exclusionRules);
-                    listing.Add(chapterListing);
+                    listing.Add(chapter);
                 }
 
                 if (listing.Count > 0)

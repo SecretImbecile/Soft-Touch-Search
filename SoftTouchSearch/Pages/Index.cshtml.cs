@@ -7,24 +7,23 @@ namespace SoftTouchSearch.Pages
     using Lucene.Net.Index;
     using Lucene.Net.Search;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.EntityFrameworkCore;
+    using SoftTouchSearch.Data;
     using SoftTouchSearch.Data.Models;
-    using SoftTouchSearch.Data.Models.Dto;
-    using SoftTouchSearch.Data.Services;
     using SoftTouchSearch.Index.Classes;
     using SoftTouchSearch.Index.Services;
 
     /// <summary>
     /// Main search page.
     /// </summary>
-    public class IndexModel(IIndexService indexService, IExclusionService exclusionService) : PageModel
+    /// <param name="indexService">Lucene indexing service.</param>
+    /// <param name="context">Database context.</param>
+    public class IndexModel(IIndexService indexService, SearchDbContext context) : PageModel
     {
-        private readonly IIndexService indexService = indexService;
-        private readonly IExclusionService exclusionService = exclusionService;
-
         /// <summary>
         /// Gets or sets the latest episode to be indexed.
         /// </summary>
-        public LatestEpisodeDto? LatestEpisode { get; set; }
+        public Episode? LatestEpisode { get; set; }
 
         /// <summary>
         /// Gets or sets the search results.
@@ -45,7 +44,11 @@ namespace SoftTouchSearch.Pages
         public async Task OnGetAsync(string? q, bool loadMore = false)
         {
             // Display for initial page load.
-            this.LatestEpisode = await this.exclusionService.GetLatestEpisodeAsync();
+            this.LatestEpisode = await context.Episodes
+                .Where(episode => !episode.IsNonStory)
+                .OrderByDescending(episode => episode.EpisodeNumber)
+                .FirstOrDefaultAsync();
+
             if (string.IsNullOrWhiteSpace(q))
             {
                 return;
@@ -56,7 +59,7 @@ namespace SoftTouchSearch.Pages
             Query? query = BuildQuery(this.SearchText);
             if (query != null)
             {
-                this.Results = this.indexService.Search(query, loadMore);
+                this.Results = indexService.Search(query, loadMore);
             }
 
             // Schedule a GC collection.
