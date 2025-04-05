@@ -4,92 +4,32 @@
 
 namespace SoftTouchSearch.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
-
     /// <summary>
-    /// Episode table model.
+    /// An episode record in the production database.
     /// </summary>
-    public class Episode
+    /// <remarks>
+    /// Contains the text of episode, which is stripped from the production episode.
+    /// </remarks>
+    public sealed class Episode : EpisodeBase
     {
         /// <summary>
-        /// Gets or sets the identifier for this episode.
+        /// Gets or sets a value indicating whether the episode is a non-story update.
         /// </summary>
-        [Key]
-        public required Guid Id { get; set; }
+        /// <remarks>
+        /// For author updates, fan art, playlists, etc.
+        /// </remarks>
+        public required bool IsNonStory { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier of the <see cref="Models.Chapter"/> this episode belongs to.
+        /// Gets or sets the episode's Tapas URL.
         /// </summary>
-        public required Guid ChapterId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the episode number in Tapas.
-        /// </summary>
-        public required int EpisodeNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the title of episode.
-        /// </summary>
-        public required string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date of episode.
-        /// </summary>
-        public required DateTime PublishDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Tapas episode ID.
-        /// </summary>
-        public required int UrlId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the alternate episode URL, i.e. link to the episode on River's site.
-        /// </summary>
-        public string? UrlExternal { get; set; }
-
-        /// <summary>
-        /// Gets or sets the episode content in HTML.
-        /// </summary>
-        public required string ContentHtml { get; set; }
-
-        /// <summary>
-        /// Gets or sets the episode description in HTML.
-        /// </summary>
-        public required string DescriptionHtml { get; set; }
+        public required string UrlTapas { get; set; }
 
         // Navigations
 
         /// <summary>
-        /// Gets or sets the <see cref="Models.Chapter"/> this episode belongs to.
+        /// Gets or sets the <see cref="Chapter"/> this episode belongs to.
         /// </summary>
-        public Chapter? Chapter { get; set; }
-
-        // Accessors
-
-        /// <summary>
-        /// Gets the Tapas or External episode URL.
-        /// </summary>
-        public string Url
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(this.UrlExternal))
-                {
-                    return this.UrlExternal;
-                }
-                else
-                {
-                    return $"https://tapas.io/episode/{this.UrlId}";
-                }
-            }
-        }
-
-        // Methods
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return this.Title;
-        }
+        public required Chapter Chapter { get; set; }
     }
 }

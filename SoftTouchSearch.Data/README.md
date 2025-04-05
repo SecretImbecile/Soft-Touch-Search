@@ -2,9 +2,16 @@
 
 `SoftTouchSearch.Data` provides the
 [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) database
-context used by *Soft Touch Search*.
+contexts used by *Soft Touch Search*. There are two database contexts used
+by the solution:
 
-## Database
+- __ImportDbContext__ is the schema for `SoftTouchSearchIndexBuilder`
+    - This is the format you need to provide to create a working version of *Soft Touch Search*.
+    - Includes the full story text to be indexed.
+- __SearchDbContext__ is the schema for the live application.
+    - This is generated and exported by running `SoftTouchSearchIndexBuilder`.
+    - Story text and other unnecessary fields are removed to save space/memory.
+    - Some computed properties are added to optimise queries in the web application.
 
 SoftTouchSearch targets [SQLite](https://www.sqlite.org/index.html) as its
 database engine.
@@ -15,41 +22,33 @@ for each table is included in the GitHub release.
 
 ## Usage
 
-Add the required services in Program.cs in the main web app using the
-`ServiceCollectionExtensions.AddDataServices` extension method.
+### Registration
+
+During application startup register the desired database context using the
+extension methods provided by `ServiceCollectionExtensions`:
+
 
 ```c#
-builder.Services.AddDataServices("C:\Path\To\softtouchsearch.db");
+// Import database
+builder.Services.AddImportDatabase("C:\Path\To\softtouchsearch_import.db");
+
+// Export (production) database
+builder.Services.AddSearchDatabase("C:\Path\To\export\softtouchsearch.db");
 ```
 
-### Database Context
+### Making Calls
 
-`StoryDbContext` can then be accessed using dependency injection, e.g.
-
-```c#
-private readonly StoryDbContext context = context;
-
-public async Task<IEnumerable<Chapter>> GetChapters()
-{
-    // All chapters in database
-    return await this.context.Chapters
-        .OrderBy(chapter => chapter.Number)
-        .ToListAsync();
-}
-```
-
-### Services
-
-In addition to the database context, The `IExclusionService` service provides
-methods for simultaneously fetching episodes from the database and filtering
-them based on exclusion rule records.
+The chosen context can then be accessed using dependency injection, e.g.
 
 ```c#
-private readonly IExclusionService exclusionService = exclusionService;
-
-public async Task<IEnumerable<Episode>> GetEpisodes()
+public class ExampleClass(SearchDbContext context)
 {
-    // All episodes in database minus those which should be filtered
-    return await this.exclusionService.GetEpisodesAsync();
+    public async Task<IEnumerable<Chapter>> GetChapters()
+    {
+        // All chapters in database
+        return await context.Chapters
+            .OrderBy(chapter => chapter.Number)
+            .ToListAsync();
+    }
 }
 ```

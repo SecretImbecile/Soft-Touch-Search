@@ -2,23 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftTouchSearch.Data;
 
 #nullable disable
 
-namespace SoftTouchSearch.Data.Migrations
+namespace SoftTouchSearch.Data.Migrations.Search
 {
-    [DbContext(typeof(StoryDbContext))]
-    [Migration("20250401202112_RemoveEpisodeShadowProperty")]
-    partial class RemoveEpisodeShadowProperty
+    [DbContext(typeof(SearchDbContext))]
+    partial class SearchDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
 
             modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
                 {
@@ -47,15 +44,10 @@ namespace SoftTouchSearch.Data.Migrations
                     b.Property<Guid>("ChapterId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ContentHtml")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DescriptionHtml")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("EpisodeNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsNonStory")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("PublishDate")
@@ -68,8 +60,9 @@ namespace SoftTouchSearch.Data.Migrations
                     b.Property<string>("UrlExternal")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UrlId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UrlTapas")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -93,14 +86,16 @@ namespace SoftTouchSearch.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExclusionRules");
+                    b.ToTable("ExclusionRule");
                 });
 
             modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
                 {
                     b.HasOne("SoftTouchSearch.Data.Models.Chapter", "Chapter")
                         .WithMany("Episodes")
-                        .HasForeignKey("ChapterId");
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chapter");
                 });

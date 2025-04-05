@@ -2,25 +2,22 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftTouchSearch.Data;
 
 #nullable disable
 
-namespace SoftTouchSearch.Data.Migrations
+namespace SoftTouchSearch.Data.Migrations.Import
 {
-    [DbContext(typeof(StoryDbContext))]
-    [Migration("20240425221017_IntialCreate")]
-    partial class IntialCreate
+    [DbContext(typeof(ImportDbContext))]
+    partial class ImportDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.ChapterImport", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,13 +35,13 @@ namespace SoftTouchSearch.Data.Migrations
                     b.ToTable("Chapters");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ChapterId")
+                    b.Property<Guid>("ChapterId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ContentHtml")
@@ -61,15 +58,15 @@ namespace SoftTouchSearch.Data.Migrations
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("TapasId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UrlExternal")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("UrlId")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -96,16 +93,18 @@ namespace SoftTouchSearch.Data.Migrations
                     b.ToTable("ExclusionRules");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
                 {
-                    b.HasOne("SoftTouchSearch.Data.Models.Chapter", "Chapter")
+                    b.HasOne("SoftTouchSearch.Data.Models.ChapterImport", "Chapter")
                         .WithMany("Episodes")
-                        .HasForeignKey("ChapterId");
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chapter");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.ChapterImport", b =>
                 {
                     b.Navigation("Episodes");
                 });
