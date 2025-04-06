@@ -9,10 +9,19 @@ namespace SoftTouchSearch.Data.Models
     /// </summary>
     public sealed class Chapter : ChapterBase<Episode>
     {
+        // Properties
+
         /// <summary>
         /// Gets or sets the <see cref="Episode"/> records belonging to this chapter.
         /// </summary>
         /// <inheritdoc/>
         public override required ICollection<Episode> Episodes { get; set; }
+
+        // Navigations
+
+        /// <summary>
+        /// Gets or sets the <see cref="MetadataEpisode"/> for this episode.
+        /// </summary>
+        public required MetadataChapter Metadata { get; set; }
     }
 }

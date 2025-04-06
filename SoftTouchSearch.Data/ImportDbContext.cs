@@ -32,6 +32,7 @@ namespace SoftTouchSearch.Data
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Define keys
             modelBuilder.Entity<ChapterImport>()
                 .HasKey(chapter => chapter.Id);
 
@@ -41,6 +42,11 @@ namespace SoftTouchSearch.Data
             modelBuilder.Entity<ExclusionRule>()
                 .HasKey(exclusionRule => exclusionRule.Id);
 
+            // Define owned properties
+            modelBuilder.Entity<EpisodeImport>()
+                .OwnsOne(episode => episode.Metadata);
+
+            // Define relationships
             modelBuilder.Entity<ChapterImport>()
                 .HasMany(chapter => chapter.Episodes)
                 .WithOne(episode => episode.Chapter)

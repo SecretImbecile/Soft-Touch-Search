@@ -2,22 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftTouchSearch.Data;
 
 #nullable disable
 
-namespace SoftTouchSearch.Data.Migrations.Import
+namespace SoftTouchSearch.Data.Migrations.Search
 {
-    [DbContext(typeof(ImportDbContext))]
-    partial class ImportDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SearchDbContext))]
+    [Migration("20250406132358_AddMetadata")]
+    partial class AddMetadata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.ChapterImport", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,7 +38,7 @@ namespace SoftTouchSearch.Data.Migrations.Import
                     b.ToTable("Chapters");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,28 +47,27 @@ namespace SoftTouchSearch.Data.Migrations.Import
                     b.Property<Guid>("ChapterId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ContentHtml")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DescriptionHtml")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("EpisodeNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsFirstEpisodeInChapter")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsNonStory")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("TapasId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UrlExternal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UrlTapas")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -90,12 +92,40 @@ namespace SoftTouchSearch.Data.Migrations.Import
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExclusionRules");
+                    b.ToTable("ExclusionRule");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
                 {
-                    b.HasOne("SoftTouchSearch.Data.Models.ChapterImport", "Chapter")
+                    b.OwnsOne("SoftTouchSearch.Data.Models.MetadataChapter", "Metadata", b1 =>
+                        {
+                            b1.Property<Guid>("ChapterId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<int>("Comments")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Likes")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Views")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("ChapterId");
+
+                            b1.ToTable("Chapters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ChapterId");
+                        });
+
+                    b.Navigation("Metadata")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
+                {
+                    b.HasOne("SoftTouchSearch.Data.Models.Chapter", "Chapter")
                         .WithMany("Episodes")
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -103,7 +133,7 @@ namespace SoftTouchSearch.Data.Migrations.Import
 
                     b.OwnsOne("SoftTouchSearch.Data.Models.MetadataEpisode", "Metadata", b1 =>
                         {
-                            b1.Property<Guid>("EpisodeImportId")
+                            b1.Property<Guid>("EpisodeId")
                                 .HasColumnType("TEXT");
 
                             b1.Property<int>("Comments")
@@ -118,12 +148,12 @@ namespace SoftTouchSearch.Data.Migrations.Import
                             b1.Property<int>("Views")
                                 .HasColumnType("INTEGER");
 
-                            b1.HasKey("EpisodeImportId");
+                            b1.HasKey("EpisodeId");
 
                             b1.ToTable("Episodes");
 
                             b1.WithOwner()
-                                .HasForeignKey("EpisodeImportId");
+                                .HasForeignKey("EpisodeId");
                         });
 
                     b.Navigation("Chapter");
@@ -132,7 +162,7 @@ namespace SoftTouchSearch.Data.Migrations.Import
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.ChapterImport", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
                 {
                     b.Navigation("Episodes");
                 });

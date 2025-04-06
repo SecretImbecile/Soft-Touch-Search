@@ -38,5 +38,8 @@ namespace SoftTouchSearch.Data.Models
         /// Gets or sets the <see cref="ChapterImport"/> this episode belongs to.
         /// </summary>
         public required ChapterImport Chapter { get; set; }
+
+        /// <inheritdoc/>
+        public override required MetadataEpisode Metadata { get; set; }
     }
 }

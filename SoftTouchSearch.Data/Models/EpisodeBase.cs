@@ -43,6 +43,13 @@ namespace SoftTouchSearch.Data.Models
         /// </summary>
         public string? UrlExternal { get; set; }
 
+        // Navigations
+
+        /// <summary>
+        /// Gets or sets the <see cref="MetadataEpisode"/> for this episode.
+        /// </summary>
+        public abstract required MetadataEpisode Metadata { get; set; }
+
         // Methods
 
         /// <inheritdoc/>

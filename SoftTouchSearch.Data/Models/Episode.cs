@@ -26,6 +26,11 @@ namespace SoftTouchSearch.Data.Models
         public required bool IsFirstEpisodeInChapter { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the episode is mature.
+        /// </summary>
+        public bool IsMature => this.Metadata.Mature;
+
+        /// <summary>
         /// Gets or sets the episode's Tapas URL.
         /// </summary>
         public required string UrlTapas { get; set; }
@@ -36,5 +41,8 @@ namespace SoftTouchSearch.Data.Models
         /// Gets or sets the <see cref="Chapter"/> this episode belongs to.
         /// </summary>
         public required Chapter Chapter { get; set; }
+
+        /// <inheritdoc/>
+        public override required MetadataEpisode Metadata { get; set; }
     }
 }

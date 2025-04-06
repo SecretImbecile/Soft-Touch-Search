@@ -92,6 +92,34 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.ToTable("ExclusionRule");
                 });
 
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
+                {
+                    b.OwnsOne("SoftTouchSearch.Data.Models.MetadataChapter", "Metadata", b1 =>
+                        {
+                            b1.Property<Guid>("ChapterId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<int>("Comments")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Likes")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Views")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("ChapterId");
+
+                            b1.ToTable("Chapters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ChapterId");
+                        });
+
+                    b.Navigation("Metadata")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
                 {
                     b.HasOne("SoftTouchSearch.Data.Models.Chapter", "Chapter")
@@ -100,7 +128,35 @@ namespace SoftTouchSearch.Data.Migrations.Search
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("SoftTouchSearch.Data.Models.MetadataEpisode", "Metadata", b1 =>
+                        {
+                            b1.Property<Guid>("EpisodeId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<int>("Comments")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Likes")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<bool>("Mature")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Views")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("EpisodeId");
+
+                            b1.ToTable("Episodes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EpisodeId");
+                        });
+
                     b.Navigation("Chapter");
+
+                    b.Navigation("Metadata")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>

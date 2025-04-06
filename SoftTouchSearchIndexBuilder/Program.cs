@@ -92,15 +92,37 @@ namespace SoftTouchSearchIndexBuilder
                     .OrderBy(chapter => chapter.Number)
                     .ToList();
 
-                chaptersExport = chaptersImport
-                    .Select(chapter => new Chapter()
+                chaptersExport = [];
+                foreach (ChapterImport import in chaptersImport)
+                {
+                    int viewCount = importContext.Episodes
+                        .Where(episode => episode.ChapterId == import.Id)
+                        .Sum(episode => episode.Metadata.Views);
+
+                    int likeCount = importContext.Episodes
+                        .Where(episode => episode.ChapterId == import.Id)
+                        .Sum(episode => episode.Metadata.Likes);
+
+                    int commentCount = importContext.Episodes
+                        .Where(episode => episode.ChapterId == import.Id)
+                        .Sum(episode => episode.Metadata.Comments);
+
+                    Chapter export = new()
                     {
-                        Id = chapter.Id,
-                        Number = chapter.Number,
-                        Title = chapter.Title,
+                        Id = import.Id,
+                        Number = import.Number,
+                        Title = import.Title,
                         Episodes = [],
-                    })
-                    .ToList();
+                        Metadata = new()
+                        {
+                            Views = viewCount,
+                            Likes = likeCount,
+                            Comments = commentCount,
+                        },
+                    };
+
+                    chaptersExport.Add(export);
+                }
 
                 exportContext.Chapters
                     .AddRange(chaptersExport);
@@ -162,6 +184,13 @@ namespace SoftTouchSearchIndexBuilder
                         IsNonStory = isNonStory,
                         UrlTapas = episodeImport.UrlTapas,
                         Chapter = matchingChapter,
+                        Metadata = new()
+                        {
+                            Mature = episodeImport.Metadata.Mature,
+                            Views = episodeImport.Metadata.Views,
+                            Likes = episodeImport.Metadata.Likes,
+                            Comments = episodeImport.Metadata.Comments,
+                        },
                     };
 
                     exportContext.Episodes
