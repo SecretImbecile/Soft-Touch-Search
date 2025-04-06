@@ -16,6 +16,10 @@
 
     <td class="title @excludedTextClass">
         @Model.Title
+        @if(Model.IsMature)
+        {
+            <span class="badge text-bg-danger ms-1 px-1" aria-label="Mature Content">M</span>
+        }
     </td>
 
     <td class="d-none d-md-table-cell text-secondary">

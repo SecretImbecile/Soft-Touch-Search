@@ -18,6 +18,10 @@
 
     <th scope="rowgroup" class="pt-4 title">
         <a id="@anchorId">@episode.Title</a>
+        @if (episode.IsMature)
+        {
+            <span class="badge text-bg-danger ms-1 px-1" aria-label="Mature Content">M</span>
+        }
     </th>
 
     <td class="pt-4 d-none d-md-table-cell text-secondary">
