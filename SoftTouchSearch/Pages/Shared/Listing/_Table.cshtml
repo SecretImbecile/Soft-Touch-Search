@@ -20,16 +20,14 @@
                 @{
                     foreach (Episode episode in chapter.Episodes)
                     {
-                        await Html.RenderPartialAsync("Listing/_Table_Row", episode);
-
-                        //if (episode.IsFirstInChapter)
-                        //{
-                        //    await Html.RenderPartialAsync("Listing/_Table_RowChapter", episode);
-                        //}
-                        //else
-                        //{
-                        //    await Html.RenderPartialAsync("Listing/_Table_Row", episode);
-                        //}
+                        if (episode.IsFirstEpisodeInChapter)
+                        {
+                            await Html.RenderPartialAsync("Listing/_Table_RowChapter", new Tuple<Chapter, Episode>(chapter, episode));
+                        }
+                        else
+                        {
+                            await Html.RenderPartialAsync("Listing/_Table_Row", episode);
+                        }
                     }
                 }
             </tbody>

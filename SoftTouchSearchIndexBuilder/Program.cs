@@ -28,7 +28,7 @@ namespace SoftTouchSearchIndexBuilder
         /// <summary>
         /// Padding size used in console output.
         /// </summary>
-        private const int PadRight = 25;
+        private const int PadRight = 28;
 
         // Methods
 
@@ -141,6 +141,12 @@ namespace SoftTouchSearchIndexBuilder
                         .Where(chapter => chapter.Id == episodeImport.ChapterId)
                         .Single();
 
+                    bool isFirstInChapter = importContext.Episodes
+                        .Where(episode => episode.ChapterId == matchingChapter.Id)
+                        .OrderBy(episode => episode.EpisodeNumber)
+                        .FirstOrDefault()?
+                        .Id == id;
+
                     bool isNonStory = exclusionRules
                         .Any(rule => rule.CheckEpisodeExcluded(episodeImport));
 
@@ -152,6 +158,7 @@ namespace SoftTouchSearchIndexBuilder
                         Title = episodeImport.Title,
                         PublishDate = episodeImport.PublishDate,
                         UrlExternal = episodeImport.UrlExternal,
+                        IsFirstEpisodeInChapter = isFirstInChapter,
                         IsNonStory = isNonStory,
                         UrlTapas = episodeImport.UrlTapas,
                         Chapter = matchingChapter,

@@ -21,6 +21,11 @@ namespace SoftTouchSearch.Data.Models
         public required bool IsNonStory { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this episode is the first in its chapter.
+        /// </summary>
+        public required bool IsFirstEpisodeInChapter { get; set; }
+
+        /// <summary>
         /// Gets or sets the episode's Tapas URL.
         /// </summary>
         public required string UrlTapas { get; set; }

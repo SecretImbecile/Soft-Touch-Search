@@ -2,36 +2,39 @@
 
 @using SoftTouchSearch.Data.Models
 
-@model Episode
+@model Tuple<Chapter, Episode>
 
 @{
-    string? anchorId = null; //Model.IsFirstInChapter && Model.ChapterNumber != null ? $"chapter-{Model.ChapterNumber}" : null;
+    Chapter chapter = Model.Item1;
+    Episode episode = Model.Item2;
+
+    string? anchorId = episode.IsFirstEpisodeInChapter ? $"chapter-{chapter.Number}" : null;
 }
 
 <tr>
     <td class="pt-4">
-        @Model.EpisodeNumber
+        @episode.EpisodeNumber
     </td>
 
     <th scope="rowgroup" class="pt-4 title">
-        <a id="@anchorId">@Model.Title</a>
+        <a id="@anchorId">@episode.Title</a>
     </th>
 
     <td class="pt-4 d-none d-md-table-cell text-secondary">
-        <time datetime="@Model.PublishDate.ToString("yyyy-MM-dd")" class="text-nowrap">
-            @Model.PublishDate.ToString("MMM d, yyyy")
+        <time datetime="@episode.PublishDate.ToString("yyyy-MM-dd")" class="text-nowrap">
+            @episode.PublishDate.ToString("MMM d, yyyy")
         </time>
     </td>
 
     <td class="pt-4">
         <span class="d-inline-flex flex-row flex-nowrap gap-1">
-            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
+            <a href="@episode.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
                 <span class="d-none d-lg-inline">Read on</span> Tapas
             </a>
 
-            @if (Model.UrlExternal != null)
+            @if (episode.UrlExternal != null)
             {
-                <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                <a href="@episode.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river">
                     <span class="d-none d-lg-inline">Read on</span> River's Site
                 </a>
             }
