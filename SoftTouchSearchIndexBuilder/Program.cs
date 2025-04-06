@@ -66,12 +66,18 @@ namespace SoftTouchSearchIndexBuilder
             }
 
             // 1b. Open the import and export database contexts.
+            DbContextOptions<ImportDbContext> importOptions = new DbContextOptionsBuilder<ImportDbContext>()
+                .UseSqlite($"Data Source={settings.ImportDbPath}")
+                .Options;
+            ImportDbContext importContext = new(importOptions);
+            _ = importContext.Database
+                .EnsureCreated();
+
             string dbDestinationPath = Path.Combine(settings.ExportFolderPath, settings.ExportDbFileName);
-
-            ImportDbContext importContext = new($"Data Source={settings.ImportDbPath}");
-            _ = importContext.Database.EnsureCreated();
-
-            SearchDbContext exportContext = new($"Data Source={dbDestinationPath}");
+            DbContextOptions<SearchDbContext> exportOptions = new DbContextOptionsBuilder<SearchDbContext>()
+                .UseSqlite($"Data Source={dbDestinationPath}")
+                .Options;
+            SearchDbContext exportContext = new(exportOptions);
             _ = exportContext.Database.EnsureDeleted();
             exportContext.Database.Migrate();
 
