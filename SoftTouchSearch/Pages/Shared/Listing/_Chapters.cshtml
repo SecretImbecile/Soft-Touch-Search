@@ -3,16 +3,31 @@
 
 @model StoryListing
 
-<nav aria-labelledby="chapters">
-    <ul class="chapter-listing">
-        @foreach (Chapter chapter in Model)
-        {
-            string anchor = $"#chapter-{chapter.Number}";
-            string title = chapter.ToString();
+@{
+    int firstColumnCount = (int)MathF.Ceiling(Model.Chapters.Count / 2f);
+    IEnumerable<Chapter> leftColumn = Model
+        .Take(firstColumnCount);
+    IEnumerable<Chapter> rightColumn = Model
+        .Skip(firstColumnCount);
+}
 
-            <li>
-                <a href="@anchor">@title</a>
-            </li>
-        }
-    </ul>
-</nav>
+<section class="mb-3">
+    <h2 id="chapters">Chapters</h2>
+
+    <nav id="chapter-list" role="navigation" aria-labelledby="chapters">
+        <div class="row gx-5">
+            <div class="col-xxl-6">
+                @foreach (Chapter chapter in leftColumn)
+                {
+                    await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
+                }
+            </div>
+            <div class="col-xxl-6">
+                @foreach (Chapter chapter in rightColumn)
+                {
+                    await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
+                }
+            </div>
+        </div>
+    </nav>
+</section>

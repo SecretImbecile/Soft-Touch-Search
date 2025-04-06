@@ -4,7 +4,6 @@
 
 namespace SoftTouchSearch.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
     using Humanizer;
 
     /// <summary>
@@ -39,6 +38,18 @@ namespace SoftTouchSearch.Data.Models
         public abstract required ICollection<TEpisode> Episodes { get; set; }
 
         // Methods
+
+        /// <summary>
+        /// Returns a string that represents this object in a shorter form.
+        /// </summary>
+        /// <remarks>
+        /// e.g. 'Chapter 27: Hold Fast'.
+        /// </remarks>
+        /// <returns>A string that represents the current object.</returns>
+        public string ToShortString()
+        {
+            return $"Chapter {this.Number}: {this.Title}";
+        }
 
         /// <inheritdoc/>
         /// <remarks>

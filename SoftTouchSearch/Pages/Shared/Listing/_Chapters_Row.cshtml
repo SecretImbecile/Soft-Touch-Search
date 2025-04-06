@@ -1,0 +1,43 @@
+﻿@using SoftTouchSearch.Data.Models
+@using SoftTouchSearch.Models
+
+@model Chapter
+
+@{
+    string detailsAnchor = $"#details-chapter-{Model.Number}";
+    string jumpAnchor = $"#chapter-{Model.Number}";
+}
+
+
+<div class="py-1" aria-label="@Model.ToString()">
+    <div class="d-flex justify-content-between">
+        <span class="d-block d-sm-none">@Model.ToShortString()</span>
+        <span class="d-none d-sm-block">@Model.ToString()</span>
+        <div class="d-flex justify-content-between gap-1">
+            <button class="btn btn-sm btn-outline-secondary px-3 px-sm-2" data-bs-toggle="collapse" data-bs-target="@detailsAnchor" aria-expanded="false" aria-controls="details-chapter-@Model.Number" aria-label="Show Details">
+                <span class="d-block d-sm-none">&#9660;</span>
+                <span class="d-none d-sm-block">Show Details &#9660;</span>
+            </button>
+            <a class="btn btn-sm btn-primary" href="@jumpAnchor" aria-label="Scroll To This Chapter">
+                <span class="d-block d-sm-none">Scroll</span>
+                <span class="d-none d-sm-block">Scroll To &#10515;</span>
+            </a>
+        </div>
+    </div>
+    <div id="details-chapter-@Model.Number" class="collapse" data-bs-parent="#chapter-list">
+        <table class="table table-sm table-borderless ms-3 mt-2 mb-4" aria-label="Details">
+            <tr>
+                <th scope="row">Views</th>
+                <td title="@Model.Metadata.ViewsFormattedFull">@Model.Metadata.ViewsFormattedShort</td>
+            </tr>
+            <tr>
+                <th scope="row">Likes</th>
+                <td title="@Model.Metadata.LikesFormattedFull">@Model.Metadata.LikesFormattedShort</td>
+            </tr>
+            <tr>
+                <th scope="row">Comments</th>
+                <td title="@Model.Metadata.CommentsFormattedFull">@Model.Metadata.CommentsFormattedShort</td>
+            </tr>
+        </table>
+    </div>
+</div>

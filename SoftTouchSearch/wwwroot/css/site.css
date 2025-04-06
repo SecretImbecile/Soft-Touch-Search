@@ -159,9 +159,3 @@ a {
         text-overflow: ellipsis;
     }
 }
-
-@media (min-width: 992px) {
-    ul.chapter-listing {
-        columns: 2;
-    }
-}

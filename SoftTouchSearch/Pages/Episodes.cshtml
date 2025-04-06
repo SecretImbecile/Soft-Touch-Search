@@ -21,11 +21,14 @@
     }
 }
 
+@section Scripts {
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="false"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="false"></script>
+}
+
 <nav class="mb-3">
     <a asp-page="/Index" title="Back to main page">&larr; Back</a>
 </nav>
-
-<h2 id="chapters">Chapters</h2>
 
 @{
     await Html.RenderPartialAsync("Listing/_Chapters", Model.Listing);
