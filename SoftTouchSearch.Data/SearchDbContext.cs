@@ -12,7 +12,7 @@ namespace SoftTouchSearch.Data
     /// The production database context for SoftTouchSearch.
     /// </summary>
     /// <param name="options">Configuration options for the database context.</param>
-    public class SearchDbContext(DbContextOptions<SearchDbContext> options) : DbContext(options), IDbContext<Chapter, Episode>
+    public class SearchDbContext(DbContextOptions<SearchDbContext> options) : DbContext(options), IDbContext<Chapter, Episode, Thumbnail>
     {
         // Properties
 
@@ -21,6 +21,9 @@ namespace SoftTouchSearch.Data
 
         /// <inheritdoc/>
         public DbSet<Episode> Episodes { get; set; }
+
+        /// <inheritdoc/>
+        public DbSet<Thumbnail> Thumbnails { get; set; }
 
         // Methods
 

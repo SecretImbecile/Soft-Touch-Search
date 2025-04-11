@@ -12,7 +12,7 @@ namespace SoftTouchSearch.Data
     /// The production database context for SoftTouchSearch.
     /// </summary>
     /// <param name="options">Configuration options for the database context.</param>
-    public class ImportDbContext(DbContextOptions<ImportDbContext> options) : DbContext(options), IDbContext<ChapterImport, EpisodeImport>
+    public class ImportDbContext(DbContextOptions<ImportDbContext> options) : DbContext(options), IDbContext<ChapterImport, EpisodeImport, ThumbnailImport>
     {
         // Properties
 
@@ -26,6 +26,9 @@ namespace SoftTouchSearch.Data
         /// Gets or sets the exclusion rules table.
         /// </summary>
         public DbSet<ExclusionRule> ExclusionRules { get; set; }
+
+        /// <inheritdoc/>
+        public DbSet<ThumbnailImport> Thumbnails { get; set; }
 
         // Methods
 

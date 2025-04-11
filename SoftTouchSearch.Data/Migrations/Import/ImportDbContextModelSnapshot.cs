@@ -115,7 +115,7 @@ namespace SoftTouchSearch.Data.Migrations.Import
                     b.HasIndex("EpisodeId")
                         .IsUnique();
 
-                    b.ToTable("ThumbnailImport");
+                    b.ToTable("Thumbnails");
                 });
 
             modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>

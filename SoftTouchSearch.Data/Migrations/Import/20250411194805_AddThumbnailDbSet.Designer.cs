@@ -2,22 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftTouchSearch.Data;
 
 #nullable disable
 
-namespace SoftTouchSearch.Data.Migrations.Search
+namespace SoftTouchSearch.Data.Migrations.Import
 {
-    [DbContext(typeof(SearchDbContext))]
-    partial class SearchDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ImportDbContext))]
+    [Migration("20250411194805_AddThumbnailDbSet")]
+    partial class AddThumbnailDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.ChapterImport", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,7 +38,7 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.ToTable("Chapters");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,20 +47,22 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.Property<Guid>("ChapterId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentHtml")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DescriptionHtml")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("EpisodeNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsFirstEpisodeInChapter")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsNonStory")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ThumbnailGuid")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("TapasId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -66,15 +71,9 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.Property<string>("UrlExternal")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UrlTapas")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChapterId");
-
-                    b.HasIndex("ThumbnailGuid");
 
                     b.ToTable("Episodes");
                 });
@@ -94,10 +93,10 @@ namespace SoftTouchSearch.Data.Migrations.Search
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExclusionRule");
+                    b.ToTable("ExclusionRules");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Thumbnail", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.ThumbnailImport", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,56 +110,28 @@ namespace SoftTouchSearch.Data.Migrations.Search
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("EpisodeId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EpisodeId")
+                        .IsUnique();
 
                     b.ToTable("Thumbnails");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
                 {
-                    b.OwnsOne("SoftTouchSearch.Data.Models.MetadataChapter", "Metadata", b1 =>
-                        {
-                            b1.Property<Guid>("ChapterId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<int>("Comments")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<int>("Likes")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<int>("Views")
-                                .HasColumnType("INTEGER");
-
-                            b1.HasKey("ChapterId");
-
-                            b1.ToTable("Chapters");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ChapterId");
-                        });
-
-                    b.Navigation("Metadata")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Episode", b =>
-                {
-                    b.HasOne("SoftTouchSearch.Data.Models.Chapter", "Chapter")
+                    b.HasOne("SoftTouchSearch.Data.Models.ChapterImport", "Chapter")
                         .WithMany("Episodes")
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SoftTouchSearch.Data.Models.Thumbnail", "Thumbnail")
-                        .WithMany()
-                        .HasForeignKey("ThumbnailGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("SoftTouchSearch.Data.Models.MetadataEpisode", "Metadata", b1 =>
                         {
-                            b1.Property<Guid>("EpisodeId")
+                            b1.Property<Guid>("EpisodeImportId")
                                 .HasColumnType("TEXT");
 
                             b1.Property<int>("Comments")
@@ -175,25 +146,40 @@ namespace SoftTouchSearch.Data.Migrations.Search
                             b1.Property<int>("Views")
                                 .HasColumnType("INTEGER");
 
-                            b1.HasKey("EpisodeId");
+                            b1.HasKey("EpisodeImportId");
 
                             b1.ToTable("Episodes");
 
                             b1.WithOwner()
-                                .HasForeignKey("EpisodeId");
+                                .HasForeignKey("EpisodeImportId");
                         });
 
                     b.Navigation("Chapter");
 
                     b.Navigation("Metadata")
                         .IsRequired();
-
-                    b.Navigation("Thumbnail");
                 });
 
-            modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.ThumbnailImport", b =>
+                {
+                    b.HasOne("SoftTouchSearch.Data.Models.EpisodeImport", "Episode")
+                        .WithOne("Thumbnail")
+                        .HasForeignKey("SoftTouchSearch.Data.Models.ThumbnailImport", "EpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Episode");
+                });
+
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.ChapterImport", b =>
                 {
                     b.Navigation("Episodes");
+                });
+
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.EpisodeImport", b =>
+                {
+                    b.Navigation("Thumbnail")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

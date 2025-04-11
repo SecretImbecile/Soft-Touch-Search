@@ -12,9 +12,11 @@ namespace SoftTouchSearch.Data.Interfaces
     /// </summary>
     /// <typeparam name="TChapter">The type of chapter entity the context uses.</typeparam>
     /// <typeparam name="TEpisode">The type of episode entity the context uses.</typeparam>
-    internal interface IDbContext<TChapter, TEpisode>
+    /// <typeparam name="TThumbnail">The type of thumbnail entity the context uses.</typeparam>
+    internal interface IDbContext<TChapter, TEpisode, TThumbnail>
         where TChapter : ChapterBase<TEpisode>
         where TEpisode : EpisodeBase
+        where TThumbnail : ThumbnailBase
     {
         /// <summary>
         /// Gets or sets the chapters table.
@@ -25,5 +27,10 @@ namespace SoftTouchSearch.Data.Interfaces
         /// Gets or sets the episodes table.
         /// </summary>
         public DbSet<TEpisode> Episodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the thumbnails table.
+        /// </summary>
+        public DbSet<TThumbnail> Thumbnails { get; set; }
     }
 }
