@@ -57,6 +57,12 @@ namespace SoftTouchSearch.Data
                 .HasForeignKey(episode => episode.ChapterId)
                 .IsRequired(true);
 
+            modelBuilder.Entity<Chapter>()
+                .HasOne(chapter => chapter.Thumbnail)
+                .WithMany()
+                .HasForeignKey(chapter => chapter.ThumbnailGuid)
+                .IsRequired();
+
             modelBuilder.Entity<Episode>()
                 .HasOne(episode => episode.Thumbnail)
                 .WithMany()

@@ -6,6 +6,7 @@ namespace SoftTouchSearchIndexBuilder
 {
     using System.Diagnostics;
     using System.Runtime.InteropServices;
+    using System.Security.Cryptography;
     using Lucene.Net.Analysis;
     using Lucene.Net.Analysis.Standard;
     using Lucene.Net.Documents;
@@ -81,7 +82,47 @@ namespace SoftTouchSearchIndexBuilder
             _ = exportContext.Database.EnsureDeleted();
             exportContext.Database.Migrate();
 
-            // 2a. Transfer Chapters
+            // 2a. Transfer Thumbnails
+            Console.WriteLine($"DONE");
+            Console.Write("Transferring Thumbnails...".PadRight(PadRight));
+
+            Dictionary<string, Thumbnail> thumbnailsExport;
+            try
+            {
+                List<ThumbnailImport> thumbnailsImport = importContext.Thumbnails
+                    .ToList();
+
+                thumbnailsExport = [];
+                foreach (ThumbnailImport import in thumbnailsImport)
+                {
+                    string hash = GenerateHash(import.Content);
+
+                    if (!thumbnailsExport.ContainsKey(hash))
+                    {
+                        Thumbnail export = new()
+                        {
+                            Content = import.Content,
+                            ContentType = import.ContentType,
+                        };
+
+                        thumbnailsExport.Add(hash, export);
+                    }
+                }
+
+                exportContext.Thumbnails
+                    .AddRange(thumbnailsExport.Values);
+
+                exportContext
+                    .SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine();
+                Console.Error.WriteLine(ex.Message);
+                throw;
+            }
+
+            // 2b. Transfer Chapters
             Console.WriteLine($"DONE");
             Console.Write("Transferring Chapters...".PadRight(PadRight));
 
@@ -90,6 +131,8 @@ namespace SoftTouchSearchIndexBuilder
             {
                 List<ChapterImport> chaptersImport = importContext.Chapters
                     .OrderBy(chapter => chapter.Number)
+                    .Include(chapter => chapter.Episodes)
+                    .ThenInclude(episode => episode.Thumbnail)
                     .ToList();
 
                 chaptersExport = [];
@@ -119,6 +162,7 @@ namespace SoftTouchSearchIndexBuilder
                             Likes = likeCount,
                             Comments = commentCount,
                         },
+                        ThumbnailGuid = MatchThumbnail(import, thumbnailsExport),
                     };
 
                     chaptersExport.Add(export);
@@ -137,7 +181,7 @@ namespace SoftTouchSearchIndexBuilder
                 throw;
             }
 
-            // 2b. Transfer Episodes
+            // 2c. Transfer Episodes
             Console.WriteLine($"DONE");
             Console.Write("Transferring Episodes...".PadRight(PadRight));
 
@@ -155,12 +199,13 @@ namespace SoftTouchSearchIndexBuilder
 
                 foreach (Guid id in episodeIds)
                 {
-                    EpisodeImport episodeImport = importContext.Episodes
+                    EpisodeImport import = importContext.Episodes
                         .Where(episode => episode.Id == id)
+                        .Include(episode => episode.Thumbnail)
                         .Single();
 
                     Chapter matchingChapter = chaptersExport
-                        .Where(chapter => chapter.Id == episodeImport.ChapterId)
+                        .Where(chapter => chapter.Id == import.ChapterId)
                         .Single();
 
                     bool isFirstInChapter = importContext.Episodes
@@ -170,27 +215,28 @@ namespace SoftTouchSearchIndexBuilder
                         .Id == id;
 
                     bool isNonStory = exclusionRules
-                        .Any(rule => rule.CheckEpisodeExcluded(episodeImport));
+                        .Any(rule => rule.CheckEpisodeExcluded(import));
 
                     Episode episodeExport = new()
                     {
-                        Id = episodeImport.Id,
-                        ChapterId = episodeImport.ChapterId,
-                        EpisodeNumber = episodeImport.EpisodeNumber,
-                        Title = episodeImport.Title,
-                        PublishDate = episodeImport.PublishDate,
-                        UrlExternal = episodeImport.UrlExternal,
+                        Id = import.Id,
+                        ChapterId = import.ChapterId,
+                        EpisodeNumber = import.EpisodeNumber,
+                        Title = import.Title,
+                        PublishDate = import.PublishDate,
+                        UrlExternal = import.UrlExternal,
                         IsFirstEpisodeInChapter = isFirstInChapter,
                         IsNonStory = isNonStory,
-                        UrlTapas = episodeImport.UrlTapas,
+                        UrlTapas = import.UrlTapas,
                         Chapter = matchingChapter,
                         Metadata = new()
                         {
-                            Mature = episodeImport.Metadata.Mature,
-                            Views = episodeImport.Metadata.Views,
-                            Likes = episodeImport.Metadata.Likes,
-                            Comments = episodeImport.Metadata.Comments,
+                            Mature = import.Metadata.Mature,
+                            Views = import.Metadata.Views,
+                            Likes = import.Metadata.Likes,
+                            Comments = import.Metadata.Comments,
                         },
+                        ThumbnailGuid = MatchThumbnail(import, thumbnailsExport),
                     };
 
                     exportContext.Episodes
@@ -294,6 +340,48 @@ namespace SoftTouchSearchIndexBuilder
             }
 
             return settings;
+        }
+
+        /// <summary>
+        /// Generate an MD5 hash for a thumbnail.
+        /// </summary>
+        /// <param name="content">The binary content of the thumbnail.</param>
+        /// <returns>An <see langword="string"/> MD5 hash.</returns>
+        private static string GenerateHash(byte[] content)
+        {
+            byte[] hash = MD5
+                .HashData(content);
+
+            return Convert
+                .ToHexString(hash)
+                .ToLower();
+        }
+
+        /// <summary>
+        /// Find the thumbnail for an episode.
+        /// </summary>
+        private static Guid MatchThumbnail(EpisodeImport import, Dictionary<string, Thumbnail> thumbnails)
+        {
+            string hash = GenerateHash(import.Thumbnail.Content);
+            return thumbnails[hash].Id;
+        }
+
+        /// <summary>
+        /// Find the thumbnail for a chapter.
+        /// </summary>
+        /// <remarks>
+        /// The chapter thumbnail is the same as the first episode in that chapter.
+        /// </remarks>
+        private static Guid MatchThumbnail(ChapterImport import, Dictionary<string, Thumbnail> thumbnails)
+        {
+            ThumbnailImport importThumbnail = import
+                .Episodes
+                .OrderBy(episode => episode.EpisodeNumber)
+                .Select(episode => episode.Thumbnail)
+                .First();
+
+            string hash = GenerateHash(importThumbnail.Content);
+            return thumbnails[hash].Id;
         }
     }
 }
