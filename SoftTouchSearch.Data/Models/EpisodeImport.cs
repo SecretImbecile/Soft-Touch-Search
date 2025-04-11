@@ -35,6 +35,11 @@ namespace SoftTouchSearch.Data.Models
         // Navigations
 
         /// <summary>
+        /// Gets or sets episode's <see cref="ThumbnailImport"/>.
+        /// </summary>
+        public ThumbnailImport Thumbnail { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the <see cref="ChapterImport"/> this episode belongs to.
         /// </summary>
         public required ChapterImport Chapter { get; set; }

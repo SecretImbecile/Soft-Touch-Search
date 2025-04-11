@@ -56,6 +56,9 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ThumbnailGuid")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -70,6 +73,8 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.HasKey("Id");
 
                     b.HasIndex("ChapterId");
+
+                    b.HasIndex("ThumbnailGuid");
 
                     b.ToTable("Episodes");
                 });
@@ -90,6 +95,25 @@ namespace SoftTouchSearch.Data.Migrations.Search
                     b.HasKey("Id");
 
                     b.ToTable("ExclusionRule");
+                });
+
+            modelBuilder.Entity("SoftTouchSearch.Data.Models.Thumbnail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Thumbnail");
                 });
 
             modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>
@@ -128,6 +152,12 @@ namespace SoftTouchSearch.Data.Migrations.Search
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SoftTouchSearch.Data.Models.Thumbnail", "Thumbnail")
+                        .WithMany()
+                        .HasForeignKey("ThumbnailGuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("SoftTouchSearch.Data.Models.MetadataEpisode", "Metadata", b1 =>
                         {
                             b1.Property<Guid>("EpisodeId")
@@ -157,6 +187,8 @@ namespace SoftTouchSearch.Data.Migrations.Search
 
                     b.Navigation("Metadata")
                         .IsRequired();
+
+                    b.Navigation("Thumbnail");
                 });
 
             modelBuilder.Entity("SoftTouchSearch.Data.Models.Chapter", b =>

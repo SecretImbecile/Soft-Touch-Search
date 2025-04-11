@@ -13,6 +13,11 @@ namespace SoftTouchSearch.Data.Models
     public sealed class Episode : EpisodeBase
     {
         /// <summary>
+        /// Gets or sets identifier of the episode's <see cref="Models.Thumbnail"/>.
+        /// </summary>
+        public required Guid ThumbnailGuid { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the episode is a non-story update.
         /// </summary>
         /// <remarks>
@@ -36,6 +41,11 @@ namespace SoftTouchSearch.Data.Models
         public required string UrlTapas { get; set; }
 
         // Navigations
+
+        /// <summary>
+        /// Gets or sets episode's <see cref="Models.Thumbnail"/>.
+        /// </summary>
+        public Thumbnail Thumbnail { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="Chapter"/> this episode belongs to.

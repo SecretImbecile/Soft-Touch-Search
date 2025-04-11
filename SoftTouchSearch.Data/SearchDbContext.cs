@@ -37,6 +37,9 @@ namespace SoftTouchSearch.Data
             modelBuilder.Entity<ExclusionRule>()
                 .HasKey(exclusionRule => exclusionRule.Id);
 
+            modelBuilder.Entity<Thumbnail>()
+                .HasKey(thumbnail => thumbnail.Id);
+
             // Define owned properties
             modelBuilder.Entity<Chapter>()
                 .OwnsOne(chapter => chapter.Metadata);
@@ -50,6 +53,12 @@ namespace SoftTouchSearch.Data
                 .WithOne(episode => episode.Chapter)
                 .HasForeignKey(episode => episode.ChapterId)
                 .IsRequired(true);
+
+            modelBuilder.Entity<Episode>()
+                .HasOne(episode => episode.Thumbnail)
+                .WithMany()
+                .HasForeignKey(episode => episode.ThumbnailGuid)
+                .IsRequired();
         }
     }
 }
