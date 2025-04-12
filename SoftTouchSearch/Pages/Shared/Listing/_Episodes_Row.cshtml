@@ -25,7 +25,13 @@
         <img class="thumbnail" src="@thumbnailSrc" alt="" loading="lazy" />
         <a class="summary" href="@primaryUrl" title="Read @Model.ToString()">
             <span class="text-secondary">Episode @Model.EpisodeNumber</span>
-            <span class="fw-bold">@Model.Title</span>
+            <span class="fw-bold">
+                @Model.Title
+                @if (Model.IsMature)
+                {
+                    <span class="badge text-bg-danger ms-1 px-1" aria-label="Mature Content">M</span>
+                }
+            </span>
         </a>
         <div class="date text-secondary text-nowrap">
             <time datetime="@Model.PublishDate.ToHtmlString()">@Model.PublishDate.ToString("d MMM, yyyy")</time>
