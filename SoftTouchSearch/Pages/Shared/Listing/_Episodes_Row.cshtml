@@ -1,15 +1,84 @@
 ﻿@* Episode listing for every row except the first of each chapter *@
 
 @using SoftTouchSearch.Data.Models
+@using SoftTouchSearch.Extensions
 
 @model Episode
 
+@* Partial for individual items within the episode list *@
+
 @{
+    string detailsId = $"details-episode-{Model.EpisodeNumber}";
+    string detailsAnchor = $"#{detailsId}";
+
     string? excludedClass = Model.IsNonStory ? "excluded" : null;
     string? excludedTextClass = Model.IsNonStory ? "text-secondary" : null;
+
+    string primaryUrl = Model.UrlExternal ?? Model.UrlTapas;
+    string thumbnailSrc = $"/media/thumbnail/{Model.ThumbnailGuid}";
 }
 
-<tr class="@excludedClass">
+<div class="item my-1 @excludedClass @excludedTextClass" role="listitem" aria-label="@Model.ToString()">
+    <div>
+        <a href="@primaryUrl" title="Read @Model.ToString()">
+            <img class="thumbnail" src="@thumbnailSrc" alt="" loading="lazy" />
+            <div class="title">
+                <span class="text-secondary">Episode @Model.EpisodeNumber</span>
+                <span class="fw-bold">@Model.Title</span>
+            </div>            
+        </a>
+        <div class="date d-none d-sm-flex text-secondary">
+            <time datetime="@Model.PublishDate.ToHtmlString()">@Model.PublishDate.ToString("d MMM, yyyy")</time>
+        </div>
+        <div class="links d-none d-lg-flex">
+            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas text-nowrap">
+                Read on Tapas
+            </a>
+
+            @if (Model.UrlExternal != null)
+            {
+                <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river text-nowrap">
+                    Read on River's Site
+                </a>
+            }
+        </div>
+        <button data-bs-toggle="collapse" data-bs-target="@detailsAnchor" aria-expanded="false" aria-controls="details-episode-@Model.EpisodeNumber" aria-label="Show Details">
+            <i class="bi bi-caret-down-fill"></i>
+        </button>
+    </div>
+
+    <div id="details-episode-@Model.EpisodeNumber" class="collapse" data-bs-parent="#episode-list">
+        <div class="links d-block d-lg-none">
+            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
+                <span class="d-none d-lg-inline">Read on</span> Tapas
+            </a>
+
+            @if (Model.UrlExternal != null)
+            {
+                <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                    <span class="d-none d-lg-inline">Read on</span> River's Site
+                </a>
+            }
+        </div>
+        <div class="details flex-sm-row flex-sm-wrap text-secondary">
+            <span title="@Model.Metadata.ViewsFormattedFull views">
+                <i class="bi bi-eye-fill"></i>
+                <span>@Model.Metadata.ViewsFormattedShort views</span>
+            </span>
+            <span title="@Model.Metadata.LikesFormattedFull likes">
+                <i class="bi bi-heart-fill"></i>
+                <span>@Model.Metadata.LikesFormattedShort likes</span>
+            </span>
+            <span title="@Model.Metadata.CommentsFormattedFull comments">
+                <i class="bi bi-chat-left-fill"></i>
+                <span>@Model.Metadata.CommentsFormattedShort comments</span>
+            </span>
+        </div>
+    </div>
+
+</div>
+
+@* <tr class="@excludedClass">
     <td class="@excludedTextClass">
         @Model.EpisodeNumber
     </td>
@@ -30,6 +99,11 @@
 
     <td>
         <span class="d-inline-flex flex-row flex-nowrap gap-1">
+            <button class="btn btn-sm btn-outline-secondary px-3 px-sm-2" data-bs-toggle="collapse" data-bs-target="@detailsAnchor" aria-expanded="false" aria-controls="@detailsId" aria-label="Show Details">
+                <span class="d-block d-sm-none">&#9660;</span>
+                <span class="d-none d-sm-block">Details &#9660;</span>
+            </button>
+
             <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
                 <span class="d-none d-lg-inline">Read on</span> Tapas
             </a>
@@ -43,3 +117,23 @@
         </span>
     </td>
 </tr>
+
+<tr>
+    <td colspan="1"></td>
+    <td colspan="3" id="@detailsId" class="collapse p-0">
+        <table class="table table-sm table-borderless mt-0" aria-label="Details">
+            <tr>
+                <th class="ps-2" scope="row">Views</th>
+                <td class="ps-2" title="@Model.Metadata.ViewsFormattedFull">@Model.Metadata.ViewsFormattedShort</td>
+            </tr>
+            <tr>
+                <th class="ps-2" scope="row">Likes</th>
+                <td class="ps-2" title="@Model.Metadata.LikesFormattedFull">@Model.Metadata.LikesFormattedShort</td>
+            </tr>
+            <tr>
+                <th class="ps-2" scope="row">Comments</th>
+                <td class="ps-2" title="@Model.Metadata.CommentsFormattedFull">@Model.Metadata.CommentsFormattedShort</td>
+            </tr>
+        </table>
+    </td>
+</tr> *@
