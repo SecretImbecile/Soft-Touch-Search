@@ -11,7 +11,7 @@ namespace SoftTouchSearch.Controllers
     using SoftTouchSearch.Data.Models;
 
     /// <summary>
-    /// Controller for media served from the database
+    /// Controller for media served from the database.
     /// </summary>
     /// <param name="context">Database context instance.</param>
     /// <param name="cache">Memory cache service instance.</param>

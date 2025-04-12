@@ -4,6 +4,7 @@
 
 namespace SoftTouchSearch.Pages
 {
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
@@ -14,6 +15,7 @@ namespace SoftTouchSearch.Pages
     /// <summary>
     /// The 'Episode Listing' page model.
     /// </summary>
+    [ResponseCache(Duration = 86400, Location = ResponseCacheLocation.Any)]
     public class EpisodesModel(IMemoryCache memoryCache, SearchDbContext context) : PageModel
     {
         private readonly IMemoryCache memoryCache = memoryCache;

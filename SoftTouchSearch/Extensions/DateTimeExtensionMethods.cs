@@ -1,4 +1,8 @@
-﻿namespace SoftTouchSearch.Extensions
+﻿// <copyright file="DateTimeExtensionMethods.cs" company="Jack Kelly">
+// Copyright (c) Jack Kelly. All rights reserved.
+// </copyright>
+
+namespace SoftTouchSearch.Extensions
 {
     /// <summary>
     /// Extension methods for <see cref="DateTime"/>.
