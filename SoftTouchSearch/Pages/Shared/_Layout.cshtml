@@ -1,4 +1,16 @@
 ﻿@using System.Reflection
+
+@{
+    Version? appVersion = Assembly
+        .GetExecutingAssembly()
+        .GetName()
+        .Version;
+
+    string version = appVersion != null
+        ? $"v{appVersion.Major}.{appVersion.Minor}"
+        : $"v1.0";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +43,7 @@
     <footer class="footer my-5 text-secondary">
         <div class="container text-center">
             <nav class="d-inline-flex flex-column flex-sm-row flex-nowrap gap-sm-3 gap-md-5">
-                <span>v1.2</span>
+                <span>@version</span>
                 <a asp-page="/About">About</a>
                 <a asp-page="/Episodes">Episode Listing</a>
                 <span>
