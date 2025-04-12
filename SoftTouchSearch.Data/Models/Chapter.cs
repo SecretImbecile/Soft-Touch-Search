@@ -4,46 +4,34 @@
 
 namespace SoftTouchSearch.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
-    using Humanizer;
-
     /// <summary>
-    /// Chapter marker table model.
+    /// An episode record in the production database.
     /// </summary>
-    public class Chapter
+    public sealed class Chapter : ChapterBase<Episode>
     {
-        /// <summary>
-        /// Gets or sets the identifier for this chapter.
-        /// </summary>
-        [Key]
-        public required Guid Id { get; set; }
+        // Properties
 
         /// <summary>
-        /// Gets or sets the chapter Number.
+        /// Gets or sets identifier of the chapters's <see cref="Models.Thumbnail"/>.
         /// </summary>
-        public required int Number { get; set; }
-
-        /// <summary>
-        /// Gets or sets the chapter title.
-        /// </summary>
-        public required string Title { get; set; }
+        public required Guid ThumbnailGuid { get; set; }
 
         // Navigations
 
         /// <summary>
-        /// Gets or sets the list of <see cref="Episode"/> belonging to this chapter.
+        /// Gets or sets the <see cref="Episode"/> records belonging to this chapter.
         /// </summary>
-        public ICollection<Episode> Episodes { get; set; } = [];
-
-        // Methods
-
         /// <inheritdoc/>
-        /// <remarks>
-        /// e.g. 'Chapter Twenty-Seven: Hold Fast'.
-        /// </remarks>
-        public override string ToString()
-        {
-            return $"Chapter {this.Number.ToWords().Humanize(LetterCasing.Title)}: {this.Title}";
-        }
+        public override required ICollection<Episode> Episodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="MetadataEpisode"/> for this episode.
+        /// </summary>
+        public required MetadataChapter Metadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets chapters's <see cref="Models.Thumbnail"/>.
+        /// </summary>
+        public Thumbnail Thumbnail { get; set; } = null!;
     }
 }

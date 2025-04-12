@@ -1,0 +1,91 @@
+﻿@* Episode listing for every row except the first of each chapter *@
+
+@using SoftTouchSearch.Data.Models
+@using SoftTouchSearch.Extensions
+
+@model Episode
+
+@* Partial for individual items within the episode list *@
+
+@{
+    string detailsId = $"details-episode-{Model.EpisodeNumber}";
+    string detailsAnchor = $"#{detailsId}";
+
+    string? excludedClass = Model.IsNonStory ? "excluded" : null;
+    string? excludedTextClass = Model.IsNonStory ? "text-secondary" : null;
+
+    string primaryUrl = Model.UrlExternal ?? Model.UrlTapas;
+    string thumbnailSrc = $"/media/thumbnail/{Model.ThumbnailGuid}";
+}
+
+<div class="item @excludedClass @excludedTextClass" role="listitem" aria-label="@Model.ToString()">
+
+    @* Row Summary *@
+    <div>
+        <img class="thumbnail" src="@thumbnailSrc" alt="" loading="lazy" />
+        <a class="summary" href="@primaryUrl" title="Read @Model.ToString()">
+            <span class="text-secondary">Episode @Model.EpisodeNumber</span>
+            <span class="fw-bold">
+                @Model.Title
+                @if (Model.IsMature)
+                {
+                    <span class="badge text-bg-danger ms-1 px-1" aria-label="Mature Content">M</span>
+                }
+            </span>
+        </a>
+        <div class="date text-secondary text-nowrap">
+            <time datetime="@Model.PublishDate.ToHtmlString()">@Model.PublishDate.ToString("d MMM, yyyy")</time>
+        </div>
+        <div class="links">
+            <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas text-nowrap">
+                <span class="d-none d-xl-inline">Read on</span> Tapas
+            </a>
+
+            @if (Model.UrlExternal != null)
+            {
+                <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river text-nowrap">
+                    <span class="d-none d-xl-inline">Read on</span> River's Site
+                </a>
+            }            
+        </div>
+        <button class="expand" data-bs-toggle="collapse" data-bs-target="@detailsAnchor" aria-expanded="false" aria-controls="details-episode-@Model.EpisodeNumber" aria-label="Show Details">
+            <i class="bi bi-caret-down-fill"></i>
+        </button>
+    </div>
+
+    @* Row Details *@
+    <div>
+        <div id="details-episode-@Model.EpisodeNumber" class="collapse" data-bs-parent="#episode-list">            
+            <div class="details text-secondary">
+                <span class="d-inline d-md-none"  title="Published on @Model.PublishDate.ToString("dddd, MMMM d, yyyy")">
+                    <i class="bi bi-calendar-fill"></i>
+                    <time datetime="@Model.PublishDate.ToHtmlString()">@Model.PublishDate.ToString("MMM d, yyyy")</time>
+                </span>
+                <span title="@Model.Metadata.ViewsFormattedFull views">
+                    <i class="bi bi-eye-fill"></i>
+                    <span>@Model.Metadata.ViewsFormattedShort views</span>
+                </span>
+                <span title="@Model.Metadata.LikesFormattedFull likes">
+                    <i class="bi bi-heart-fill"></i>
+                    <span>@Model.Metadata.LikesFormattedShort likes</span>
+                </span>
+                <span title="@Model.Metadata.CommentsFormattedFull comments">
+                    <i class="bi bi-chat-left-fill"></i>
+                    <span>@Model.Metadata.CommentsFormattedShort comments</span>
+                </span>
+            </div>
+            <div class="links d-block d-lg-none">
+                <a href="@Model.UrlTapas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tapas">
+                    <span class="d-none d-md-inline">Read on</span> Tapas
+                </a>
+
+                @if (Model.UrlExternal != null)
+                {
+                    <a href="@Model.UrlExternal" target="_blank" rel="noopener" class="btn btn-sm btn-river">
+                        <span class="d-none d-md-inline">Read on</span> River's Site
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

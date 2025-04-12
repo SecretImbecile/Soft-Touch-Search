@@ -18,7 +18,8 @@ builder.Configuration
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDataServices(appSettings.PathToDatabase);
+builder.Services.AddResponseCaching();
+builder.Services.AddSearchDatabase(appSettings.PathToDatabase);
 builder.Services.AddIndexServices(appSettings.PathToIndex);
 
 var app = builder.Build();
@@ -40,14 +41,13 @@ if (!app.Environment.IsDevelopment())
     });
 }
 
+app.UseResponseCaching();
 app.UseStaticFiles();
 
 app.UseStatusCodePagesWithReExecute("/Error");
 
 app.UseRouting();
-
-app.UseAuthorization();
-
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();

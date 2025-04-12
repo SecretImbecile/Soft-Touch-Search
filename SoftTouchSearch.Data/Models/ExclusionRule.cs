@@ -7,8 +7,11 @@ namespace SoftTouchSearch.Data.Models
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// Rules applied to exclude episodes from the final episode list.
+    /// An exclusion rule to be calculated against imported <see cref="EpisodeImport"/> records.
     /// </summary>
+    /// <remarks>
+    /// Exclusion rules are caclulated and stored to <see cref="Episode.IsNonStory"/>. They are not kept in the production database.
+    /// </remarks>
     public class ExclusionRule
     {
         /// <summary>
@@ -35,7 +38,6 @@ namespace SoftTouchSearch.Data.Models
         /// <summary>
         /// Gets or sets the identifier for this exclusion rule.
         /// </summary>
-        [Key]
         public required Guid Id { get; set; }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace SoftTouchSearch.Data.Models
         /// </summary>
         /// <param name="episode">Episode to check.</param>
         /// <returns>true if the episode should be excluded by this rule.</returns>
-        public bool CheckEpisodeExcluded(Episode episode)
+        public bool CheckEpisodeExcluded(EpisodeImport episode)
         {
             if (this.Type == ExclusionType.TitleContains)
             {

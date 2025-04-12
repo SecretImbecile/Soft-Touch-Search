@@ -5,11 +5,12 @@
 namespace SoftTouchSearch.Models.Listings
 {
     using System.Collections;
+    using SoftTouchSearch.Data.Models;
 
     /// <summary>
     /// DTO for listing the entire story, i.e. its chapters and all episodes therein.
     /// </summary>
-    public sealed class StoryListing : IEnumerable<ChapterListing>, ICollection<ChapterListing>
+    public sealed class StoryListing : IEnumerable<Chapter>, ICollection<Chapter>
     {
         // Constructors
 
@@ -30,7 +31,7 @@ namespace SoftTouchSearch.Models.Listings
         /// <summary>
         /// Gets or sets list of episodes contained in this chapter.
         /// </summary>
-        public List<ChapterListing> Chapters { get; set; } = [];
+        public List<Chapter> Chapters { get; set; } = [];
 
         /// <inheritdoc/>
         public int Count => this.Chapters.Count;
@@ -41,7 +42,7 @@ namespace SoftTouchSearch.Models.Listings
         // Methods
 
         /// <inheritdoc/>
-        public void Add(ChapterListing item)
+        public void Add(Chapter item)
         {
             this.Chapters.Add(item);
         }
@@ -53,20 +54,20 @@ namespace SoftTouchSearch.Models.Listings
         }
 
         /// <inheritdoc/>
-        public bool Contains(ChapterListing item)
+        public bool Contains(Chapter item)
         {
             return this.Chapters.Contains(item);
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void CopyTo(ChapterListing[] array, int arrayIndex)
+        public void CopyTo(Chapter[] array, int arrayIndex)
         {
             this.Chapters.CopyTo(array, arrayIndex);
         }
 
         /// <inheritdoc/>
-        public IEnumerator<ChapterListing> GetEnumerator()
+        public IEnumerator<Chapter> GetEnumerator()
         {
             return this.Chapters.GetEnumerator();
         }
@@ -78,7 +79,7 @@ namespace SoftTouchSearch.Models.Listings
         }
 
         /// <inheritdoc/>
-        public bool Remove(ChapterListing item)
+        public bool Remove(Chapter item)
         {
             return this.Chapters.Remove(item);
         }

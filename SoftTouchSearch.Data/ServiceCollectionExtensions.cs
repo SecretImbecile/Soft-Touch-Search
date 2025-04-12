@@ -6,8 +6,6 @@ namespace SoftTouchSearch.Data
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using SoftTouchSearch.Data.Services;
-    using SoftTouchSearch.Data.Services.Implementations;
 
     /// <summary>
     /// Provides service registration for SoftTouchSearch.Data.
@@ -15,16 +13,25 @@ namespace SoftTouchSearch.Data
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers the required services for SoftTouchSearch.Data.
+        /// Registers the <see cref="ImportDbContext"/> used by the index builder.
         /// </summary>
         /// <param name="services">Service collection to append to.</param>
-        /// <param name="databaseFilePath">Path of the SQLite database file.</param>
-        public static void AddDataServices(this IServiceCollection services, string databaseFilePath)
+        /// <param name="databaseFilePath">Full file path to the import database.</param>
+        public static void AddImportDatabase(this IServiceCollection services, string databaseFilePath)
         {
-            services.AddDbContext<StoryDbContext>(
+            services.AddDbContext<ImportDbContext>(
                 options => options.UseSqlite($"Data Source={databaseFilePath}"));
+        }
 
-            services.AddScoped<IExclusionService, ExclusionService>();
+        /// <summary>
+        /// Registers the <see cref="SearchDbContext"/> used by the web application.
+        /// </summary>
+        /// <param name="services">Service collection to append to.</param>
+        /// <param name="databaseFilePath">Full file path to the export (production) database.</param>
+        public static void AddSearchDatabase(this IServiceCollection services, string databaseFilePath)
+        {
+            services.AddDbContext<SearchDbContext>(
+                options => options.UseSqlite($"Data Source={databaseFilePath}"));
         }
     }
 }

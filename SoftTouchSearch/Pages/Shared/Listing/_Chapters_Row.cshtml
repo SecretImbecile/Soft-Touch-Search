@@ -1,0 +1,47 @@
+﻿@using SoftTouchSearch.Data.Models
+@using SoftTouchSearch.Models
+
+@model Chapter
+
+@* Partial for individual items within the chapter list *@
+
+@{
+    string detailsAnchor = $"#details-chapter-{Model.Number}";
+    string jumpAnchor = $"#chapter-{Model.Number}";
+    string thumbnailSrc = $"/media/thumbnail/{Model.ThumbnailGuid}";
+}
+
+<div class="item" role="listitem" aria-label="@Model.ToString()">
+
+    @* Row Summary *@
+    <div>
+        <img class="thumbnail" src="@thumbnailSrc" alt="" loading="lazy" />
+        <a class="summary" href="@jumpAnchor" title="Read @Model.ToString()">
+            <span class="text-secondary">Chapter @Model.NumberFormatted</span>
+            <span class="fw-bold">@Model.Title</span>
+        </a>
+        <button class="expand" data-bs-toggle="collapse" data-bs-target="@detailsAnchor" aria-expanded="false" aria-controls="details-chapter-@Model.Number" aria-label="Show Details">
+            <i class="bi bi-caret-down-fill"></i>
+        </button>
+    </div>
+
+    @* Row Details *@
+    <div>
+        <div id="details-chapter-@Model.Number" class="collapse" data-bs-parent="#chapter-list">
+            <div class="details text-secondary">
+                <span title="@Model.Metadata.ViewsFormattedFull views">
+                    <i class="bi bi-eye-fill"></i>
+                    <span>@Model.Metadata.ViewsFormattedShort views</span>
+                </span>
+                <span title="@Model.Metadata.LikesFormattedFull likes">
+                    <i class="bi bi-heart-fill"></i>
+                    <span>@Model.Metadata.LikesFormattedShort likes</span>
+                </span>
+                <span title="@Model.Metadata.CommentsFormattedFull comments">
+                    <i class="bi bi-chat-left-fill"></i>
+                    <span>@Model.Metadata.CommentsFormattedShort comments</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
