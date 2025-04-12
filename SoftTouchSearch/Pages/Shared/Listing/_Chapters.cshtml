@@ -3,6 +3,8 @@
 
 @model StoryListing
 
+@* Partial for the chapter list *@
+
 @{
     int firstColumnCount = (int)MathF.Ceiling(Model.Chapters.Count / 2f);
     IEnumerable<Chapter> leftColumn = Model
@@ -16,13 +18,13 @@
 
     <nav id="chapter-list" role="navigation" aria-labelledby="chapters">
         <div class="row gx-5">
-            <div class="col-xxl-6">
+            <div class="col-xl-6">
                 @foreach (Chapter chapter in leftColumn)
                 {
                     await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
                 }
             </div>
-            <div class="col-xxl-6">
+            <div class="col-xl-6">
                 @foreach (Chapter chapter in rightColumn)
                 {
                     await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);

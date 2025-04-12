@@ -26,6 +26,17 @@ namespace SoftTouchSearch.Data.Models
         public required int Number { get; set; }
 
         /// <summary>
+        /// Gets the formatted chapter number.
+        /// </summary>
+        /// <remarks>
+        /// e.g. 'Twenty-Seven'.
+        /// </remarks>
+        public string NumberFormatted => this.Number
+            .ToWords()
+            .Humanize(LetterCasing.Title)
+            .Replace(' ', '-');
+
+        /// <summary>
         /// Gets or sets the chapter title.
         /// </summary>
         public required string Title { get; set; }
@@ -46,6 +57,7 @@ namespace SoftTouchSearch.Data.Models
         /// e.g. 'Chapter 27: Hold Fast'.
         /// </remarks>
         /// <returns>A string that represents the current object.</returns>
+        [Obsolete("Not in use")]
         public string ToShortString()
         {
             return $"Chapter {this.Number}: {this.Title}";

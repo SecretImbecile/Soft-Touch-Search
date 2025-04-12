@@ -24,7 +24,7 @@ namespace SoftTouchSearch.Controllers
         /// <param name="id">The identifier of the thumbnail to fetch.</param>
         /// <returns>A Task representing the action.</returns>
         [HttpGet]
-        [ResponseCache(Duration = 86400, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(Duration = 2592000, Location = ResponseCacheLocation.Any)]
         [Route("thumbnail/{id}")]
         public async Task<IActionResult> GetThumbnailAsync(Guid id)
         {
