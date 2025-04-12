@@ -34,6 +34,11 @@
     <a asp-page="/Index" title="Back to main page">&larr; Back</a>
 </nav>
 
+<div class="mb-3 form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="listExcluded">
+    <label class="form-check-label" for="listExcluded">Show non-story content</label>
+</div>
+
 @{
     await Html.RenderPartialAsync("Listing/_Chapters", Model.Listing);
 }

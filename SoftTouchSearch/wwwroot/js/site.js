@@ -29,11 +29,11 @@ listExcluded?.addEventListener('change', function (event) {
     var excludedElements = document.getElementsByClassName("excluded");
     if (listExcluded.checked) {
         for (let i = 0; i < excludedElements.length; i++) {
-            excludedElements[i].classList.add("d-table-row");
+            excludedElements[i].classList.add("d-grid");
         }
     } else {
         for (let i = 0; i < excludedElements.length; i++) {
-            excludedElements[i].classList.remove("d-table-row");
+            excludedElements[i].classList.remove("d-grid");
         }
     }
 });

@@ -7,13 +7,13 @@
 
 <section class="mb-3">
 
-    <h2 id="episodes">Episodes</h2>
+    <h2 id="episodes">Episodes</h2>    
 
     <div id="episode-list" role="list" aria-labelledby="episodes">
         @foreach (Chapter chapter in Model)
         {
             string anchor = $"chapter-{chapter.Number}";
-            <div id="@anchor" class="mb-5" role="group" aria-label="@chapter.ToString()">
+            <div id="@anchor" class="chapter" role="group" aria-label="@chapter.ToString()">
                 @foreach (Episode episode in chapter.Episodes)
                 {
                     await Html.RenderPartialAsync("Listing/_Episodes_Row", episode);

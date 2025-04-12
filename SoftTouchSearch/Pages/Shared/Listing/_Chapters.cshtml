@@ -18,18 +18,22 @@
     <h2 id="chapters">Chapters</h2>
 
     <nav id="chapter-list" role="navigation" aria-labelledby="chapters">
-        <div class="row gx-5">
+        <div class="row">
             <div class="col-xl-6">
-                @foreach (Chapter chapter in leftColumn)
-                {
-                    await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
-                }
+                <div class="column">
+                    @foreach (Chapter chapter in leftColumn)
+                    {
+                        await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
+                    }
+                </div>
             </div>
             <div class="col-xl-6">
-                @foreach (Chapter chapter in rightColumn)
-                {
-                    await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
-                }
+                <div class="column">
+                    @foreach (Chapter chapter in rightColumn)
+                    {
+                        await Html.RenderPartialAsync("Listing/_Chapters_Row", chapter);
+                    }
+                </div>
             </div>
         </div>
     </nav>
