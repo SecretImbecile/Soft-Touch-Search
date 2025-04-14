@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		README.md = README.md
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouchSearch.Index", "SoftTouchSearch.Index\SoftTouchSearch.Index.csproj", "{3DC85B6E-526E-44A7-9FE1-2705727FBF7C}"
@@ -47,7 +48,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9C4C9390-03E9-4A22-93D9-3010AA56EE5C} = {EA7180D1-E5B4-43AE-8278-129CA9C2BDB4}
-		{3DC85B6E-526E-44A7-9FE1-2705727FBF7C} = {EA7180D1-E5B4-43AE-8278-129CA9C2BDB4}
+		{3DC85B6E-526E-44A7-9FE1-2705727FBF7C} = {503F7CD6-6565-4BC5-86B8-38D707E4B203}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E511273-6B5A-4842-A2DD-83B4D51F85CE}

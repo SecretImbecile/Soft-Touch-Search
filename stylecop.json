@@ -1,0 +1,15 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Jack Kelly",
+      "copyrightText": "Copyright © {year} Jack Kelly.\n\n{gpl1}\n\n{gpl2}\n\n{gpl3}",
+      "variables": {
+        "year": "2024, 2025",
+        "gpl1": "Soft Touch Search is free software: you can redistribute it and/or modify it\nunder the terms of the GNU General Public License as published by the\nFree Software Foundation, either version 3 of the License, or\n(at your option)any later version.",
+        "gpl2": "Soft Touch Search is distributed in the hope that it will be useful, but\nWITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY\nor FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for\nmore details.",
+        "gpl3": "You should have received a copy of the GNU General Public License along with\nSoft Touch Search. If not, see [https://www.gnu.org/licenses/]."
+      }
+    }
+  }
+}

@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Humanizer.Core" Version="3.0.0-beta.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
       <PrivateAssets>all</PrivateAssets>
@@ -25,8 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\Import\" />
-    <Folder Include="Migrations\Search\" />
+    <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
 
 </Project>
