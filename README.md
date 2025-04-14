@@ -20,7 +20,7 @@ within this repo:
 ## Data Usage
 
 The application is reliant on having a full copy of the story text stored in
-its database/search index. This has __not__ been included in the source code,
+its database/search index. This has **not** been included in the source code,
 nor has any means of obtaining it. You would need to scrape the online version
 yourself in order to construct a functioning version of the application.
 
@@ -61,3 +61,20 @@ and folder structure.
 
 You can define these properties in several locations, as described in
 [Configuration in .NET](https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration#concepts-and-abstractions).
+
+## License
+
+This file is part of _Soft Touch Search_.
+
+_Soft Touch Search_ is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
+
+_Soft Touch Search_ is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have [received a copy](LICENSE) of the GNU General Public License
+along with Soft Touch Search. If not, see https://www.gnu.org/licenses/.
