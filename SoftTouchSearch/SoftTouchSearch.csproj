@@ -26,22 +26,7 @@
     <RepositoryUrl>https://github.com/SecretImbecile/Soft-Touch-Search</RepositoryUrl>
     <Title>Soft Touch Search</Title>
     <UserSecretsId>910eea7f-22c3-4fe7-8d8c-cd22f409746e</UserSecretsId>    
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+  </PropertyGroup>  
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
@@ -57,19 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\css\site.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\img\logo-128.png">
+    <AdditionalFiles Include="..\stylecop.json" />
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
-    </Content>
-    <Content Update="wwwroot\img\logo-fullscreen.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\site.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -20,10 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.0" />
     <PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
     <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00014" />
@@ -40,6 +36,10 @@
   <ItemGroup>
     <ProjectReference Include="..\SoftTouchSearch.Data\SoftTouchSearch.Data.csproj" />
     <ProjectReference Include="..\SoftTouchSearch.Index\SoftTouchSearch.Index.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
 
 </Project>
