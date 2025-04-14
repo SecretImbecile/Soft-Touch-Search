@@ -1,4 +1,21 @@
-﻿@using System.Reflection
+﻿@*
+ * Copyright © 2024, 2025 Jack Kelly.
+ *
+ * Soft Touch Search is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option)any later version.
+ *
+ * Soft Touch Search is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Soft Touch Search. If not, see [https://www.gnu.org/licenses/].
+ *@
+
+@using System.Reflection
 
 @{
     Version? appVersion = Assembly
@@ -54,10 +71,7 @@
         </div>
     </footer>
 
-    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
-    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

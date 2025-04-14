@@ -21,7 +21,7 @@
     <Description>Search the text of the web novel Soft Touch.</Description>
     <PackageIcon>logo-128.png</PackageIcon>
     <PackageProjectUrl>https://softtouchsearch.jackkelly.uk/</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>../README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/SecretImbecile/Soft-Touch-Search</RepositoryUrl>
     <Title>Soft Touch Search</Title>
