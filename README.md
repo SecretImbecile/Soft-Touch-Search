@@ -64,8 +64,6 @@ You can define these properties in several locations, as described in
 
 ## License
 
-This file is part of _Soft Touch Search_.
-
 _Soft Touch Search_ is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation, either version 3 of the License, or (at your option) any
