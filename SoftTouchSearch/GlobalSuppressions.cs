@@ -18,3 +18,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Razor page naming", Scope = "namespaceanddescendants", Target = "~N:SoftTouchSearch.Pages")]
+[assembly: SuppressMessage("Style", "IDE0305:Simplify collection initialization", Justification = "Project code style", Scope = "namespaceanddescendants", Target = "~N:SoftTouchSearch.Pages")]
