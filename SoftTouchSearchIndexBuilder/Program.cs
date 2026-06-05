@@ -174,6 +174,8 @@ namespace SoftTouchSearchIndexBuilder
                             Views = viewCount,
                             Likes = likeCount,
                             Comments = commentCount,
+#warning TODO: implement word counts
+                            WordCount = 0,
                         },
                         ThumbnailGuid = MatchThumbnail(import, thumbnailsExport),
                     };
@@ -248,6 +250,8 @@ namespace SoftTouchSearchIndexBuilder
                             Views = import.Metadata.Views,
                             Likes = import.Metadata.Likes,
                             Comments = import.Metadata.Comments,
+#warning TODO: implement word counts
+                            WordCount = 0,
                         },
                         ThumbnailGuid = MatchThumbnail(import, thumbnailsExport),
                     };

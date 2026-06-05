@@ -143,6 +143,9 @@ namespace SoftTouchSearch.Data.Migrations.Search
                             b1.Property<int>("Views")
                                 .HasColumnType("INTEGER");
 
+                            b1.Property<int>("WordCount")
+                                .HasColumnType("INTEGER");
+
                             b1.HasKey("ChapterId");
 
                             b1.ToTable("Chapters");
@@ -186,6 +189,9 @@ namespace SoftTouchSearch.Data.Migrations.Search
                                 .HasColumnType("INTEGER");
 
                             b1.Property<int>("Views")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("WordCount")
                                 .HasColumnType("INTEGER");
 
                             b1.HasKey("EpisodeId");

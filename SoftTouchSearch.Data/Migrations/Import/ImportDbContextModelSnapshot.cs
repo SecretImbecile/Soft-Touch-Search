@@ -143,6 +143,9 @@ namespace SoftTouchSearch.Data.Migrations.Import
                             b1.Property<int>("Views")
                                 .HasColumnType("INTEGER");
 
+                            b1.Property<int>("WordCount")
+                                .HasColumnType("INTEGER");
+
                             b1.HasKey("EpisodeImportId");
 
                             b1.ToTable("Episodes");

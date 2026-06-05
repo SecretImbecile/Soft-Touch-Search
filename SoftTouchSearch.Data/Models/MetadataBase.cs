@@ -69,6 +69,21 @@ namespace SoftTouchSearch.Data.Models
         /// </summary>
         public string CommentsFormattedShort => FormatShort(this.Comments);
 
+        /// <summary>
+        /// Gets or sets the calculated word count of the chapter or episode.
+        /// </summary>
+        public required int WordCount { get; set; }
+
+        /// <summary>
+        /// Gets <see cref="WordCount"/> in the format "54,321".
+        /// </summary>
+        public string WordCountFormattedFull => this.WordCount.ToString("N0");
+
+        /// <summary>
+        /// Gets <see cref="WordCount"/> in the format "54.3k".
+        /// </summary>
+        public string WordCountFormattedShort => FormatShort(this.WordCount);
+
         // Methods
 
         /// <summary>
